@@ -44,5 +44,12 @@ namespace DockerGen.Tests
             instruction.Image.Should().Be(expectedImage);
             instruction.Tag.Should().Be(expectedTag);
         }
+        [Fact]
+        public void RUN_Can_Parse_From_String()
+        {
+            RunInstruction instruction = "run apt update && apt-install -y test && echo 'asdf' > test.txt";
+            instruction.Should().NotBeNull();
+            instruction.ShellCommand.Should().Be("apt update && apt-install -y test && echo 'asdf' > test.txt");
+        }
     }
 }
