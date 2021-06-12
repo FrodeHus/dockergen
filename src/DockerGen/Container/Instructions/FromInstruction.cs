@@ -21,7 +21,7 @@ namespace DockerGen.Container
         public override string Compile()
         {
             var builder = new StringBuilder();
-            builder.AppendFormat("{0} ", Prefix);
+            builder.AppendFormat("{0} ", Prefix.ToUpper());
             builder.Append(Image);
             if (!string.IsNullOrEmpty(Tag))
             {
