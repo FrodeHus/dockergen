@@ -39,8 +39,7 @@ namespace DockerGen.Tests
         {
             const string expectedImage = "testimage";
             const string expectedTag = "v1.0";
-            var input = $"from {expectedImage}:{expectedTag} as build";
-            var instruction = (FromInstruction)input;
+            FromInstruction instruction = $"from {expectedImage}:{expectedTag} as build";
             instruction.Should().NotBeNull();
             instruction.Image.Should().Be(expectedImage);
             instruction.Tag.Should().Be(expectedTag);
