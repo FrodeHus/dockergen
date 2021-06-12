@@ -5,7 +5,7 @@ using FluentAssertions;
 
 namespace DockerGen.Tests
 {
-    public class InstructionTestssts
+    public class InstructionTests
     {
         [Fact]
         public void FROM_Defaults_To_Latest_Tag_If_Not_Specified()
@@ -32,6 +32,18 @@ namespace DockerGen.Tests
             var instruction = new FromInstruction("testimage", stageName: "build");
             var actual = instruction.Compile();
             actual.Should().Be(expected);
+        }
+
+        [Fact]
+        public void FROM_Can_Parse_From_Image_String()
+        {
+            const string expectedImage = "testimage";
+            const string expectedTag = "v1.0";
+            var input = $"from {expectedImage}:{expectedTag} as build";
+            var instruction = (FromInstruction)input;
+            instruction.Should().NotBeNull();
+            instruction.Image.Should().Be(expectedImage);
+            instruction.Tag.Should().Be(expectedTag);
         }
     }
 }
