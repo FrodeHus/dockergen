@@ -18,10 +18,8 @@ namespace DockerGen.Container
         public string StageName { get; set; }
         protected override string Prefix => "FROM";
 
-        public override string Compile()
+        protected override void CompileArguments(StringBuilder builder)
         {
-            var builder = new StringBuilder();
-            builder.AppendFormat("{0} ", Prefix.ToUpper());
             builder.Append(Image);
             if (!string.IsNullOrEmpty(Tag))
             {
@@ -31,8 +29,6 @@ namespace DockerGen.Container
             {
                 builder.AppendFormat(" AS {0}", StageName);
             }
-
-            return builder.ToString();
         }
 
         public static implicit operator FromInstruction(string from)

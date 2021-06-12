@@ -12,13 +12,11 @@ namespace DockerGen.Container
         }
         protected override string Prefix => "RUN";
         public string ShellCommand { get; set; }
-        public override string Compile()
+        protected override void CompileArguments(StringBuilder builder)
         {
-            var builder = new StringBuilder();
-            builder.AppendFormat("{0} ", Prefix.ToUpper());
             builder.Append(ShellCommand);
-            return builder.ToString();
         }
+
         public static implicit operator RunInstruction(string v)
         {
             var match = Regex.Match(v, @"(run\s){0,1}(?<cmd>.+$)", RegexOptions.IgnoreCase);
