@@ -8,6 +8,11 @@ namespace DockerGen.Container
     {
         public RunInstruction(string shellCommand)
         {
+            if (string.IsNullOrEmpty(shellCommand))
+            {
+                throw new ArgumentException($"'{nameof(shellCommand)}' cannot be null or empty.", nameof(shellCommand));
+            }
+
             ShellCommand = shellCommand;
         }
         protected override string Prefix => "RUN";

@@ -7,6 +7,16 @@ namespace DockerGen.Container
     {
         public CopyInstruction(string source, string destination)
         {
+            if (string.IsNullOrEmpty(source))
+            {
+                throw new ArgumentException($"'{nameof(source)}' cannot be null or empty.", nameof(source));
+            }
+
+            if (string.IsNullOrEmpty(destination))
+            {
+                throw new ArgumentException($"'{nameof(destination)}' cannot be null or empty.", nameof(destination));
+            }
+
             Source = source;
             Destination = destination;
         }
