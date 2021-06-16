@@ -59,5 +59,13 @@ namespace DockerGen.Tests
             var compiled = instruction.Compile();
             compiled.Should().Be(expected);
         }
+        [Fact]
+        public void COPY_Produces_Valid_Instruction()
+        {
+            const string expected = "COPY test.txt .";
+            var instruction = new CopyInstruction("test.txt", ".");
+            var compiled = instruction.Compile();
+            compiled.Should().Be(expected);
+        }
     }
 }
