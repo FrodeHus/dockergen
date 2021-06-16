@@ -78,5 +78,15 @@ namespace DockerGen.Tests
             var compiled = instruction.Compile();
             compiled.Should().Be(expected);
         }
+
+        [Fact]
+        public void COPY_Can_Set_Source_Location()
+        {
+            const string expected = "COPY --from=build /app/ .";
+            var instruction = new CopyInstruction("/app/", ".");
+            instruction.Location = "build";
+            var compiled = instruction.Compile();
+            compiled.Should().Be(expected);
+        }
     }
 }
