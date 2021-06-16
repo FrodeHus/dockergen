@@ -67,5 +67,16 @@ namespace DockerGen.Tests
             var compiled = instruction.Compile();
             compiled.Should().Be(expected);
         }
+
+        [Fact]
+        public void COPY_Can_Set_Ownership_Of_Files()
+        {
+            const string expected = "COPY --chown=test:test test.txt .";
+            var instruction = new CopyInstruction("test.txt", ".");
+            instruction.Owner = "test";
+            instruction.Group = "test";
+            var compiled = instruction.Compile();
+            compiled.Should().Be(expected);
+        }
     }
 }
