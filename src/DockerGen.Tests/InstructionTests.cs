@@ -88,5 +88,13 @@ namespace DockerGen.Tests
             var compiled = instruction.Compile();
             compiled.Should().Be(expected);
         }
+        [Fact]
+        public void USER_Produces_Valid_Instruction()
+        {
+            const string expected = "USER dummy";
+            var instruction = new UserInstruction("dummy");
+            var compiled = instruction.Compile();
+            compiled.Should().Be(expected);
+        }
     }
 }
