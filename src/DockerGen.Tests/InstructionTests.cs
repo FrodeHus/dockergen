@@ -100,7 +100,7 @@ namespace DockerGen.Tests
         [Fact]
         public void Create_User_Produces_Valid_RUN_Instruction()
         {
-            const string expected = "RUN addgroup -S dummy && adduser -S dummy -u 9999 -G dummy";
+            const string expected = "RUN if ! command -v useradd &> /dev/null; then addgroup -S dummy -g 9999 && adduser -S dummy -u 9999 -G dummy; else groupadd -r dummy && useradd --no-log-init -u 9999 -r -g dummy dummy; fi;";
             var instruction = new CreateUserInstruction();
             var compiled = instruction.Compile();
             compiled.Should().Be(expected);

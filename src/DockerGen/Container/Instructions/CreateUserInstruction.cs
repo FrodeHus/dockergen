@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 
 namespace DockerGen.Container
@@ -11,17 +12,25 @@ namespace DockerGen.Container
         }
         public int UserId { get; set; }
         public string Username { get; set; }
+
+        private string Useradd()
+        {
+            return $"groupadd -r {Username} && useradd --no-log-init -u {UserId} -r -g {Username} {Username}";
+        }
+
+        private string Adduser()
+        {
+            return $"addgroup -S {Username} -g {UserId} && adduser -S {Username} -u {UserId} -G {Username}";
+        }
+
         protected override void CompileArguments(StringBuilder builder)
         {
-            builder.Append("addgroup -S ");
-            builder.Append(Username);
-            builder.Append(" && ");
-            builder.Append("adduser -S ");
-            builder.Append(Username);
-            builder.Append(" -u ");
-            builder.Append(UserId);
-            builder.Append(" -G ");
-            builder.Append(Username);
+            builder.Append("if ! command -v useradd &> /dev/null;");
+            builder.Append(" then ");
+            builder.Append(Adduser());
+            builder.Append("; else ");
+            builder.Append(Useradd());
+            builder.Append("; fi;");
         }
     }
 }
