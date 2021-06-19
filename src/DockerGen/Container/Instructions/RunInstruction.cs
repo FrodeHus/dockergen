@@ -6,6 +6,10 @@ namespace DockerGen.Container
 {
     public class RunInstruction : Instruction
     {
+        public RunInstruction()
+        {
+
+        }
         public RunInstruction(string shellCommand)
         {
             if (string.IsNullOrEmpty(shellCommand))

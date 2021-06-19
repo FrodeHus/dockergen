@@ -96,5 +96,14 @@ namespace DockerGen.Tests
             var compiled = instruction.Compile();
             compiled.Should().Be(expected);
         }
+
+        [Fact]
+        public void Create_User_Produces_Valid_RUN_Instruction()
+        {
+            const string expected = "RUN addgroup -S dummy && adduser -S dummy -u 9999 -G dummy";
+            var instruction = new CreateUserInstruction();
+            var compiled = instruction.Compile();
+            compiled.Should().Be(expected);
+        }
     }
 }
