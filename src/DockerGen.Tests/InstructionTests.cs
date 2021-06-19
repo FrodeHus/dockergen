@@ -123,5 +123,14 @@ namespace DockerGen.Tests
             var compiled = instruction.Compile();
             compiled.Should().Be(expected);
         }
+
+        [Fact]
+        public void CMD_Produces_Valid_Instruction()
+        {
+            const string expected = "CMD [\"start\", \"myapp\"]";
+            var instruction = new CommandInstruction("start", "myapp");
+            var compiled = instruction.Compile();
+            compiled.Should().Be(expected);
+        }
     }
 }
