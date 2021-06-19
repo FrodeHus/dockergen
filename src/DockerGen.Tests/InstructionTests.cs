@@ -105,5 +105,23 @@ namespace DockerGen.Tests
             var compiled = instruction.Compile();
             compiled.Should().Be(expected);
         }
+
+        [Fact]
+        public void ENTRYPOINT_Produces_Valid_Instruction()
+        {
+            const string expected = "ENTRYPOINT [\"runmystuff\"]";
+            var instruction = new EntryPointInstruction("runmystuff");
+            var compiled = instruction.Compile();
+            compiled.Should().Be(expected);
+        }
+
+        [Fact]
+        public void ENTRYPOINT_Supports_Arguments()
+        {
+            const string expected = "ENTRYPOINT [\"runmystuff\", \"-t\", \"asdf\"]";
+            var instruction = new EntryPointInstruction("runmystuff", "-t", "asdf");
+            var compiled = instruction.Compile();
+            compiled.Should().Be(expected);
+        }
     }
 }
