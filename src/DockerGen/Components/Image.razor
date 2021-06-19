@@ -1,3 +1,8 @@
 <MudCard>
-    
+    <MudCardHeader>
+        <MudTextField @bind-Value="ContainerImage.Name" Label="Image name" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField>
+    </MudCardHeader>
+    <MudCardActions>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Download Dockerfile</MudButton>
+    </MudCardActions>
 </MudCard>

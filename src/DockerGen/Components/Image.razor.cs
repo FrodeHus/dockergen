@@ -5,6 +5,6 @@ namespace DockerGen.Components
 {
     public partial class Image : ComponentBase
     {
-        public ContainerImage ContainerImage { get; set; }
+        public ContainerImage ContainerImage { get; set; } = new ContainerImage();
     }
 }
