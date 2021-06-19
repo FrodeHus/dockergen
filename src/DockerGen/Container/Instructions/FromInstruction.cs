@@ -33,12 +33,18 @@ namespace DockerGen.Container
 
         public static implicit operator FromInstruction(string from)
         {
-            var match = Regex.Match(from, @"(from\s){0,1}(?<image>[\w\.\/]+)(:(?<tag>[\w\.]+)){0,1}", RegexOptions.IgnoreCase);
+            var match = Regex.Match(from, @"(from\s){0,1}(?<image>[\w\.\/\-]+)(:(?<tag>[\w\.]+)){0,1}( as ){0,1}(?<stage>[\w]+){0,1}", RegexOptions.IgnoreCase);
             if (!match.Success)
             {
                 return null;
             }
-            return new FromInstruction(match.Groups["image"].Value, match.Groups["tag"].Value);
+            var instruction = new FromInstruction(match.Groups["image"].Value, match.Groups["tag"].Value);
+            if (match.Groups.ContainsKey("stage"))
+            {
+                instruction.StageName = match.Groups["stage"].Value;
+            }
+
+            return instruction;
         }
     }
 }

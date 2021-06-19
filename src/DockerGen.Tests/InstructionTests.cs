@@ -39,11 +39,25 @@ namespace DockerGen.Tests
         {
             const string expectedImage = "testimage";
             const string expectedTag = "v1.0";
-            FromInstruction instruction = $"from {expectedImage}:{expectedTag} as build";
+            FromInstruction instruction = $"from {expectedImage}:{expectedTag}";
             instruction.Should().NotBeNull();
             instruction.Image.Should().Be(expectedImage);
             instruction.Tag.Should().Be(expectedTag);
         }
+
+        [Fact]
+        public void FROM_Can_Parse_From_Image_String_With_StageName()
+        {
+            const string expectedImage = "testimage";
+            const string expectedTag = "v1.0";
+            const string expectedStageName = "build";
+            FromInstruction instruction = $"from {expectedImage}:{expectedTag} AS build";
+            instruction.Should().NotBeNull();
+            instruction.Image.Should().Be(expectedImage);
+            instruction.Tag.Should().Be(expectedTag);
+            instruction.StageName.Should().Be(expectedStageName);
+        }
+
         [Fact]
         public void RUN_Can_Parse_From_String()
         {
