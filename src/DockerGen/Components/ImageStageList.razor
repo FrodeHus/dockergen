@@ -1,0 +1,47 @@
+﻿@using DockerGen.Container
+<div class="stages">
+    <ul class="dropzone @dropClass"
+        ondragover="event.preventDefault();"
+        ondragstart="event.dataTransfer.setData('', event.target.id);"
+        @ondrop="HandleDrop"
+        @ondragenter="HandleDragEnter"
+        @ondragleave="HandleDragLeave">
+
+        @foreach (var instruction in Instructions)
+        {
+            <InstructionComponent Instruction="instruction" />
+        }
+
+    </ul>
+</div>
+@code {
+    [CascadingParameter] ImageContainer Container { get; set; }
+
+    List<Instruction> Instructions = new List<Instruction>()
+    {
+        new FromInstruction("test"),
+        new RunInstruction("test")
+    };
+    string dropClass = "";
+
+    protected override void OnParametersSet()
+    {
+        //Instructions.Clear();
+
+    }
+    private void HandleDragEnter()
+    {
+        dropClass = "can-drop";
+    }
+
+    private void HandleDragLeave()
+    {
+        dropClass = "";
+    }
+
+    private Task HandleDrop()
+    {
+        dropClass = "";
+        return Task.CompletedTask;
+    }
+}

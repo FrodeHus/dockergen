@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -16,6 +15,9 @@ namespace DockerGen.Container
         public string Image { get; set; }
         public string Tag { get; set; }
         public string StageName { get; set; }
+
+        public override string Description => "The FROM instruction initializes a new build stage and sets the Base Image for subsequent instructions. As such, a valid Dockerfile must start with a FROM instruction. ";
+
         protected override string Prefix => "FROM";
 
         protected override void CompileArguments(StringBuilder builder)

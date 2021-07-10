@@ -37,6 +37,7 @@ namespace DockerGen.Container
         }
         protected override string Prefix => "COPY";
 
+        public override string Description => throw new NotImplementedException();
 
         protected override void CompileArguments(StringBuilder builder)
         {

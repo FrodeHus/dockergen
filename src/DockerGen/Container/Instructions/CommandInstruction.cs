@@ -10,6 +10,9 @@ namespace DockerGen.Container
         }
 
         public string[] Commands { get; set; }
+
+        public override string Description => throw new System.NotImplementedException();
+
         protected override string Prefix => "CMD";
 
         protected override void CompileArguments(StringBuilder builder)

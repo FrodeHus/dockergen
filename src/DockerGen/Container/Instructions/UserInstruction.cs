@@ -15,6 +15,8 @@ namespace DockerGen.Container
 
         public string User { get; set; }
 
+        public override string Description => throw new System.NotImplementedException();
+
         protected override string Prefix => "USER";
 
         protected override void CompileArguments(StringBuilder builder)

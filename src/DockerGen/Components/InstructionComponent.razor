@@ -1,0 +1,27 @@
+﻿@using DockerGen.Container
+
+<li class="draggable instruction" draggable="true" title="" @ondragstart="@(() => HandleDragStart(Instruction))">
+    <MudCard>
+        <MudCardHeader>
+            <MudText Typo="Typo.h6">@Instruction.DisplayName</MudText>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudGrid>
+                <MudItem xs="12" sm="6" md="4">
+                    <MudField Variant="Variant.Text">@Instruction.Compile()</MudField>
+                </MudItem>
+            </MudGrid>
+            <MudText Typo="Typo.body2">@Instruction.Description</MudText>
+        </MudCardContent>
+    </MudCard>
+</li>
+
+@code {
+    [CascadingParameter] ImageContainer Container { get; set; }
+    [Parameter] public Instruction Instruction { get; set; }
+
+    private void HandleDragStart(Instruction instruction)
+    {
+        Container.Payload = instruction;
+    }
+}

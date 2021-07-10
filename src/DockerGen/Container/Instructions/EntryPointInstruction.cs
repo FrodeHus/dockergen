@@ -11,6 +11,9 @@ namespace DockerGen.Container
         }
         public string Executable { get; set; }
         public string[] Arguments { get; set; }
+
+        public override string Description => throw new System.NotImplementedException();
+
         protected override string Prefix => "ENTRYPOINT";
 
         protected override void CompileArguments(StringBuilder builder)

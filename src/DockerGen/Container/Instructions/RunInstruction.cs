@@ -21,6 +21,9 @@ namespace DockerGen.Container
         }
         protected override string Prefix => "RUN";
         public string ShellCommand { get; set; }
+
+        public override string Description => "The RUN instruction will execute any commands in a new layer on top of the current image and commit the results.";
+
         protected override void CompileArguments(StringBuilder builder)
         {
             builder.Append(ShellCommand);

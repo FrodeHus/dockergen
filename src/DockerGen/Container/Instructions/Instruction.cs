@@ -4,7 +4,9 @@ namespace DockerGen.Container
 {
     public abstract class Instruction
     {
+        public abstract string Description { get; }
         protected abstract string Prefix { get; }
+        public string DisplayName => Prefix;
         public string Compile()
         {
             var builder = new StringBuilder();
