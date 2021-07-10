@@ -25,7 +25,7 @@ namespace DockerGen.Container
         public string Destination { get; set; }
         public string Owner { get; set; }
         public string Group { get; set; }
-        public string Location { get; set; }
+        public string Stage { get; set; }
         public bool IsOwnershipDefined()
         {
             return !string.IsNullOrEmpty(Owner) || !string.IsNullOrEmpty(Group);
@@ -33,7 +33,7 @@ namespace DockerGen.Container
 
         public bool IsLocationDefined()
         {
-            return !string.IsNullOrEmpty(Location);
+            return !string.IsNullOrEmpty(Stage);
         }
         protected override string Prefix => "COPY";
 
@@ -44,7 +44,7 @@ namespace DockerGen.Container
             if (IsLocationDefined())
             {
                 builder.Append("--from=");
-                builder.Append(Location);
+                builder.Append(Stage);
                 builder.Append(" ");
             }
 

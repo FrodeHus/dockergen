@@ -98,7 +98,7 @@ namespace DockerGen.Tests
         {
             const string expected = "COPY --from=build /app/ .";
             var instruction = new CopyInstruction("/app/", ".");
-            instruction.Location = "build";
+            instruction.Stage = "build";
             var compiled = instruction.Compile();
             compiled.Should().Be(expected);
         }

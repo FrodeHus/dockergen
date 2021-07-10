@@ -37,7 +37,7 @@ ENTRYPOINT [""dotnet"", ""stuff.dll""]";
             buildStage.Instructions.Add(new RunInstruction("dotnet build stuff"));
             var runtimeStage = new BuildStage();
             runtimeStage.BaseImage = "dotnet-sdk:v1";
-            runtimeStage.Instructions.Add(new CopyInstruction(".", ".") { Location = "build" });
+            runtimeStage.Instructions.Add(new CopyInstruction(".", ".") { Stage = "build" });
             runtimeStage.Instructions.Add(new EntryPointInstruction("dotnet", "stuff.dll"));
             var image = new ContainerImage();
             image.Stages.Add(buildStage);
