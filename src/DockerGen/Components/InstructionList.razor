@@ -1,7 +1,11 @@
-﻿<div>
-    <InstructionList></InstructionList>
-    <ImageContainer>
-        <ImageBuildStage></ImageBuildStage>
-    </ImageContainer>
-    <Preview></Preview>
-</div>
+﻿@using DockerGen.Container
+@using System.Text
+<ul class="instruction-list">
+    @foreach (var instruction in Instructions)
+    {
+        if(instruction is FromInstruction fromImage)
+        {
+            <FromImage Instruction="fromImage"></FromImage>
+        }
+    }
+</ul>

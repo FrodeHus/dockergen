@@ -1,11 +1,23 @@
-﻿<li class="instruction">
+﻿@using DockerGen.Container
+<li class="instruction">
     <div class="instruction-title">
         FROM
     </div>
     <div class="instruction-values">
-        <div class="form-group input-group">
-            <label for="instr-from" class="floating-label">Image</label>
-            <input type="text" class="form-control" id="instr-from">
+        <div class="form-group">
+            <label for="instr-from">Image</label>
+            <input type="text" id="instr-from" @bind="Instruction.Image">
+        </div>
+        <div class="form-group">
+            <label for="instr-from-tag">Tag/Version</label>
+            <input type="text" id="instr-from-tag" @bind="Instruction.Tag">
         </div>
     </div>
 </li>
+
+@code {
+    [CascadingParameter]
+    public BuildStage Stage{ get; set; }
+    [Parameter]
+    public FromInstruction Instruction { get; set; }
+}

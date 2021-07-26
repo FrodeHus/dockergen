@@ -1,1 +1,11 @@
-﻿
+﻿@using DockerGen.Container
+<div class="image-container">
+    <CascadingValue Value="this">
+        @ChildContent
+    </CascadingValue>
+
+</div>
+
+@code{
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

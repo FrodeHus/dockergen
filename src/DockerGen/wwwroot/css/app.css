@@ -6,6 +6,7 @@
     --instruction-border-color: #d3e8c0;
     --instruction-value-bg-color: #fff;
     --instruction-value-color: #424242;
+    --primary-font-family: 'Roboto';
 }
 
 #blazor-error-ui {
@@ -31,12 +32,13 @@ body, html {
     margin: 0;
     padding: 0;
     height: 100%;
+    font-family: var(--primary-font-family);
 }
 
 main {
     font-size: var(--primary-font-size);
     display: grid;
-    height: 100%;
+    height: 100vh;
     background-color: var(--main-bg-color);
     grid-template-rows: 1fr 1fr;
     grid-template-columns: 250px 1fr 1fr;
@@ -47,6 +49,13 @@ main {
 
 div {
 }
+
+.title {
+    font-size: 18px;
+    color: var(--instruction-color);
+    font-weight: bold;
+}
+
 
 .container-instructions {
     grid-area: instructions;
@@ -89,37 +98,33 @@ div {
     column-gap: 14px;
 }
 
-    .instruction-values .form-group {
-        margin-top: 1rem;
-        padding-top: 0px;
-        margin-bottom: 0px;
+.form-group {
+    border: solid 1px var(--instruction-border-color);
+    padding: 0 8px;
+    position: relative;
+}
+
+    .form-group input {
+        border: none;
+        outline: 0;
+        padding: 18px 0 10px;
     }
 
-.input-group {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-    width: 100%;
-}
-
-.form-control {
-    border-top-left-radius: 4px !important;
-    background-color: var(--instruction-value-bg-color);
-    color: var(--instruction-value-color);
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    padding: 20px 12px 6px !important;
-}
-
-.floating-label {
+label {
+    position: absolute;
+    transform: translate(0, 2px) scale(1);
 }
 
 .dockerfile {
     grid-area: output;
 }
 
-    .dockerfile textarea {
-        width: 100%;
+    .dockerfile code {
+        background: #ffeff0;
+        word-wrap: break-word;
+        box-decoration-break: clone;
+        padding: .1rem .3rem .2rem;
+        border-radius: .2rem;
     }
 
 .instruction-help {
