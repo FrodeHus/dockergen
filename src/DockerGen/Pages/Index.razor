@@ -5,9 +5,11 @@
     <div class="instruction-toolbox">
     </div>
     <div class="instruction-help">
+        <button @onclick="AddInstruction">Add</button>
+
     </div>
     <div class="container-instructions">
-        <InstructionList @ref="_instructions" Instructions="_imageInstructions"></InstructionList>
+        <InstructionList @ref="_instructions"></InstructionList>
     </div>
     <div class="dockerfile">
         <Preview Instructions="_instructions"></Preview>

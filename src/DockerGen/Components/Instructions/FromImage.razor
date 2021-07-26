@@ -1,4 +1,5 @@
 ﻿@using DockerGen.Container
+
 <li class="instruction">
     <div class="instruction-title">
         FROM
@@ -14,10 +15,3 @@
         </div>
     </div>
 </li>
-
-@code {
-    [CascadingParameter]
-    public BuildStage Stage{ get; set; }
-    [Parameter]
-    public FromInstruction Instruction { get; set; }
-}

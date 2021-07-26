@@ -5,6 +5,10 @@ namespace DockerGen.Container
 {
     public class FromInstruction : Instruction
     {
+        private string image;
+        private string tag;
+        private string stageName;
+
         public FromInstruction(string image, string tag = "latest", string stageName = null)
         {
             Image = image.ToLowerInvariant();
@@ -12,9 +16,33 @@ namespace DockerGen.Container
             StageName = stageName;
         }
 
-        public string Image { get; set; }
-        public string Tag { get; set; }
-        public string StageName { get; set; }
+        public string Image
+        {
+            get { return image; }
+            set
+            {
+                image = value;
+                FireInstructionChanged();
+            }
+        }
+        public string Tag
+        {
+            get { return tag; }
+            set
+            {
+                tag = value;
+                FireInstructionChanged();
+            }
+        }
+        public string StageName
+        {
+            get { return stageName; }
+            set
+            {
+                stageName = value;
+                FireInstructionChanged();
+            }
+        }
 
         public override string Description => "The FROM instruction initializes a new build stage and sets the Base Image for subsequent instructions. As such, a valid Dockerfile must start with a FROM instruction. ";
 

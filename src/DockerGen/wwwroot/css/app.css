@@ -120,6 +120,8 @@ label {
 }
 
     .dockerfile code {
+        display: block;
+        white-space: pre-wrap;
         background: #ffeff0;
         word-wrap: break-word;
         box-decoration-break: clone;

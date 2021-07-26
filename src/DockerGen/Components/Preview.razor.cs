@@ -7,6 +7,7 @@ namespace DockerGen.Components
         [Parameter]
         public InstructionList Instructions { get; set; }
 
+
         public string GetCompiledDockerfile()
         {
             if (Instructions == null)
