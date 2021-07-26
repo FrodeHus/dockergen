@@ -3,9 +3,13 @@
 <ul class="instruction-list">
     @foreach (var instruction in Instructions)
     {
-        if(instruction is FromInstruction fromImage)
+        if (instruction is FromInstruction fromImage)
         {
             <FromImage Instruction="fromImage"></FromImage>
+        }
+        else if (instruction is RunInstruction runCommand)
+        {
+            <RunCommand Instruction="runCommand"></RunCommand>
         }
     }
 </ul>

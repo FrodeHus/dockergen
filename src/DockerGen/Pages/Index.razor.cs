@@ -11,6 +11,7 @@ namespace DockerGen.Pages
         protected void AddInstruction()
         {
             _instructions.AddInstruction(new FromInstruction("busybox"));
+            _instructions.AddInstruction(new RunInstruction("echo \"Hello World\""));
         }
 
         private Task InstructionsUpdated()

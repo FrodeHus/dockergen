@@ -1,0 +1,13 @@
+@using DockerGen.Container
+
+<li class="instruction">
+    <div class="instruction-title">
+        RUN
+    </div>
+    <div class="instruction-values">
+        <div class="form-group full-width">
+            <label for="instr-from">Command</label>
+            <input type="text" id="instr-from" @bind="Instruction.ShellCommand">
+        </div>
+    </div>
+</li>

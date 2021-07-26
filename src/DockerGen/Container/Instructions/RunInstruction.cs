@@ -6,6 +6,8 @@ namespace DockerGen.Container
 {
     public class RunInstruction : Instruction
     {
+        private string _shellCommand;
+
         public RunInstruction()
         {
 
@@ -20,7 +22,15 @@ namespace DockerGen.Container
             ShellCommand = shellCommand;
         }
         protected override string Prefix => "RUN";
-        public string ShellCommand { get; set; }
+        public string ShellCommand
+        {
+            get { return _shellCommand; }
+            set
+            {
+                _shellCommand = value;
+                FireInstructionChanged();
+            }
+        }
 
         public override string Description => "The RUN instruction will execute any commands in a new layer on top of the current image and commit the results.";
 
