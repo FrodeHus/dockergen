@@ -1,19 +1,16 @@
 ﻿@page "/"
 
-<div class="grid grid-cols-3 gap-2 h-full">
-    <div class="bg-gray-300">
-
+<main>
+    <div class="instruction-toolbox">
     </div>
-    <div class="border-dashed border-4">
-
+    <div class="instruction-help">
     </div>
-    <div class="bg-gray-300">
-        <div class="box border rounded flex flex-col shadow bg-white">
-            <div class="box__title bg-grey-lighter px-3 py-2 border-b">
-                <h3 class="text-sm text-grey-darker font-medium">Dockerfile</h3>
-            </div>
-            <textarea placeholder="hey" class="text-grey-darkest flex-1 p-2 m-1 bg-transparent"
-                name="tt">Try adding components to the left and watch your Dockerfile come to life</textarea>
-        </div>
+    <div class="container-instructions">
+        <ul class="instruction-list">
+            <FromImage></FromImage>
+        </ul>
     </div>
-</div>
+    <div class="dockerfile">
+        <div contenteditable></div>
+    </div>
+</main>
