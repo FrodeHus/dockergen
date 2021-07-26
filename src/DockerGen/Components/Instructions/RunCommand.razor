@@ -1,13 +1,10 @@
 @using DockerGen.Container
 
-<li class="instruction" draggable="true">
-    <div class="instruction-title">
-        RUN
-    </div>
+<InstructionComponent Key="@Instruction" Title="RUN">
     <div class="instruction-values">
         <div class="form-group full-width">
-            <label for="instr-from">Command</label>
-            <input type="text" id="instr-from" @bind="Instruction.ShellCommand">
+            <label for="instr-@Instruction.Id">Command</label>
+            <input type="text" id="instr-@Instruction.Id" @bind="Instruction.ShellCommand">
         </div>
     </div>
-</li>
+</InstructionComponent>

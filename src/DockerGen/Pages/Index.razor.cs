@@ -12,6 +12,7 @@ namespace DockerGen.Pages
         {
             _instructions.AddInstruction(new FromInstruction("busybox"));
             _instructions.AddInstruction(new RunInstruction("echo \"Hello World\""));
+            _instructions.AddInstruction(new RunInstruction("apt update && apt -y upgrade && apt -y install ca-certificates curl"));
         }
 
         private Task InstructionsUpdated()

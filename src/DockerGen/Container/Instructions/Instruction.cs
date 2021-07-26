@@ -6,6 +6,7 @@ namespace DockerGen.Container
 {
     public abstract class Instruction
     {
+        public string Id { get; set; } = Guid.NewGuid().ToString("N");
         public event EventHandler<InstructionEventArgs> OnInstructionChanged;
         public abstract string Description { get; }
         protected abstract string Prefix { get; }
