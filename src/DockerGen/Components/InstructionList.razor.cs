@@ -8,7 +8,8 @@ namespace DockerGen.Components
 {
     public partial class InstructionList : ComponentBase
     {
-        public event EventHandler<EventArgs> OnInstructionsChanged;
+        [Parameter]
+        public EventCallback OnInstructionsChanged{ get; set; }
         private List<Instruction> _instructions = new();
 
         [Parameter]
@@ -17,7 +18,6 @@ namespace DockerGen.Components
             get => _instructions; set
             {
                 _instructions = value;
-                OnInstructionsChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -26,12 +26,11 @@ namespace DockerGen.Components
             instruction.OnInstructionChanged += InstructionChanged;
 
             _instructions.Add(instruction);
-            OnInstructionsChanged?.Invoke(this, EventArgs.Empty);
             StateHasChanged();
         }
 
         private void InstructionChanged(object sender, InstructionEventArgs e){
-            StateHasChanged();
+            OnInstructionsChanged.InvokeAsync(this);
         }
 
         public string Compile()

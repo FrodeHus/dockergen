@@ -9,7 +9,7 @@
 
     </div>
     <div class="container-instructions">
-        <InstructionList @ref="_instructions"></InstructionList>
+        <InstructionList @ref="_instructions" OnInstructionsChanged=@InstructionsUpdated></InstructionList>
     </div>
     <div class="dockerfile">
         <Preview Instructions="_instructions"></Preview>

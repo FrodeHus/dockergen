@@ -5,9 +5,9 @@ namespace DockerGen.Container
 {
     public class FromInstruction : Instruction
     {
-        private string image;
-        private string tag;
-        private string stageName;
+        private string _image;
+        private string _tag;
+        private string _stageName;
 
         public FromInstruction(string image, string tag = "latest", string stageName = null)
         {
@@ -18,28 +18,28 @@ namespace DockerGen.Container
 
         public string Image
         {
-            get { return image; }
+            get { return _image; }
             set
             {
-                image = value;
+                _image = value;
                 FireInstructionChanged();
             }
         }
         public string Tag
         {
-            get { return tag; }
+            get { return _tag; }
             set
             {
-                tag = value;
+                _tag = value;
                 FireInstructionChanged();
             }
         }
         public string StageName
         {
-            get { return stageName; }
+            get { return _stageName; }
             set
             {
-                stageName = value;
+                _stageName = value;
                 FireInstructionChanged();
             }
         }
