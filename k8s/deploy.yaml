@@ -18,15 +18,12 @@ spec:
       labels:
         app: dockergen
     spec:
-      nodeSelector:
-        kubernetes.io/arch: amd64
-        kubernetes.io/os: linux
       containers:
       - name: dockergen
         image: chaos.azurecr.io/dockergen:v0.1
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 8080
+        - containerPort: 443
         resources:
           requests:
             memory: "50Mi"
@@ -62,11 +59,9 @@ metadata:
     "kemp.ax/vspip": "192.168.6.200"
     "kemp.ax/vsport": "443"
     "kemp.ax/vsprot": "tcp"
+    "kemp.ax/vsid": "1"
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  tls:
-    - hosts:
-        - dockergen.frodehus.dev
   rules:
   - host: dockergen.frodehus.dev
     http:
