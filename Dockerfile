@@ -10,5 +10,6 @@ RUN dotnet publish "DockerGen.csproj" -c Release -o /publish
 
 FROM nginx:alpine AS final
 WORKDIR /usr/share/nginx/html
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
 COPY --from=publish /publish/wwwroot /usr/local/webapp/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf

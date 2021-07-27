@@ -30,7 +30,7 @@ spec:
         kubernetes.io/os: linux
       containers:
       - name: dockergen
-        image: frodehus/dockergen:v0.1
+        image: 192.168.1.20:5000/dockergen:v0.1
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
