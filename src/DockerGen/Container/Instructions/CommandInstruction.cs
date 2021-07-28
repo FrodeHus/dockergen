@@ -18,6 +18,7 @@ namespace DockerGen.Container
         public override string Description => throw new System.NotImplementedException();
 
         public override string Prefix => "CMD";
+        public override string DisplayName => "Set default executable to run when container starts";
 
         protected override void CompileArguments(StringBuilder builder)
         {

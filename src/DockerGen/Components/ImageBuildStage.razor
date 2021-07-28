@@ -46,6 +46,15 @@
         {
             return false;
         }
+        else if (instruction is EntryPointInstruction && Stage.Instructions.Any(i => i is EntryPointInstruction))
+        {
+            return false;
+        }
+        else if (instruction is CommandInstruction && Stage.Instructions.Any(i => i is CommandInstruction))
+        {
+            return false;
+        }
+
         return true;
     }
 

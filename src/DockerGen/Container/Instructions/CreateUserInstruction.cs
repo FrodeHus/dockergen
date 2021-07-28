@@ -14,7 +14,7 @@ namespace DockerGen.Container
             Username = username;
         }
 
-        public override string DisplayName => "RUN AS";
+        public override string DisplayName => "Run as non-root user";
         public int UserId { get; set; }
         public string Username { get; set; }
 

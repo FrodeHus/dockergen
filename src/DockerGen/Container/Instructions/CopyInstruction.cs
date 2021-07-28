@@ -86,6 +86,7 @@ namespace DockerGen.Container
             return !string.IsNullOrEmpty(Stage);
         }
         public override string Prefix => "COPY";
+        public override string DisplayName => "Copy files into container image";
 
         public override string Description => throw new NotImplementedException();
 

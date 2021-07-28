@@ -22,6 +22,7 @@ namespace DockerGen.Container
         public override string Description => throw new System.NotImplementedException();
 
         public override string Prefix => "USER";
+        public override string DisplayName => "Set user for container processes";
 
         protected override void CompileArguments(StringBuilder builder)
         {

@@ -22,14 +22,20 @@ namespace DockerGen.Container
             ShellCommand = shellCommand;
         }
         public override string Prefix => "RUN";
+        public override string DisplayName => "Execute command in container";
         public virtual string ShellCommand
         {
             get { return _shellCommand; }
             set
             {
-                _shellCommand = value;
+                _shellCommand = Validate(value);
                 FireInstructionChanged();
             }
+        }
+
+        private string Validate(string value)
+        {
+            return value.Replace("\n", "/\n");
         }
 
         public override string Description => "The RUN instruction will execute any commands in a new layer on top of the current image and commit the results.";
