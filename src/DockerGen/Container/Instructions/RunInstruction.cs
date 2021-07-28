@@ -22,7 +22,7 @@ namespace DockerGen.Container
             ShellCommand = shellCommand;
         }
         protected override string Prefix => "RUN";
-        public string ShellCommand
+        public virtual string ShellCommand
         {
             get { return _shellCommand; }
             set

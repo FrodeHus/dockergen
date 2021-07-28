@@ -1,6 +1,8 @@
-﻿<div class="title">
+﻿@using BlazorMonaco
+
+<div class="title">
     Dockerfile
 </div>
-<code>
-    @GetCompiledDockerfile()
-</code>
+
+<MonacoEditor @ref="_editor" ConstructionOptions=EditorConstructionOptions CssClass="monaco-editor" OnKeyUp="UpdateContainer"/>
+

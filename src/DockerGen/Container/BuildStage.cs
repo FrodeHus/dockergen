@@ -28,7 +28,7 @@ namespace DockerGen.Container
             BaseImage = new FromInstruction("scratch", "latest");
         }
         public string Name { get; set; }
-        public ICollection<Instruction> Instructions { get; set; } = new List<Instruction>();
+        public List<Instruction> Instructions { get; set; } = new List<Instruction>();
 
         public void AddInstruction(Instruction instruction)
         {

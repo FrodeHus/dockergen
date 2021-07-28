@@ -18,18 +18,24 @@
     public Pages.Index ContainerEditor { get; set; }
     [Parameter]
     public BuildStage Stage { get; set; }
-    private List<Instruction> Instructions { get; } = new List<Instruction>();
     private string dropClass = "";
+
     private void RemoveStage()
     {
         ContainerEditor.Container.RemoveStage(Stage);
     }
+
     private void OnDrop()
     {
-        if (CanDrop(ContainerEditor.CurrentInstruction))
+        var instruction = ContainerEditor.CurrentInstruction;
+        var index = GetIndex(instruction);
+        if (CanDrop(instruction) && index == -1)
         {
-            Stage.AddInstruction(ContainerEditor.CurrentInstruction);
+            Stage.AddInstruction(instruction);
             StateHasChanged();
+        }
+        else if (index != -1)
+        {
         }
         dropClass = "";
     }
@@ -58,6 +64,12 @@
     private void HandleDragLeave()
     {
         dropClass = "";
+    }
+
+
+    private int GetIndex(Instruction instruction)
+    {
+        return Stage.Instructions.FindIndex(i => i.Id == instruction.Id);
     }
 
 }

@@ -1,7 +1,6 @@
 ﻿@using DockerGen.Container
 @using System.Text
-<ul class="instruction-list" ondragover="event.preventDefault();"
-    ondragstart="event.dataTransfser.setData('', event.target.id);" @ondrop="HandleDrop">
+<ul class="instruction-list" ondragover="event.preventDefault();">
     @foreach (var instruction in Instructions)
     {
         if (instruction is FromInstruction fromImage)

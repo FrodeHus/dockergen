@@ -1,6 +1,6 @@
 @using DockerGen.Container
 
-<InstructionComponent Instruction="@Instruction" Title="RUN">
+<InstructionComponent Instruction="@Instruction" Title="@Instruction.DisplayName">
     <div class="instruction-values">
         <div class="form-group full-width">
             <label for="instr-@Instruction.Id">Command</label>

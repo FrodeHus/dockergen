@@ -4,6 +4,10 @@ namespace DockerGen.Container
 {
     public class CreateUserInstruction : RunInstruction
     {
+        public CreateUserInstruction() : this("nonroot", 9999)
+        {
+
+        }
         public CreateUserInstruction(string username = "dummy", int userId = 9999)
         {
             UserId = userId;

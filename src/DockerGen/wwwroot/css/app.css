@@ -213,3 +213,7 @@ label {
 .can-drop {
     border: 2px dashed green;
 }
+
+.monaco-editor{
+    height: 100%;
+}
