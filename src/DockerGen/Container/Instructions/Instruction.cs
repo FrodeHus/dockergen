@@ -9,7 +9,7 @@ namespace DockerGen.Container
         public string Id { get; set; } = Guid.NewGuid().ToString("N");
         public event EventHandler<InstructionEventArgs> OnInstructionChanged;
         public abstract string Description { get; }
-        protected abstract string Prefix { get; }
+        public abstract string Prefix { get; }
         public virtual string DisplayName => Prefix;
         public string Compile()
         {

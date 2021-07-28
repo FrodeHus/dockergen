@@ -16,6 +16,12 @@ namespace DockerGen.Components
         private ILogger<Preview> _logger { get; set; }
         protected override void OnInitialized()
         {
+            ContainerEditor.OnImageChanged += ContainerEditor_OnImageChanged;
+            ContainerEditor.Container.OnImageChanged += ContainerChanged;
+        }
+
+        private void ContainerEditor_OnImageChanged(object sender, ContainerImageEventArgs e)
+        {
             ContainerEditor.Container.OnImageChanged += ContainerChanged;
         }
 
@@ -47,7 +53,7 @@ namespace DockerGen.Components
             var dockerFile = ContainerEditor.Container.Compile();
             if (string.IsNullOrEmpty(dockerFile))
             {
-                return "No instructions found - try adding one now!";
+                return "# No instructions found - try adding one now!";
             }
 
             return dockerFile;

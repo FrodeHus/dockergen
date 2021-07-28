@@ -1,12 +1,13 @@
 ﻿using DockerGen.Container;
 using Microsoft.AspNetCore.Components;
+using System;
 
 namespace DockerGen.Pages
 {
     public partial class Index : ComponentBase
     {
         private ContainerImage container = new ContainerImage();
-
+        public event EventHandler<ContainerImageEventArgs> OnImageChanged;
         public ContainerImage Container
         {
             get { return container; }
@@ -18,6 +19,7 @@ namespace DockerGen.Pages
                 }
                 container = value;
                 container.OnImageChanged += ContainerChanged;
+                OnImageChanged?.Invoke(this, new ContainerImageEventArgs(container));
                 StateHasChanged();
             }
         }

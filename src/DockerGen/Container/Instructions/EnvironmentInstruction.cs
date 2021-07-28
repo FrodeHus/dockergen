@@ -6,7 +6,7 @@ namespace DockerGen.Container
     {
         public override string Description => throw new System.NotImplementedException();
 
-        protected override string Prefix => "ENV";
+        public override string Prefix => "ENV";
 
         protected override void CompileArguments(StringBuilder builder)
         {

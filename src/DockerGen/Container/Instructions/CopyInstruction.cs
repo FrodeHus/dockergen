@@ -39,7 +39,7 @@ namespace DockerGen.Container
         {
             return !string.IsNullOrEmpty(Stage);
         }
-        protected override string Prefix => "COPY";
+        public override string Prefix => "COPY";
 
         public override string Description => throw new NotImplementedException();
 

@@ -14,13 +14,11 @@
 @code {
     [CascadingParameter]
     public Pages.Index ContainerEditor { get; set; }
-
     private List<Instruction> AvailableComponents { get; set; }
 
     protected override void OnInitialized()
     {
-        var instructions = Assembly.GetExecutingAssembly().GetTypes().Where(type => typeof(Instruction).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract).Select(t => (Instruction)Activator.CreateInstance(t));
-        AvailableComponents = instructions.ToList();
+        AvailableComponents = ContainerService.GetValidInstructions();
     }
     private void StartDrag(Instruction instruction)
     {

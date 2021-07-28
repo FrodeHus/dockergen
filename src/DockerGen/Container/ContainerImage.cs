@@ -45,9 +45,15 @@ namespace DockerGen.Container
             var image = new ContainerImage();
             var lines = dockerinstructions.Split('\n');
             BuildStage stage = null;
+            var validPrefixes = ContainerService.GetValidPrefixes();
             foreach (var line in lines.Where(l => !string.IsNullOrEmpty(l) && l.IndexOf(' ') != -1))
             {
                 var instructionType = line.Split(' ')[0].ToUpper();
+                if (!validPrefixes.Contains(instructionType))
+                {
+                    continue;
+                }
+
                 Instruction instruction = null;
                 switch (instructionType)
                 {
@@ -77,5 +83,6 @@ namespace DockerGen.Container
             }
             return image;
         }
+
     }
 }
