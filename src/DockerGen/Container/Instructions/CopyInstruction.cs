@@ -5,6 +5,12 @@ namespace DockerGen.Container
 {
     public class CopyInstruction : Instruction
     {
+        private string source;
+        private string destination;
+        private string stage;
+        private string owner;
+        private string group;
+
         public CopyInstruction()
         {
 
@@ -25,11 +31,51 @@ namespace DockerGen.Container
             Destination = destination;
         }
 
-        public string Source { get; set; }
-        public string Destination { get; set; }
-        public string Owner { get; set; }
-        public string Group { get; set; }
-        public string Stage { get; set; }
+        public string Source
+        {
+            get { return source; }
+            set
+            {
+                source = value;
+                FireInstructionChanged();
+            }
+        }
+        public string Destination
+        {
+            get { return destination; }
+            set
+            {
+                destination = value;
+                FireInstructionChanged();
+            }
+        }
+        public string Owner
+        {
+            get { return owner; }
+            set
+            {
+                owner = value;
+                FireInstructionChanged();
+            }
+        }
+        public string Group
+        {
+            get { return group; }
+            set
+            {
+                group = value;
+                FireInstructionChanged();
+            }
+        }
+        public string Stage
+        {
+            get { return stage; }
+            set
+            {
+                stage = value;
+                FireInstructionChanged();
+            }
+        }
         public bool IsOwnershipDefined()
         {
             return !string.IsNullOrEmpty(Owner) || !string.IsNullOrEmpty(Group);
@@ -49,7 +95,7 @@ namespace DockerGen.Container
             {
                 builder.Append("--from=");
                 builder.Append(Stage);
-                builder.Append(" ");
+                builder.Append(' ');
             }
 
             if (IsOwnershipDefined())

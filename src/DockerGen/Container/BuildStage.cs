@@ -20,6 +20,7 @@ namespace DockerGen.Container
                 if (baseImage != null)
                     baseImage.OnInstructionChanged -= InstructionChanged;
                 baseImage = value;
+                baseImage.StageName = StageName;
                 baseImage.OnInstructionChanged += InstructionChanged;
             }
         }
@@ -28,10 +29,12 @@ namespace DockerGen.Container
             BaseImage = new FromInstruction("scratch", "latest");
         }
 
-        public BuildStage(FromInstruction baseImage)
+        public BuildStage(FromInstruction baseImage, string name)
         {
+            StageName = name;
             BaseImage = baseImage;
         }
+        public string StageName { get; set; }
         public string Name { get; set; }
         public List<Instruction> Instructions { get; set; } = new List<Instruction>();
 

@@ -1,15 +1,29 @@
 ﻿@using DockerGen.Container
 
 <InstructionComponent Instruction="@Instruction" Title="@Instruction.DisplayName">
+    @if (BuildStages?.Count() > 1)
+    {
+        <div class="input-group mb-3">
+            <span class="input-group-text">Stage</span>
+            <select class="form-select form-select-sm" @bind="Instruction.Stage">
+                <option value="">current</option>
+                @foreach (var stage in BuildStages)
+                {
+                    <option value="@stage">@stage</option>
+                }
+            </select>
+        </div>
+    }
     <div class="input-group mb-3">
         <input type="text" class="form-control" id="instr-@Instruction.Id" @bind="Instruction.Source" placeholder="src/project/">
         <span class="input-group-text fa fa-arrow-right"></span>
         <input type="text" class="form-control" id="instr-@Instruction.Id" @bind="Instruction.Destination" placeholder="/app">
-
     </div>
 </InstructionComponent>
 
-@code{
+@code {
     [Parameter]
-    public CopyInstruction Instruction{ get; set; }
+    public CopyInstruction Instruction { get; set; }
+    [Parameter]
+    public List<string> BuildStages { get; set; }
 }

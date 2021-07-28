@@ -21,6 +21,9 @@
 
     private void AddStage()
     {
-        ContainerEditor.Container.AddStage(new BuildStage());
+        var stageCount = ContainerEditor.Container.Stages.Count();
+        var stage = new BuildStage();
+        stage.StageName = "stage" + stageCount;
+        ContainerEditor.Container.AddStage(stage);
     }
 }

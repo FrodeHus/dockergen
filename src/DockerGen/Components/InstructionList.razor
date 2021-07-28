@@ -13,7 +13,7 @@
     }
         else if(instruction is CopyInstruction copyFiles)
         {
-            <CopyFiles Instruction="copyFiles"></CopyFiles>
+            <CopyFiles Instruction="copyFiles" BuildStages="@GetBuildStageNames()"></CopyFiles>
     }
         else if(instruction is WorkDirInstruction workdir)
         {

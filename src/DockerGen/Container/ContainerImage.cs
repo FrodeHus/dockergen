@@ -73,7 +73,8 @@ namespace DockerGen.Container
 
                 if (instruction is FromInstruction fromInstruction)
                 {
-                    stage = new BuildStage(fromInstruction);
+                    var stageCount = image.Stages.Count();
+                    stage = new BuildStage(fromInstruction, "stage" + stageCount);
                     image.AddStage(stage);
                 }
                 else if (stage != null && instruction != null)
