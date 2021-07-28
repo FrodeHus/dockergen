@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -35,7 +36,20 @@ namespace DockerGen.Container
 
         private string Validate(string value)
         {
-            return value.Replace("\n", "/\n");
+            var lines = value.Split(new char[] { '\n', '\r' });
+            var builder = new StringBuilder();
+            foreach (var line in lines.Where(l => !string.IsNullOrEmpty(l)))
+            {
+                if (line.EndsWith('/'))
+                {
+                    builder.AppendLine(line);
+                }
+                else
+                {
+                    builder.Append(line).AppendLine("/");
+                }
+            }
+            return builder.ToString();
         }
 
         public override string Description => "The RUN instruction will execute any commands in a new layer on top of the current image and commit the results.";
@@ -47,7 +61,7 @@ namespace DockerGen.Container
 
         public static implicit operator RunInstruction(string v)
         {
-            var match = Regex.Match(v, @"(run\s){0,1}(?<cmd>[\w\.\n\-\s\t""\/\=\:\\\;\&]+)", RegexOptions.IgnoreCase);
+            var match = Regex.Match(v, @"(run\s){0,1}(?<cmd>[\w\.\n\-\'\s\t""\/\=\:\\\;\&\>]+)", RegexOptions.IgnoreCase);
             if (!match.Success)
             {
                 return null;

@@ -53,13 +53,13 @@ namespace DockerGen.Components
             var dockerFile = ContainerEditor.Container.Compile();
             if (string.IsNullOrEmpty(dockerFile))
             {
-                return "# No instructions found - try adding one now!";
+                return "# No instructions found - try adding one now or copy/paste an existing Dockerfile!";
             }
 
             return dockerFile;
         }
 
-        private StandaloneEditorConstructionOptions EditorConstructionOptions(MonacoEditor editor)
+        private StandaloneEditorConstructionOptions EditorConstructionOptions(MonacoEditor _)
         {
             return new StandaloneEditorConstructionOptions
             {

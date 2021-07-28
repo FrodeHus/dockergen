@@ -216,4 +216,8 @@ div {
     height: 100%;
 }
 
+.image-item {
+    display: flex;
+    justify-content: space-between;
+}
 

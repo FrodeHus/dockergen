@@ -31,6 +31,17 @@ namespace DockerGen.Container
         {
             OnImageChanged?.Invoke(this, new ContainerImageEventArgs(this));
         }
+
+        public void RemoveInstruction(Instruction instruction)
+        {
+            var stage = Stages.SingleOrDefault(s => s.Instructions.Any(i => i.Id == instruction.Id));
+            if (stage == null)
+            {
+                return;
+            }
+
+            stage.RemoveInstruction(instruction);
+        }
         public bool IsMultiStage()
         {
             return Stages.Count > 1;
