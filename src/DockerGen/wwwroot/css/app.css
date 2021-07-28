@@ -133,11 +133,6 @@ div {
     width: 100%;
 }
 
-label {
-    position: absolute;
-    transform: translate(0, 2px) scale(1);
-}
-
 .dockerfile {
     grid-area: output;
     padding: 0 10px 10px;

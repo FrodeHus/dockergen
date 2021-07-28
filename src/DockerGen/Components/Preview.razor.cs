@@ -1,5 +1,8 @@
 ﻿using BlazorMonaco;
+using DockerGen.Container;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace DockerGen.Components
@@ -9,15 +12,28 @@ namespace DockerGen.Components
         private MonacoEditor _editor;
         [CascadingParameter]
         public Pages.Index ContainerEditor { get; set; }
-
+        [Inject]
+        private ILogger<Preview> _logger { get; set; }
         protected override void OnInitialized()
         {
             ContainerEditor.Container.OnImageChanged += ContainerChanged;
         }
 
-        private async Task UpdateContainer(KeyboardEvent e)
+        private async Task UpdateContainer(KeyboardEvent _)
         {
             var dockerfile = await _editor.GetValue();
+            try
+            {
+                ContainerImage image = dockerfile;
+                if (image != null)
+                {
+                    ContainerEditor.Container = dockerfile;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to import docker instructions");
+            }
         }
 
         private void ContainerChanged(object sender, Container.ContainerImageEventArgs e)

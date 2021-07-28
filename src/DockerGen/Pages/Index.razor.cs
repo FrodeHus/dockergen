@@ -5,7 +5,22 @@ namespace DockerGen.Pages
 {
     public partial class Index : ComponentBase
     {
-        public ContainerImage Container { get; set; } = new ContainerImage();
+        private ContainerImage container = new ContainerImage();
+
+        public ContainerImage Container
+        {
+            get { return container; }
+            set
+            {
+                if (container != null)
+                {
+                    container.OnImageChanged -= ContainerChanged;
+                }
+                container = value;
+                container.OnImageChanged += ContainerChanged;
+                StateHasChanged();
+            }
+        }
         public Instruction CurrentInstruction { get; set; }
 
         protected override void OnInitialized()

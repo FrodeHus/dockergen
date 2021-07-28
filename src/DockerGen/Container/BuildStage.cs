@@ -27,6 +27,11 @@ namespace DockerGen.Container
         {
             BaseImage = new FromInstruction("scratch", "latest");
         }
+
+        public BuildStage(FromInstruction baseImage)
+        {
+            BaseImage = baseImage;
+        }
         public string Name { get; set; }
         public List<Instruction> Instructions { get; set; } = new List<Instruction>();
 

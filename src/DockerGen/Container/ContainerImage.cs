@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DockerGen.Container
@@ -38,6 +39,43 @@ namespace DockerGen.Container
                 builder.AppendLine(stage.Compile());
             }
             return builder.ToString().Trim();
+        }
+        public static implicit operator ContainerImage(string dockerinstructions)
+        {
+            var image = new ContainerImage();
+            var lines = dockerinstructions.Split('\n');
+            BuildStage stage = null;
+            foreach (var line in lines.Where(l => !string.IsNullOrEmpty(l) && l.IndexOf(' ') != -1))
+            {
+                var instructionType = line.Split(' ')[0].ToUpper();
+                Instruction instruction = null;
+                switch (instructionType)
+                {
+                    case "FROM":
+                        instruction = (FromInstruction)line;
+                        break;
+                    case "RUN":
+                        instruction = (RunInstruction)line;
+                        break;
+                    default:
+                        break;
+                }
+                if (instruction == null)
+                {
+                    continue;
+                }
+
+                if (instruction is FromInstruction fromInstruction)
+                {
+                    stage = new BuildStage(fromInstruction);
+                    image.AddStage(stage);
+                }
+                else if (stage != null && instruction != null)
+                {
+                    stage.AddInstruction(instruction);
+                }
+            }
+            return image;
         }
     }
 }

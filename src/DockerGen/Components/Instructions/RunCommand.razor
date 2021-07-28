@@ -1,10 +1,8 @@
 @using DockerGen.Container
 
 <InstructionComponent Instruction="@Instruction" Title="@Instruction.DisplayName">
-    <div class="instruction-values">
-        <div class="form-group full-width">
-            <label for="instr-@Instruction.Id">Command</label>
-            <input type="text" id="instr-@Instruction.Id" @bind="Instruction.ShellCommand">
-        </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Command</span>
+        <textarea class="form-control" id="instr-@Instruction.Id" @bind="Instruction.ShellCommand" rows=3 placeholder="echo 'Hello, World!'"></textarea>
     </div>
 </InstructionComponent>

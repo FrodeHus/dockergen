@@ -8,7 +8,7 @@ namespace DockerGen.Container
         {
 
         }
-        public CreateUserInstruction(string username = "dummy", int userId = 9999)
+        public CreateUserInstruction(string username = "nonroot", int userId = 9999)
         {
             UserId = userId;
             Username = username;

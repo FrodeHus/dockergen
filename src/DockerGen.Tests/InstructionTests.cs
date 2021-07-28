@@ -1,7 +1,6 @@
-using System;
-using Xunit;
 using DockerGen.Container;
 using FluentAssertions;
+using Xunit;
 
 namespace DockerGen.Tests
 {
@@ -114,7 +113,7 @@ namespace DockerGen.Tests
         [Fact]
         public void Create_User_Produces_Valid_RUN_Instruction()
         {
-            const string expected = "RUN if ! command -v useradd &> /dev/null; then addgroup -S dummy -g 9999 && adduser -S dummy -u 9999 -G dummy; else groupadd -r dummy && useradd --no-log-init -u 9999 -r -g dummy dummy; fi;";
+            const string expected = "RUN if ! command -v useradd &> /dev/null; then addgroup -S nonroot -g 9999 && adduser -S nonroot -u 9999 -G nonroot; else groupadd -r nonroot && useradd --no-log-init -u 9999 -r -g nonroot nonroot; fi;";
             var instruction = new CreateUserInstruction();
             var compiled = instruction.Compile();
             compiled.Should().Be(expected);

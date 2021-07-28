@@ -44,5 +44,17 @@ ENTRYPOINT [""dotnet"", ""stuff.dll""]";
             var compiled = image.Compile();
             compiled.Should().Be(expected);
         }
+        [Fact]
+        public void Generate_From_String()
+        {
+            const string dockerfile = @"FROM dotnet:v1 AS build
+RUN dotnet build stuff
+
+FROM dotnet-sdk:v1
+RUN echo hello!";
+            ContainerImage image = dockerfile;
+            image.Should().NotBeNull();
+            image.Compile().Should().Be(dockerfile);
+        }
     }
 }

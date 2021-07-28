@@ -1,4 +1,5 @@
 ﻿@using DockerGen.Container
+@using System.Reflection
 <header class="title">
     Container components
 </header>
@@ -14,18 +15,13 @@
     [CascadingParameter]
     public Pages.Index ContainerEditor { get; set; }
 
-    private List<Instruction> AvailableComponents { get; set; } = new List<Instruction>
-    {
-    new RunInstruction(),
-    new CopyInstruction(),
-    new ArgumentInstruction(),
-    new EnvironmentInstruction(),
-    new UserInstruction(),
-    new CommandInstruction(),
-    new EntryPointInstruction(),
-    new CreateUserInstruction()
-    };
+    private List<Instruction> AvailableComponents { get; set; }
 
+    protected override void OnInitialized()
+    {
+        var instructions = Assembly.GetExecutingAssembly().GetTypes().Where(type => typeof(Instruction).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract).Select(t => (Instruction)Activator.CreateInstance(t));
+        AvailableComponents = instructions.ToList();
+    }
     private void StartDrag(Instruction instruction)
     {
         var instance = (Instruction)Activator.CreateInstance(instruction.GetType());
