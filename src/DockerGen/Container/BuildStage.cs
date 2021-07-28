@@ -37,11 +37,13 @@ namespace DockerGen.Container
         }
         public string StageName
         {
-            get { return stageName; }
+            get { return baseImage?.StageName; }
             set
             {
-                stageName = value;
-                BaseImage.StageName = stageName;
+                if (baseImage != null)
+                {
+                    baseImage.StageName = value;
+                }
             }
         }
         public string Name { get; set; }

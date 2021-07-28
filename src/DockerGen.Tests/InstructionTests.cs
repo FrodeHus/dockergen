@@ -111,15 +111,6 @@ namespace DockerGen.Tests
         }
 
         [Fact]
-        public void Create_User_Produces_Valid_RUN_Instruction()
-        {
-            const string expected = "RUN if ! command -v useradd &> /dev/null; then addgroup -S nonroot -g 9999 && adduser -S nonroot -u 9999 -G nonroot; else groupadd -r nonroot && useradd --no-log-init -u 9999 -r -g nonroot nonroot; fi;";
-            var instruction = new CreateUserInstruction();
-            var compiled = instruction.Compile();
-            compiled.Should().Be(expected);
-        }
-
-        [Fact]
         public void ENTRYPOINT_Produces_Valid_Instruction()
         {
             const string expected = "ENTRYPOINT [\"runmystuff\"]";
