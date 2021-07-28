@@ -30,7 +30,10 @@ namespace DockerGen.Container
         {
             OnImageChanged?.Invoke(this, new ContainerImageEventArgs(this));
         }
-
+        public bool IsMultiStage()
+        {
+            return Stages.Count > 1;
+        }
         public string Compile()
         {
             var builder = new StringBuilder();

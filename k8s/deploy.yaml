@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: dockergen
-        image: chaos.azurecr.io/dockergen:v0.9
+        image: chaos.azurecr.io/dockergen:v0.10
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 443

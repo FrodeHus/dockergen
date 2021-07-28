@@ -1,7 +1,19 @@
 ﻿@using DockerGen.Container
 <div class="image-container-build-stage">
     <div class="title">
-        Image build stage
+        @if (ContainerEditor.Container.IsMultiStage())
+        {
+            <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text">Build stage</span>
+                <input type="text" class="form-control" @bind="Stage.StageName">
+            </div>
+        }
+        else
+        {
+            <div>
+                Build stage
+            </div>
+        }
         <button type="button" class="btn-close" aria-label="Close" @onclick="RemoveStage"></button>
     </div>
     <FromImage Instruction="@Stage.BaseImage"></FromImage>

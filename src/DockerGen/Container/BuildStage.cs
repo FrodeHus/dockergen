@@ -7,6 +7,7 @@ namespace DockerGen.Container
     public class BuildStage
     {
         private FromInstruction baseImage;
+        private string stageName;
 
         public event EventHandler<BuildStageEventArgs> OnBuildStageChanged;
         public FromInstruction BaseImage
@@ -34,7 +35,15 @@ namespace DockerGen.Container
             StageName = name;
             BaseImage = baseImage;
         }
-        public string StageName { get; set; }
+        public string StageName
+        {
+            get { return stageName; }
+            set
+            {
+                stageName = value;
+                BaseImage.StageName = stageName;
+            }
+        }
         public string Name { get; set; }
         public List<Instruction> Instructions { get; set; } = new List<Instruction>();
 
