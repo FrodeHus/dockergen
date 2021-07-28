@@ -13,12 +13,14 @@ namespace DockerGen.Container
         {
             get
             {
-                if (baseImage == null)
-                {
-                    baseImage = new FromInstruction();
-                    baseImage.OnInstructionChanged += InstructionChanged;
-                }
                 return baseImage;
+            }
+            set
+            {
+                if (baseImage != null)
+                    baseImage.OnInstructionChanged -= InstructionChanged;
+                baseImage = value;
+                baseImage.OnInstructionChanged += InstructionChanged;
             }
         }
         public string Name { get; set; }

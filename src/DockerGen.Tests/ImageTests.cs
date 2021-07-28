@@ -1,7 +1,6 @@
-using System;
-using Xunit;
 using DockerGen.Container;
 using FluentAssertions;
+using Xunit;
 
 namespace DockerGen.Tests
 {
