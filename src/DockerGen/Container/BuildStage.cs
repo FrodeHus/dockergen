@@ -23,6 +23,10 @@ namespace DockerGen.Container
                 baseImage.OnInstructionChanged += InstructionChanged;
             }
         }
+        public BuildStage()
+        {
+            BaseImage = new FromInstruction("scratch", "latest");
+        }
         public string Name { get; set; }
         public ICollection<Instruction> Instructions { get; set; } = new List<Instruction>();
 

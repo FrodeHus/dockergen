@@ -2,6 +2,7 @@
 <div class="image-container-build-stage">
     <div class="title">
         Image build stage
+        <button type="button" class="btn-close" aria-label="Close" @onclick="RemoveStage"></button>
     </div>
     <FromImage Instruction="@Stage.BaseImage"></FromImage>
     <div class="dropzone @dropClass" @ondrop="@(() => OnDrop())" @ondragenter="HandleDragEnter" @ondragleave="HandleDragLeave">
@@ -19,6 +20,10 @@
     public BuildStage Stage { get; set; }
     private List<Instruction> Instructions { get; } = new List<Instruction>();
     private string dropClass = "";
+    private void RemoveStage()
+    {
+        ContainerEditor.Container.RemoveStage(Stage);
+    }
     private void OnDrop()
     {
         if (CanDrop(ContainerEditor.CurrentInstruction))

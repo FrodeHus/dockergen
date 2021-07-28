@@ -1,0 +1,10 @@
+﻿@using DockerGen.Container
+
+<InstructionComponent Instruction="@Instruction" Title="RUN">
+    @Instruction.DisplayName is not implemented
+</InstructionComponent>
+
+@code{
+    [Parameter]
+    public Instruction Instruction{ get; set; }
+}

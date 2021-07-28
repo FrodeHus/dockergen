@@ -1,18 +1,23 @@
 ﻿@using DockerGen.Container
 <div class="image-container" ondragover="event.preventDefault();">
-    <button @onclick="AddStage">Add build stage</button>
     <CascadingValue Value="this">
-        @foreach(var stage in ContainerEditor.Container.Stages)
+        @foreach (var stage in ContainerEditor.Container.Stages)
         {
             <ImageBuildStage Stage="stage"></ImageBuildStage>
         }
     </CascadingValue>
+    <div class="d-grid gap-2">
+        <a class="btn btn-outline-success btn-sm" @onclick="AddStage" href="#">
+            <i class="fa fa-plus"></i>
+            Add build stage
+        </a>
+    </div>
 
 </div>
 
 @code {
     [CascadingParameter]
-    public Pages.Index ContainerEditor{ get; set; }
+    public Pages.Index ContainerEditor { get; set; }
 
     private void AddStage()
     {

@@ -10,7 +10,7 @@ namespace DockerGen.Container
 
         protected override void CompileArguments(StringBuilder builder)
         {
-            throw new System.NotImplementedException();
+
         }
     }
 }

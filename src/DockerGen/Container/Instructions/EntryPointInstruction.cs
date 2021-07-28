@@ -4,6 +4,10 @@ namespace DockerGen.Container
 {
     public class EntryPointInstruction : Instruction
     {
+        public EntryPointInstruction()
+        {
+
+        }
         public EntryPointInstruction(string executable, params string[] arguments)
         {
             Executable = executable;
