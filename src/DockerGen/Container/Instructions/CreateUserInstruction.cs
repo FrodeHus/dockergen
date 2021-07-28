@@ -1,8 +1,6 @@
-using System.Text;
-
 namespace DockerGen.Container
 {
-    public class CreateUserInstruction : RunInstruction
+    public class CreateUserInstruction : CompoundInstruction
     {
         public CreateUserInstruction() : this("nonroot", 9999)
         {
@@ -28,14 +26,14 @@ namespace DockerGen.Container
             return $"addgroup -S {Username} -g {UserId} && adduser -S {Username} -u {UserId} -G {Username}";
         }
 
-        protected override void CompileArguments(StringBuilder builder)
-        {
-            builder.Append("if ! command -v useradd &> /dev/null;");
-            builder.Append(" then ");
-            builder.Append(Adduser());
-            builder.Append("; else ");
-            builder.Append(Useradd());
-            builder.Append("; fi;");
-        }
+        //protected override void CompileArguments(StringBuilder builder)
+        //{
+        //    builder.Append("if ! command -v useradd &> /dev/null;");
+        //    builder.Append(" then ");
+        //    builder.Append(Adduser());
+        //    builder.Append("; else ");
+        //    builder.Append(Useradd());
+        //    builder.Append("; fi;");
+        //}
     }
 }
