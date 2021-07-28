@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text;
 
 namespace DockerGen.Container
@@ -107,8 +108,33 @@ namespace DockerGen.Container
             }
 
             builder.Append(Source);
-            builder.Append(" ");
+            builder.Append(' ');
             builder.Append(Destination);
+        }
+
+        public static implicit operator CopyInstruction(string value)
+        {
+            var values = value.Split(' ');
+            if (!values[0].Equals("COPY", StringComparison.OrdinalIgnoreCase))
+            {
+                return null;
+            }
+            var fromStageValue = values.SingleOrDefault(v => v.StartsWith("--from="))?.Split('=');
+            var fromStage = fromStageValue?.Length == 2 ? fromStageValue[1] : null;
+            var ownerValue = values.SingleOrDefault(v => v.StartsWith("--chown="))?.Split('=');
+            var owner = ownerValue?.Length == 2 ? ownerValue[1] : null;
+            values = values
+                .Where(v => !v.Contains("COPY", StringComparison.OrdinalIgnoreCase) && !v.Contains("from", StringComparison.OrdinalIgnoreCase) && !v.Contains("chown", StringComparison.OrdinalIgnoreCase))
+                .ToArray();
+
+            var instruction = new CopyInstruction
+            {
+                Stage = fromStage,
+                Owner = owner,
+                Source = values[0],
+                Destination = values[1]
+            };
+            return instruction;
         }
     }
 }

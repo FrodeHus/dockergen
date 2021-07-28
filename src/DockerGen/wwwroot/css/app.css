@@ -162,6 +162,9 @@ div {
     list-style-type: none;
     background-color: var(--component-bg-color);
     color: var(--component-color);
+    margin: 2px;
+    border: 1px solid var(--component-color);
+    border-radius: 4px;
 }
 
 .image-container {
@@ -183,7 +186,7 @@ div {
     border: 1px solid var(--component-color);
     border-radius: 4px;
     padding: 4px;
-    margin: 0 0 10px 0;
+    margin: 0 0 10px 8px;
 }
 
     .image-container-build-stage .title {
@@ -212,3 +215,5 @@ div {
 .monaco-editor{
     height: 100%;
 }
+
+

@@ -66,6 +66,9 @@ namespace DockerGen.Container
                     case "RUN":
                         instruction = (RunInstruction)line;
                         break;
+                    case "COPY":
+                        instruction = (CopyInstruction)line;
+                        break;
                     default:
                         break;
                 }
