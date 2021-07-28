@@ -49,7 +49,7 @@ namespace DockerGen.Container
                     builder.Append(line).AppendLine("/");
                 }
             }
-            return builder.ToString();
+            return builder.ToString().Replace("/\r\n", "\r\n").Trim();
         }
 
         public override string Description => "The RUN instruction will execute any commands in a new layer on top of the current image and commit the results.";
@@ -61,7 +61,7 @@ namespace DockerGen.Container
 
         public static implicit operator RunInstruction(string v)
         {
-            var match = Regex.Match(v, @"(run\s){0,1}(?<cmd>[\w\.\n\-\'\s\t""\/\=\:\\\;\&\>]+)", RegexOptions.IgnoreCase);
+            var match = Regex.Match(v, @"(run\s){0,1}(?<cmd>[\w\.\n\-\'\s\t""\/\=\:\\\;\&\>\!&]+)", RegexOptions.IgnoreCase);
             if (!match.Success)
             {
                 return null;
