@@ -1,24 +1,21 @@
-﻿using System.Threading.Tasks;
-using DockerGen.Components;
-using DockerGen.Container;
+﻿using DockerGen.Container;
 using Microsoft.AspNetCore.Components;
 
 namespace DockerGen.Pages
 {
     public partial class Index : ComponentBase
     {
-        private InstructionList _instructions;
-        protected void AddInstruction()
+        public ContainerImage Container { get; set; } = new ContainerImage();
+        public Instruction CurrentInstruction { get; set; }
+
+        protected override void OnInitialized()
         {
-            _instructions.AddInstruction(new FromInstruction("busybox"));
-            _instructions.AddInstruction(new RunInstruction("echo \"Hello World\""));
-            _instructions.AddInstruction(new RunInstruction("apt update && apt -y upgrade && apt -y install ca-certificates curl"));
+            Container.OnImageChanged += ContainerChanged;
         }
 
-        private Task InstructionsUpdated()
+        private void ContainerChanged(object sender, ContainerImageEventArgs e)
         {
             StateHasChanged();
-            return Task.CompletedTask;
         }
     }
 }

@@ -5,6 +5,10 @@ namespace DockerGen.Container
 {
     public class CopyInstruction : Instruction
     {
+        public CopyInstruction()
+        {
+
+        }
         public CopyInstruction(string source, string destination)
         {
             if (string.IsNullOrEmpty(source))

@@ -1,17 +1,20 @@
 ﻿@page "/"
 @using DockerGen.Container
-
+<CascadingValue Value="this">
 <main>
     <div class="instruction-toolbox">
+        <ComponentList></ComponentList>
     </div>
     <div class="instruction-help">
-        <button @onclick="AddInstruction">Add</button>
-
     </div>
     <div class="container-instructions">
-        <InstructionList @ref="_instructions" OnInstructionsChanged=@InstructionsUpdated></InstructionList>
+        <header class="title">
+            Container instructions
+        </header>
+        <ImageContainer></ImageContainer>
     </div>
     <div class="dockerfile">
-        <Preview Instructions="_instructions"></Preview>
+        <Preview ></Preview>
     </div>
 </main>
+</CascadingValue>

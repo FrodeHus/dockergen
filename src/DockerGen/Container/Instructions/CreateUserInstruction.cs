@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 
 namespace DockerGen.Container
@@ -10,6 +9,8 @@ namespace DockerGen.Container
             UserId = userId;
             Username = username;
         }
+
+        public override string DisplayName => "RUN AS";
         public int UserId { get; set; }
         public string Username { get; set; }
 

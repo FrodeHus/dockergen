@@ -1,11 +1,58 @@
 ﻿@using DockerGen.Container
-<div class="image-container">
-    <CascadingValue Value="this">
-        @ChildContent
-    </CascadingValue>
+<div class="image-container-build-stage">
+    <div class="title">
+        Image build stage
+    </div>
+    <FromImage Instruction="@Stage.BaseImage"></FromImage>
+    <div class="dropzone @dropClass" @ondrop="@(() => OnDrop())" @ondragenter="HandleDragEnter" @ondragleave="HandleDragLeave">
+        <CascadingValue Value="this">
+            <InstructionList Instructions="Stage.Instructions"></InstructionList>
+        </CascadingValue>
+    </div>
 
 </div>
 
-@code{
-    [Parameter] public RenderFragment ChildContent { get; set; }
+@code {
+    [CascadingParameter]
+    public Pages.Index ContainerEditor { get; set; }
+    [Parameter]
+    public BuildStage Stage { get; set; }
+    private List<Instruction> Instructions { get; } = new List<Instruction>();
+    private string dropClass = "";
+    private void OnDrop()
+    {
+        if (CanDrop(ContainerEditor.CurrentInstruction))
+        {
+            Stage.AddInstruction(ContainerEditor.CurrentInstruction);
+            StateHasChanged();
+        }
+        dropClass = "";
+    }
+
+    private bool CanDrop(Instruction instruction)
+    {
+        if (instruction is FromInstruction)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private void HandleDragEnter()
+    {
+        if (CanDrop(ContainerEditor.CurrentInstruction))
+        {
+            dropClass = "can-drop";
+        }
+        else
+        {
+            dropClass = "no-drop";
+        }
+    }
+
+    private void HandleDragLeave()
+    {
+        dropClass = "";
+    }
+
 }

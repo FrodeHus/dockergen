@@ -1,13 +1,11 @@
 ﻿@using DockerGen.Container
-<InstructionComponent Key="@Instruction" Title="FROM">
-    <div class="instruction-values">
-        <div class="form-group">
-            <label for="instr-@Instruction.Id">Image</label>
-            <input type="text" id="instr-@Instruction.Id" @bind="Instruction.Image">
-        </div>
-        <div class="form-group">
-            <label for="instr-tag-@Instruction.Id">Tag/Version</label>
-            <input type="text" id="instr-tag-@Instruction.Id" @bind="Instruction.Tag">
-        </div>
+<div class="instruction-values base-image">
+    <div class="form-group">
+        <label for="instr-@Instruction.Id">Image</label>
+        <input type="text" id="instr-@Instruction.Id" @bind="Instruction.Image">
     </div>
-</InstructionComponent>
+    <div class="form-group">
+        <label for="instr-tag-@Instruction.Id">Tag/Version</label>
+        <input type="text" id="instr-tag-@Instruction.Id" @bind="Instruction.Tag">
+    </div>
+</div>

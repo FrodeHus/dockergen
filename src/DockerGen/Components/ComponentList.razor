@@ -1,0 +1,32 @@
+﻿@using DockerGen.Container
+<header class="title">
+    Container components
+</header>
+
+<ul class="component-list">
+    @foreach (var component in AvailableComponents)
+    {
+        <InstructionComponent Title="@component.DisplayName" OnDrag="StartDrag" CssClass="component" Instruction="component"></InstructionComponent>
+    }
+</ul>
+
+@code {
+    [CascadingParameter]
+    public Pages.Index ContainerEditor { get; set; }
+
+    private List<Instruction> AvailableComponents { get; set; } = new List<Instruction>
+    {
+    new RunInstruction(),
+    new CopyInstruction(),
+    new ArgumentInstruction(),
+    new EnvironmentInstruction(),
+    new UserInstruction(),
+    new CreateUserInstruction()
+    };
+
+    private void StartDrag(Instruction instruction)
+    {
+        var instance = (Instruction)Activator.CreateInstance(instruction.GetType());
+        ContainerEditor.CurrentInstruction = instance;
+    }
+}

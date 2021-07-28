@@ -1,6 +1,5 @@
 ﻿using DockerGen.Container;
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,16 +10,9 @@ namespace DockerGen.Components
     {
         [Parameter]
         public EventCallback OnInstructionsChanged { get; set; }
-        private List<Instruction> _instructions = new();
 
         [Parameter]
-        public List<Instruction> Instructions
-        {
-            get => _instructions; set
-            {
-                _instructions = value;
-            }
-        }
+        public ICollection<Instruction> Instructions { get; set; } = new List<Instruction>();
 
         private Task HandleDrop()
         {
@@ -31,7 +23,7 @@ namespace DockerGen.Components
         {
             instruction.OnInstructionChanged += InstructionChanged;
 
-            _instructions.Add(instruction);
+            Instructions.Add(instruction);
             StateHasChanged();
         }
 

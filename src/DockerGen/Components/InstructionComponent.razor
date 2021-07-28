@@ -1,5 +1,5 @@
 ﻿@using DockerGen.Container
-<li class="instruction" draggable="true">
+<li class="@CssClass" draggable="true" @ondragstart="@(() => OnDrag(Instruction))" @key="Instruction.Id">
     <div class="instruction-title">
         @Title
     </div>
@@ -7,10 +7,16 @@
 </li>
 
 @code {
+    [CascadingParameter]
+    public Pages.Index ContainerEditor { get; set; }
     [Parameter]
     public RenderFragment ChildContent { get; set; }
     [Parameter]
-    public object Key { get; set; }
+    public Instruction Instruction { get; set; }
     [Parameter]
     public string Title { get; set; }
+    [Parameter]
+    public string CssClass { get; set; } = "instruction";
+    [Parameter]
+    public Action<Instruction> OnDrag { get; set; }
 }

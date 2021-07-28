@@ -4,6 +4,10 @@ namespace DockerGen.Container
 {
     public class UserInstruction : Instruction
     {
+        public UserInstruction()
+        {
+
+        }
         public UserInstruction(string user)
         {
             if (string.IsNullOrEmpty(user))

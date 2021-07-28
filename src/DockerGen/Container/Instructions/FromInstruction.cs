@@ -9,6 +9,10 @@ namespace DockerGen.Container
         private string _tag;
         private string _stageName;
 
+        public FromInstruction()
+        {
+
+        }
         public FromInstruction(string image, string tag = "latest", string stageName = null)
         {
             Image = image.ToLowerInvariant();

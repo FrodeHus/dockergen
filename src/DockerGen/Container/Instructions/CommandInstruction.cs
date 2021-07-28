@@ -4,6 +4,10 @@ namespace DockerGen.Container
 {
     public class CommandInstruction : Instruction
     {
+        public CommandInstruction()
+        {
+
+        }
         public CommandInstruction(params string[] commands)
         {
             Commands = commands;
