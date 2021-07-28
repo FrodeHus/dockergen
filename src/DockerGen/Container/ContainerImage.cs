@@ -1,3 +1,4 @@
+using DockerGen.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +47,7 @@ namespace DockerGen.Container
         public static implicit operator ContainerImage(string dockerinstructions)
         {
             var image = new ContainerImage();
-            var lines = dockerinstructions.Split('\n');
+            var lines = dockerinstructions.SplitOnInstructions();
             BuildStage stage = null;
             var validPrefixes = ContainerService.GetValidPrefixes();
             foreach (var line in lines.Where(l => !string.IsNullOrEmpty(l) && l.IndexOf(' ') != -1))

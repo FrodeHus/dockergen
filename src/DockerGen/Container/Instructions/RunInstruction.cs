@@ -47,7 +47,7 @@ namespace DockerGen.Container
 
         public static implicit operator RunInstruction(string v)
         {
-            var match = Regex.Match(v, @"(run\s){0,1}(?<cmd>.+$)", RegexOptions.IgnoreCase);
+            var match = Regex.Match(v, @"(run\s){0,1}(?<cmd>[\w\.\n\-\s\t""\/\=\:\\\;\&]+)", RegexOptions.IgnoreCase);
             if (!match.Success)
             {
                 return null;
