@@ -18,5 +18,12 @@ namespace DockerGen.Container
         {
             builder.Append(Directory);
         }
+
+        public static implicit operator WorkDirInstruction(string value)
+        {
+            var values = value.Split(' ');
+            if (values.Length != 2 || !values[0].Equals("WORKDIR", System.StringComparison.OrdinalIgnoreCase)) return null;
+            return new WorkDirInstruction { Directory = values[1] };
+        }
     }
 }

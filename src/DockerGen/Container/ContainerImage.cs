@@ -84,6 +84,9 @@ namespace DockerGen.Container
                     case "EXPOSE":
                         instruction = (ExposeInstruction)line;
                         break;
+                    case "WORKDIR":
+                        instruction = (WorkDirInstruction)line;
+                        break;
                     default:
                         break;
                 }

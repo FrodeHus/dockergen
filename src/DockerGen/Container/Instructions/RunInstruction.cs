@@ -36,20 +36,20 @@ namespace DockerGen.Container
 
         private string Validate(string value)
         {
-            var lines = value.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            var lines = value.Split('\n', StringSplitOptions.RemoveEmptyEntries);
             var builder = new StringBuilder();
-            foreach (var line in lines.Where(l => !string.IsNullOrEmpty(l)))
+            foreach (var line in lines.Where(l => !string.IsNullOrEmpty(l)).Select(l => l.TrimEnd('\r', ' ')))
             {
-                if (line.EndsWith('/'))
+                if (line.EndsWith('\\'))
                 {
                     builder.AppendLine(line);
                 }
                 else
                 {
-                    builder.Append(line).AppendLine("/");
+                    builder.Append(line).AppendLine("\\");
                 }
             }
-            return builder.ToString().Replace("/\r\n", "\r\n").Trim(new[] { ' ', '/' });
+            return builder.ToString().TrimEnd(' ', '\\', '\r', '\n');
         }
 
         public override string Description => "The RUN instruction will execute any commands in a new layer on top of the current image and commit the results.";

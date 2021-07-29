@@ -41,16 +41,10 @@ html {
 main {
     font-size: var(--primary-font-size);
     display: grid;
-    height: 100vh;
     background-color: var(--main-bg-color);
-    grid-template-rows: 1fr 1fr;
     grid-template-columns: 250px 1fr 1fr;
     grid-template-areas:
         "toolbox instructions output"
-        "help instructions output"
-}
-
-div {
 }
 
 .title {
@@ -62,6 +56,8 @@ div {
 
 .container-instructions {
     grid-area: instructions;
+    max-height: 100vh;
+    overflow-y: auto;
 }
 
 .instruction-list {
@@ -135,25 +131,13 @@ div {
 
 .dockerfile {
     grid-area: output;
-    padding: 0 10px 10px;
 }
 
-    .dockerfile code {
-        display: block;
-        white-space: pre-wrap;
-        background: #ffeff0;
-        word-wrap: break-word;
-        box-decoration-break: clone;
-        padding: .1rem .3rem .2rem;
-        border-radius: .2rem;
-    }
-
-.instruction-help {
-    grid-area: help;
-}
 
 .instruction-toolbox {
     grid-area: toolbox;
+    max-height: 100vh;
+    overflow-y: auto;
 }
 
 .component {
@@ -168,10 +152,8 @@ div {
 }
 
 .image-container {
-    border-left: 1px solid var(--component-color);
     justify-content: center;
     align-items: center;
-    height: 100%;
     padding: 4px;
 }
 
@@ -212,8 +194,8 @@ div {
     border: 2px dashed green;
 }
 
-.monaco-editor{
-    height: 100%;
+.monaco-editor-container {
+    height: 90vh;
 }
 
 .image-item {
