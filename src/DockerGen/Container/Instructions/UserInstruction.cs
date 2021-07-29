@@ -4,6 +4,8 @@ namespace DockerGen.Container
 {
     public class UserInstruction : Instruction
     {
+        private string user;
+
         public UserInstruction()
         {
 
@@ -17,12 +19,20 @@ namespace DockerGen.Container
             User = user;
         }
 
-        public string User { get; set; }
+        public string User
+        {
+            get { return user; }
+            set
+            {
+                user = value;
+                FireInstructionChanged();
+            }
+        }
 
         public override string Description => throw new System.NotImplementedException();
 
         public override string Prefix => "USER";
-        public override string DisplayName => "Set user for container processes";
+        public override string DisplayName => "Set which user runs commands";
 
         protected override void CompileArguments(StringBuilder builder)
         {

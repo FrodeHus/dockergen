@@ -23,7 +23,7 @@ namespace DockerGen.Container
             ShellCommand = shellCommand;
         }
         public override string Prefix => "RUN";
-        public override string DisplayName => "Execute command in container";
+        public override string DisplayName => "Execute command when building container image";
         public virtual string ShellCommand
         {
             get { return _shellCommand; }
@@ -36,7 +36,7 @@ namespace DockerGen.Container
 
         private string Validate(string value)
         {
-            var lines = value.Split(new char[] { '\n', '\r' });
+            var lines = value.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
             var builder = new StringBuilder();
             foreach (var line in lines.Where(l => !string.IsNullOrEmpty(l)))
             {
@@ -49,7 +49,7 @@ namespace DockerGen.Container
                     builder.Append(line).AppendLine("/");
                 }
             }
-            return builder.ToString().Replace("/\r\n", "\r\n").Trim();
+            return builder.ToString().Replace("/\r\n", "\r\n").Trim(new[] { ' ', '/' });
         }
 
         public override string Description => "The RUN instruction will execute any commands in a new layer on top of the current image and commit the results.";

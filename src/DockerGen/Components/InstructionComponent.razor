@@ -2,7 +2,6 @@
 <li class="@CssClass" draggable="true" @ondragstart="@(() => OnDrag(Instruction))" @key="Instruction.Id">
     <div class="instruction-title image-item">
         @Title
-        <button type="button" class="btn-close" aria-label="Close" @onclick="RemoveInstruction"></button>
     </div>
 
     @ChildContent
@@ -23,6 +22,7 @@
     public Action<Instruction> OnDrag { get; set; }
     [Parameter]
     public Action<Instruction> OnDrop { get; set; }
+
     private void RemoveInstruction()
     {
         ContainerEditor.Container.RemoveInstruction(Instruction);

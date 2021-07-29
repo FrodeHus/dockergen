@@ -81,6 +81,9 @@ namespace DockerGen.Container
                     case "COPY":
                         instruction = (CopyInstruction)line;
                         break;
+                    case "EXPOSE":
+                        instruction = (ExposeInstruction)line;
+                        break;
                     default:
                         break;
                 }

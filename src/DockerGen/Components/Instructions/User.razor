@@ -1,0 +1,13 @@
+﻿@using DockerGen.Container
+
+<InstructionComponent Instruction="@Instruction" Title="@Instruction.DisplayName">
+    <div class="input-group mb-3">
+        <span class="input-group-text fa fa-user"></span>
+        <input type="text" class="form-control" id="instr-@Instruction.Id" @bind="Instruction.User">
+    </div>
+</InstructionComponent>
+
+@code{
+    [Parameter]
+    public UserInstruction Instruction{ get; set; }
+}

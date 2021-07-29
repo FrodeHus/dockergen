@@ -62,7 +62,7 @@ namespace DockerGen.Tests
         {
             RunInstruction instruction = "run apt update && apt-install -y test && echo 'asdf' > test.txt";
             instruction.Should().NotBeNull();
-            instruction.ShellCommand.Should().Be("apt update && apt-install -y test && echo 'asdf' > test.txt");
+            instruction.ShellCommand.Trim().Should().Be("apt update && apt-install -y test && echo 'asdf' > test.txt");
         }
         [Fact]
         public void RUN_Produces_Valid_Instruction()
@@ -133,6 +133,14 @@ namespace DockerGen.Tests
         {
             const string expected = "CMD [\"start\", \"myapp\"]";
             var instruction = new CommandInstruction("start", "myapp");
+            var compiled = instruction.Compile();
+            compiled.Should().Be(expected);
+        }
+        [Fact]
+        public void EXPOSE_Produces_Valid_Instructions()
+        {
+            const string expected = "EXPOSE 80/tcp";
+            var instruction = new ExposeInstruction(80, "tcp");
             var compiled = instruction.Compile();
             compiled.Should().Be(expected);
         }

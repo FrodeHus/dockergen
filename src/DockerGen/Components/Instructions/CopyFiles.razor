@@ -1,6 +1,6 @@
 ﻿@using DockerGen.Container
 
-<InstructionComponent Instruction="@Instruction" Title="@Instruction.DisplayName">
+<InstructionElement Instruction="@Instruction" Title="@Instruction.DisplayName">
     @if (BuildStages?.Count() > 1)
     {
         <div class="input-group mb-3">
@@ -19,7 +19,7 @@
         <span class="input-group-text fa fa-arrow-right"></span>
         <input type="text" class="form-control" id="instr-@Instruction.Id" @bind="Instruction.Destination" placeholder="/app">
     </div>
-</InstructionComponent>
+</InstructionElement>
 
 @code {
     [Parameter]

@@ -10,14 +10,22 @@
         else if (instruction is RunInstruction runCommand)
         {
             <RunCommand Instruction="runCommand"></RunCommand>
-    }
-        else if(instruction is CopyInstruction copyFiles)
+        }
+        else if (instruction is CopyInstruction copyFiles)
         {
             <CopyFiles Instruction="copyFiles" BuildStages="@GetBuildStageNames()"></CopyFiles>
-    }
-        else if(instruction is WorkDirInstruction workdir)
+        }
+        else if (instruction is WorkDirInstruction workdir)
         {
             <WorkDir Instruction="workdir"></WorkDir>
+        }
+        else if (instruction is UserInstruction user)
+        {
+            <User Instruction="user"></User>
+        }
+        else if (instruction is ExposeInstruction exposed)
+        {
+            <Expose Instruction="exposed"></Expose>
         }
         else
         {
