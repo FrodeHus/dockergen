@@ -1,0 +1,31 @@
+﻿@using DockerGen.Container
+<li class="@CssClass" draggable="true" @ondragstart="@(() => OnDrag(Instruction))" @key="Instruction.Id">
+    <div class="instruction-title image-item">
+        @Title
+        <button type="button" class="btn-close" aria-label="Close" @onclick="RemoveInstruction"></button>
+    </div>
+
+    @ChildContent
+</li>
+
+@code {
+    [CascadingParameter]
+    public Pages.Index ContainerEditor { get; set; }
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    [Parameter]
+    public Instruction Instruction { get; set; }
+    [Parameter]
+    public string Title { get; set; }
+    [Parameter]
+    public string CssClass { get; set; } = "instruction";
+    [Parameter]
+    public Action<Instruction> OnDrag { get; set; }
+    [Parameter]
+    public Action<Instruction> OnDrop { get; set; }
+
+    private void RemoveInstruction()
+    {
+        ContainerEditor.Container.RemoveInstruction(Instruction);
+    }
+}

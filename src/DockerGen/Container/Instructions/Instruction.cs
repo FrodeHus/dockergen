@@ -16,7 +16,7 @@ namespace DockerGen.Container
             var builder = new StringBuilder();
             builder.AppendFormat("{0} ", Prefix.ToUpper());
             CompileArguments(builder);
-            return builder.ToString().Trim();
+            return builder.ToString().Trim().Trim('/');
         }
 
         protected abstract void CompileArguments(StringBuilder builder);
