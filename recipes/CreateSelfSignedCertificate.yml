@@ -1,0 +1,27 @@
+﻿kind: Recipe
+name: Create self-signed certificate
+description: |
+  Uses openssl to create a self-signed certificate for use with ex. nginx
+parameters:
+  - name: CertificateName
+    description: Filename of the self-signed certificate
+    defaultValue: selfsigned.crt
+  - name: PrivateKey
+    description: Filename of the self-signed certificate private key
+    defaultValue: selfsigned.key    
+  - name: Subject
+    description: Certificate Subject
+    defaultValue: "/C=Somewhere/ST=None/O=Santa Clause/CN=example.com"
+  - name: KeySize
+    description: Key KeySize
+    defaultValue: 2048
+  - name: Directory
+    description: Path to where the certificate and private key will be created
+    defaultValue: ""
+instructions:
+  - kind: RunInstruction
+    values:
+    - name: ShellCommand
+      value: |
+       openssl req -x509 -nodes -days 365
+       -subj ${Subject} -newkey rsa:${KeySize} -keyout ${Directory}/${PrivateKey} -out ${Directory}/${CertificateName}
