@@ -18,7 +18,7 @@ namespace DockerGen.Container
         public override string Prefix => "EXPOSE";
         public override string DisplayName => "Expose ports to the outside";
         public int Port { get; set; }
-        public string Protocol { get; set; }
+        public string Protocol { get; set; } = "tcp";
 
         protected override void CompileArguments(StringBuilder builder)
         {

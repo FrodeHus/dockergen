@@ -89,6 +89,7 @@ main {
 }
 
 .instruction {
+    margin: 0 0 5px 0;
     padding: 14px;
     cursor: grab;
     list-style-type: none;
@@ -117,7 +118,6 @@ main {
 }
 
 .form-group {
-    border: solid 1px var(--instruction-border-color);
     padding: 0 8px;
     position: relative;
 }
@@ -156,15 +156,11 @@ main {
 }
 
 .recipe {
-    cursor: grab;
-    padding: 10px;
-    list-style-type: none;
     background-color: var(--recipe-bg-color);
     color: var(--recipe-color);
-    margin: 2px;
     border: 1px solid var(--recipe-color);
-    border-radius: 4px;
 }
+
 
 .image-container {
     justify-content: center;
@@ -172,11 +168,11 @@ main {
     padding: 4px;
 }
 
-    .image-container .toolbar {
-        display: flex;
-        justify-content: flex-end;
-        margin: 4px;
-    }
+.image-container .toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin: 4px;
+}
 
 .image-container-build-stage {
     background-color: var(--category-bg-color);
@@ -195,11 +191,18 @@ main {
     }
 
 .dropzone {
-    padding: 0 0 20px 0;
+    padding: 0 0 40px 0;
     border: 1px dashed rgba(0,0,0,0.3);
     border-radius: 4px;
     min-height: 20px;
 }
+
+    .dropzone::after {
+        display: flex;
+        content: "drag instruction here";
+        color: hsl(0 0% 40%);
+        justify-content: center;
+    }
 
 .no-drop {
     border: 2px dashed red;

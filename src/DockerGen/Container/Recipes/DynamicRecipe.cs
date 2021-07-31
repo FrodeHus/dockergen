@@ -23,6 +23,7 @@ namespace DockerGen.Container
         public string DisplayName => _recipe.Name;
         public string Description => _recipe.Description;
         public string Id { get; set; } = Guid.NewGuid().ToString("N");
+        public List<string> Parameters => _recipe.Parameters.ConvertAll(p => p.Name);
 
         public event EventHandler<InstructionEventArgs> OnInstructionChanged;
 

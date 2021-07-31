@@ -1,9 +1,18 @@
 ﻿@using DockerGen.Container
 
-<li class="recipe" draggable="true" @ondragstart="@(() => OnDrag(Recipe))" @key="Recipe.Id">
+<li class="instruction recipe" draggable="true" @ondragstart="@(() => OnDrag(Recipe))" @key="Recipe.Id">
     <div class="instruction-title image-item">
         @Recipe.DisplayName
         <button type="button" class="btn-close" aria-label="Close" @onclick="RemoveInstruction"></button>
+    </div>
+    <div class="instruction-values">
+        @foreach (var parameter in Recipe.Parameters)
+        {
+            <div class="form-group">
+                <label for="@parameter">@parameter</label>
+                <input type="text" id="@parameter">
+            </div>
+        }
     </div>
 
 </li>
@@ -21,5 +30,10 @@
     private void RemoveInstruction()
     {
         ContainerEditor.Container.RemoveInstruction(Recipe);
+    }
+
+    private void SetParameter(string parameterName, string value)
+    {
+
     }
 }

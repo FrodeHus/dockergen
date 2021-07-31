@@ -17,11 +17,13 @@ parameters:
     defaultValue: 2048
   - name: Directory
     description: Path to where the certificate and private key will be created
-    defaultValue: ""
+    defaultValue: "."
 instructions:
   - kind: RunInstruction
     values:
     - name: ShellCommand
       value: |
        openssl req -x509 -nodes -days 365
-       -subj ${Subject} -newkey rsa:${KeySize} -keyout ${Directory}/${PrivateKey} -out ${Directory}/${CertificateName}
+       -subj ${Subject} -newkey rsa:${KeySize}
+       -keyout ${Directory}/${PrivateKey}
+       -out ${Directory}/${CertificateName}
