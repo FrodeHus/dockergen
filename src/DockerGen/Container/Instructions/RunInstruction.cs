@@ -46,7 +46,7 @@ namespace DockerGen.Container
                 }
                 else
                 {
-                    builder.Append('\t').Append(line).AppendLine("\\");
+                    builder.Append(line).Append(' ').AppendLine("\\");
                 }
             }
             return builder.ToString().TrimEnd(' ', '\\', '\r', '\n');
