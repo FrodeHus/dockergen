@@ -1,16 +1,20 @@
 ﻿:root {
     --primary-font-size: 14px;
     --main-bg-color: #ffffff;
-    --component-bg-color: #d9edf7;
-    --component-color: #3a87ad;
-    --instruction-bg-color: #dff0d8;
-    --instruction-color: #468847;
-    --instruction-border-color: #d3e8c0;
+    --primary-font-family: 'Roboto';
+    --recipe-bg-color: hsl(300 100% 75%);
+    --recipe-color: hsl(300 100% 30%);
+    --category-bg-color: hsl(200 100% 75%);
+    --category-active-bg-color: hsl(200 100% 65%);
+    --category-active-color: hsl(190 100% 100%);
+    --category-color: hsl(156 80% 30%);
+    --component-bg-color: hsl(156 100% 65%);
+    --component-color: hsl(156 80% 30%);
+    --instruction-bg-color: hsl(156 100% 65%);
+    --instruction-color: hsl(156 80% 30%);
+    --instruction-border-color: hsl(156 80% 30%);
     --instruction-value-bg-color: #fff;
     --instruction-value-color: #424242;
-    --primary-font-family: 'Roboto';
-    --recipe-bg-color: hsl(284 100% 75%);
-    --recipe-color: hsl(284 100% 95%);
 }
 
 #blazor-error-ui {
@@ -175,7 +179,7 @@ main {
     }
 
 .image-container-build-stage {
-    background-color: var(--component-bg-color);
+    background-color: var(--category-bg-color);
     border: 1px solid var(--component-color);
     border-radius: 4px;
     padding: 4px;
@@ -237,14 +241,15 @@ main {
     display: flex;
     justify-content: space-between;
     padding: 1em;
-    background: #2c3e50;
+    background-color: var(--category-bg-color);
+    color: var(--category-color);
     font-weight: bold;
     cursor: pointer;
     /* Icon */
 }
 
     .accordion__item-label:hover {
-        background: #1a252f;
+        background-color: var(--category-active-bg-color);
     }
 
     .accordion__item-label::after {
@@ -268,16 +273,16 @@ main {
     justify-content: flex-end;
     padding: 1em;
     font-size: 0.75em;
-    background: #2c3e50;
+    background-color: var(--category-active-bg-color);
     cursor: pointer;
 }
 
     .accordion__item-close:hover {
-        background: #1a252f;
+        background-color: var(--category-active-bg-color);
     }
 
 input:checked + .accordion__item-label {
-    background: #1a252f;
+    color: var(--category-active-color);
 }
 
     input:checked + .accordion__item-label::after {
