@@ -64,6 +64,8 @@ namespace DockerGen.Components
             return new StandaloneEditorConstructionOptions
             {
                 AutomaticLayout = true,
+                FormatOnType = true,
+                FormatOnPaste = true,
                 Language = "dockerfile",
                 Value = GetCompiledDockerfile(),
                 Minimap = new EditorMinimapOptions { Enabled = false }

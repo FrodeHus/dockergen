@@ -27,6 +27,10 @@
         {
             <Expose Instruction="exposed"></Expose>
         }
+        else if (instruction is DynamicRecipe recipe)
+        {
+            <InstructionRecipe Recipe="recipe"></InstructionRecipe>
+        }
         else
         {
             <NotImplemented Instruction="instruction"></NotImplemented>

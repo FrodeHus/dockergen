@@ -18,7 +18,6 @@ namespace DockerGen.Container
 
         public readonly List<IDockerInstruction> Instructions = new();
 
-        private readonly List<IInstruction> _instructions = new();
         private readonly Recipe _recipe;
         private readonly Dictionary<string, object> _parameters = new();
         public string DisplayName => _recipe.Name;
@@ -63,7 +62,7 @@ namespace DockerGen.Container
         public string Compile()
         {
             var builder = new StringBuilder();
-            foreach (var instruction in _instructions)
+            foreach (var instruction in Instructions)
             {
                 builder.AppendLine(instruction.Compile());
             }

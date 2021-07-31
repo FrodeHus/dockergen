@@ -8,7 +8,7 @@ parameters:
     defaultValue: selfsigned.crt
   - name: PrivateKey
     description: Filename of the self-signed certificate private key
-    defaultValue: selfsigned.key    
+    defaultValue: selfsigned.key
   - name: Subject
     description: Certificate Subject
     defaultValue: "/C=Somewhere/ST=None/O=Santa Clause/CN=example.com"

@@ -1,4 +1,4 @@
-:root {
+﻿:root {
     --primary-font-size: 14px;
     --main-bg-color: #ffffff;
     --component-bg-color: #d9edf7;
@@ -9,8 +9,8 @@
     --instruction-value-bg-color: #fff;
     --instruction-value-color: #424242;
     --primary-font-family: 'Roboto';
-    --recipe-bg-color: hsl(284 100% 50%);
-    --recipe-color: hsl(284 100% 75%);
+    --recipe-bg-color: hsl(284 100% 75%);
+    --recipe-color: hsl(284 100% 95%);
 }
 
 #blazor-error-ui {
@@ -79,11 +79,9 @@ main {
 
 .component-list {
     user-select: none;
-    position: absolute;
     list-style-type: none;
     margin: 0px;
     padding: 0px;
-    width: 250px;
 }
 
 .instruction {
@@ -216,3 +214,77 @@ main {
     justify-content: space-between;
 }
 
+/* Accordion styles */
+.accordion {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.5);
+}
+
+    .accordion input {
+        position: absolute;
+        opacity: 0;
+        z-index: -1;
+    }
+
+.accordion__item {
+    width: 100%;
+    color: white;
+    overflow: hidden;
+}
+
+.accordion__item-label {
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+    background: #2c3e50;
+    font-weight: bold;
+    cursor: pointer;
+    /* Icon */
+}
+
+    .accordion__item-label:hover {
+        background: #1a252f;
+    }
+
+    .accordion__item-label::after {
+        content: "❯";
+        width: 1em;
+        height: 1em;
+        text-align: center;
+        transition: all 0.35s;
+    }
+
+.accordion__item-content {
+    max-height: 0;
+    padding: 0 1em;
+    color: #2c3e50;
+    background: white;
+    transition: all 0.35s;
+}
+
+.accordion__item-close {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1em;
+    font-size: 0.75em;
+    background: #2c3e50;
+    cursor: pointer;
+}
+
+    .accordion__item-close:hover {
+        background: #1a252f;
+    }
+
+input:checked + .accordion__item-label {
+    background: #1a252f;
+}
+
+    input:checked + .accordion__item-label::after {
+        transform: rotate(90deg);
+    }
+
+input:checked ~ .accordion__item-content {
+    max-height: 100vh;
+    padding: 0;
+}

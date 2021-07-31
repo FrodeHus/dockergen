@@ -10,7 +10,7 @@ namespace DockerGen.Container
     public class ContainerService
     {
         private List<IDockerInstruction> _validInstructions;
-        private List<DynamicRecipe> _validRecipes;
+        private List<Recipe> _validRecipes;
         private readonly RecipeLoader _recipeLoader;
 
         public static List<string> GetValidPrefixes()
@@ -42,7 +42,7 @@ namespace DockerGen.Container
         {
             _recipeLoader = recipeLoader;
         }
-        public async Task<List<DynamicRecipe>> GetValidRecipesAsync()
+        public async Task<List<Recipe>> GetValidRecipesAsync()
         {
             await EnsureRecipesLoaded();
             return _validRecipes;
@@ -71,8 +71,7 @@ namespace DockerGen.Container
                 return;
             }
 
-            var recipes = await _recipeLoader.LoadRecipesAsync();
-            _validRecipes = recipes.ConvertAll(r => new DynamicRecipe(r));
+            _validRecipes = await _recipeLoader.LoadRecipesAsync();
         }
     }
 }

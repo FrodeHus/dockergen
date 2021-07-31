@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deploy", "Deploy", "{09303D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Recipes", "Recipes", "{E2B0BED7-E523-46DF-83D8-7C17085848CB}"
 	ProjectSection(SolutionItems) = preProject
+		..\recipes\CreateSelfSignedCertificate.yml = ..\recipes\CreateSelfSignedCertificate.yml
 		..\recipes\RunAsUser.yml = ..\recipes\RunAsUser.yml
 	EndProjectSection
 EndProject
