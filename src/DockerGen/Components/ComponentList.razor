@@ -1,25 +1,30 @@
 ﻿@using DockerGen.Container
 @using System.Reflection
-
+@inject ContainerService _containerService
 <ul class="component-list">
     @foreach (var component in AvailableComponents)
     {
         <InstructionComponent Title="@component.DisplayName" OnDrag="StartDrag" CssClass="component" Instruction="component"></InstructionComponent>
     }
+    @foreach(var recipe in AvailableRecipes)
+    {
+        <InstructionComponent Instruction="recipe" Title="@recipe.DisplayName" CssClass="recipe"></InstructionComponent>
+    }
 </ul>
-
 @code {
     [CascadingParameter]
     public Pages.Index ContainerEditor { get; set; }
-    private List<Instruction> AvailableComponents { get; set; }
+    private List<IDockerInstruction> AvailableComponents { get; set; } = new();
+    private List<DynamicRecipe> AvailableRecipes { get; set; } = new();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        AvailableComponents = ContainerService.GetValidInstructions();
+        AvailableComponents = _containerService.GetValidInstructions();
+        AvailableRecipes = await _containerService.GetValidRecipesAsync();
     }
-    private void StartDrag(Instruction instruction)
+    private void StartDrag(IInstruction instruction)
     {
         var instance = (Instruction)Activator.CreateInstance(instruction.GetType());
         ContainerEditor.CurrentInstruction = instance;
     }
-}
+    }

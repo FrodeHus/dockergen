@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace DockerGen.Components.Instructions
 {
-    public partial class RunCommand : ComponentBase, IInstruction
+    public partial class RunCommand : ComponentBase, IInstructionComponent
     {
         [CascadingParameter]
         public BuildStage Stage { get; set; }

@@ -52,7 +52,7 @@
         dropClass = "";
     }
 
-    private bool CanDrop(Instruction instruction)
+    private bool CanDrop(IInstruction instruction)
     {
         if (instruction is FromInstruction)
         {
@@ -88,7 +88,7 @@
     }
 
 
-    private int GetIndex(Instruction instruction)
+    private int GetIndex(IInstruction instruction)
     {
         return Stage.Instructions.FindIndex(i => i.Id == instruction.Id);
     }

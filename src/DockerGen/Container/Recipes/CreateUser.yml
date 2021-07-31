@@ -1,0 +1,22 @@
+﻿kind: Recipe
+name: Run as user
+description: |
+  Create a non-root user and set the container to run subsequent instructions as this user
+parameters:
+  - name: Username
+    description: Name of the newly created user
+    defaultValue: nonroot
+  - name: Userid
+    description: ID of the newly created user - recommended to be a high number to avoid collisions with host system
+    defaultValue: 9999
+instructions:
+  - kind: RunInstruction
+    values:
+    - name: ShellCommand
+      value: |
+       if ! command -v useradd &> /dev/null; then addgroup -S ${Username} -g ${Userid} && adduser -S ${Username} -u ${Userid} -G ${Username}; else groupadd -r ${Username} && useradd --no-log-init -u ${Userid} -r -g ${Username} ${Username}; fi;
+  - kind: UserInstruction
+    values:
+     - name: User
+       value: |
+        ${Username}

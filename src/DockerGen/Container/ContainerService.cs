@@ -1,36 +1,78 @@
-﻿using System;
+﻿using DockerGen.Container.Recipes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace DockerGen.Container
 {
-    public static class ContainerService
+    public class ContainerService
     {
-        private static List<Instruction> ValidInstructions;
-        private static List<string> ValidPrefixes;
+        private List<IDockerInstruction> _validInstructions;
+        private List<DynamicRecipe> _validRecipes;
+        private readonly RecipeLoader _recipeLoader;
+
         public static List<string> GetValidPrefixes()
         {
-            EnsureInstructionInformationLoaded();
-            return ValidPrefixes;
+            return new List<string>
+            {
+                "ADD",
+                "ARG",
+                "CMD",
+                "COPY",
+                "ENTRYPOINT",
+                "ENV",
+                "EXPOSE",
+                "EXPOSE",
+                "FROM",
+                "HEALTHCHECK",
+                "LABEL",
+                "ONBUILD",
+                "PORT",
+                "RUN",
+                "SHELL",
+                "STOPSIGNAL",
+                "USER",
+                "VOLUME",
+                "WORKDIR",
+            };
+        }
+        public ContainerService(RecipeLoader recipeLoader)
+        {
+            _recipeLoader = recipeLoader;
+        }
+        public async Task<List<DynamicRecipe>> GetValidRecipesAsync()
+        {
+            await EnsureRecipesLoaded();
+            return _validRecipes;
         }
 
-        public static List<Instruction> GetValidInstructions()
+        public List<IDockerInstruction> GetValidInstructions()
         {
             EnsureInstructionInformationLoaded();
-            return ValidInstructions;
+            return _validInstructions;
         }
 
-        private static void EnsureInstructionInformationLoaded()
+        private void EnsureInstructionInformationLoaded()
         {
-            if (ValidInstructions != null)
+            if (_validInstructions != null)
             {
                 return;
             }
-            var instructions = Assembly.GetExecutingAssembly().GetTypes().Where(type => typeof(Instruction).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract).Select(t => (Instruction)Activator.CreateInstance(t));
-            ValidInstructions = instructions.Select(i => i).ToList();
-            ValidPrefixes = instructions.Select(i => i.Prefix).ToList();
+            var instructions = Assembly.GetExecutingAssembly().GetTypes().Where(type => typeof(IDockerInstruction).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract).Select(t => (IDockerInstruction)Activator.CreateInstance(t));
+            _validInstructions = instructions.Select(i => i).ToList();
+        }
 
+        private async Task EnsureRecipesLoaded()
+        {
+            if (_validRecipes != null)
+            {
+                return;
+            }
+
+            var recipes = await _recipeLoader.LoadRecipesAsync();
+            _validRecipes = recipes.ConvertAll(r => new DynamicRecipe(r));
         }
     }
 }

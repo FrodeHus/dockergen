@@ -32,7 +32,7 @@ namespace DockerGen.Container
             OnImageChanged?.Invoke(this, new ContainerImageEventArgs(this));
         }
 
-        public void RemoveInstruction(Instruction instruction)
+        public void RemoveInstruction(IInstruction instruction)
         {
             var stage = Stages.SingleOrDefault(s => s.Instructions.Any(i => i.Id == instruction.Id));
             if (stage == null)
@@ -60,16 +60,11 @@ namespace DockerGen.Container
             var image = new ContainerImage();
             var lines = dockerinstructions.SplitOnInstructions();
             BuildStage stage = null;
-            var validPrefixes = ContainerService.GetValidPrefixes();
             foreach (var line in lines.Where(l => !string.IsNullOrEmpty(l) && l.IndexOf(' ') != -1))
             {
                 var instructionType = line.Split(' ')[0].ToUpper();
-                if (!validPrefixes.Contains(instructionType))
-                {
-                    continue;
-                }
 
-                Instruction instruction = null;
+                IInstruction instruction = null;
                 switch (instructionType)
                 {
                     case "FROM":

@@ -2,11 +2,11 @@
 {
     public class InstructionEventArgs
     {
-        public InstructionEventArgs(Instruction instruction)
+        public InstructionEventArgs(IInstruction instruction)
         {
             Instruction = instruction;
         }
 
-        public Instruction Instruction { get; set; }
+        public IInstruction Instruction { get; set; }
     }
 }

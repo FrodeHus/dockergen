@@ -3,7 +3,7 @@ using System.Text;
 
 namespace DockerGen.Container
 {
-    public abstract class Instruction
+    public abstract class Instruction : IDockerInstruction
     {
 
         public string Id { get; set; } = Guid.NewGuid().ToString("N");

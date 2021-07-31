@@ -14,15 +14,15 @@
     [Parameter]
     public RenderFragment ChildContent { get; set; }
     [Parameter]
-    public Instruction Instruction { get; set; }
+    public IInstruction Instruction { get; set; }
     [Parameter]
     public string Title { get; set; }
     [Parameter]
     public string CssClass { get; set; } = "instruction";
     [Parameter]
-    public Action<Instruction> OnDrag { get; set; }
+    public Action<IInstruction> OnDrag { get; set; }
     [Parameter]
-    public Action<Instruction> OnDrop { get; set; }
+    public Action<IInstruction> OnDrop { get; set; }
 
     private void RemoveInstruction()
     {

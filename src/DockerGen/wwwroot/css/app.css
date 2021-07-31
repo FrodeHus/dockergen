@@ -9,6 +9,8 @@
     --instruction-value-bg-color: #fff;
     --instruction-value-color: #424242;
     --primary-font-family: 'Roboto';
+    --recipe-bg-color: hsl(284 100% 50%);
+    --recipe-color: hsl(284 100% 75%);
 }
 
 #blazor-error-ui {
@@ -148,6 +150,17 @@ main {
     color: var(--component-color);
     margin: 2px;
     border: 1px solid var(--component-color);
+    border-radius: 4px;
+}
+
+.recipe {
+    cursor: grab;
+    padding: 10px;
+    list-style-type: none;
+    background-color: var(--recipe-bg-color);
+    color: var(--recipe-color);
+    margin: 2px;
+    border: 1px solid var(--recipe-color);
     border-radius: 4px;
 }
 

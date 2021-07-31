@@ -23,7 +23,7 @@ namespace DockerGen.Pages
                 StateHasChanged();
             }
         }
-        public Instruction CurrentInstruction { get; set; }
+        public IInstruction CurrentInstruction { get; set; }
 
         protected override void OnInitialized()
         {

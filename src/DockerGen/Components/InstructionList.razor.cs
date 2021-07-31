@@ -14,9 +14,9 @@ namespace DockerGen.Components
         public EventCallback OnInstructionsChanged { get; set; }
 
         [Parameter]
-        public List<Instruction> Instructions { get; set; } = new List<Instruction>();
+        public List<IInstruction> Instructions { get; set; } = new List<IInstruction>();
 
-        public void AddInstruction(Instruction instruction)
+        public void AddInstruction(IInstruction instruction)
         {
             instruction.OnInstructionChanged += InstructionChanged;
 

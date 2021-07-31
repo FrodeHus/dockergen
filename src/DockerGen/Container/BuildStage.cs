@@ -7,7 +7,6 @@ namespace DockerGen.Container
     public class BuildStage
     {
         private FromInstruction baseImage;
-        private string stageName;
 
         public event EventHandler<BuildStageEventArgs> OnBuildStageChanged;
         public FromInstruction BaseImage
@@ -47,16 +46,16 @@ namespace DockerGen.Container
             }
         }
         public string Name { get; set; }
-        public List<Instruction> Instructions { get; set; } = new List<Instruction>();
+        public List<IInstruction> Instructions { get; set; } = new List<IInstruction>();
 
-        public void AddInstruction(Instruction instruction)
+        public void AddInstruction(IInstruction instruction)
         {
             instruction.OnInstructionChanged += InstructionChanged;
             Instructions.Add(instruction);
             OnBuildStageChanged?.Invoke(this, new BuildStageEventArgs(this));
         }
 
-        public void RemoveInstruction(Instruction instruction)
+        public void RemoveInstruction(IInstruction instruction)
         {
             instruction.OnInstructionChanged -= InstructionChanged;
             Instructions.Remove(instruction);
