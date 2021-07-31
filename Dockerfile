@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0-bullseye-slim AS build
 WORKDIR /src
 COPY src/DockerGen/DockerGen.csproj .
 RUN dotnet restore "DockerGen.csproj"
@@ -15,6 +15,6 @@ RUN openssl req -x509 -nodes -days 365 \
 FROM nginx:alpine AS final
 WORKDIR /usr/share/nginx/html
 COPY --from=publish /publish/nginx-selfsigned.crt /etc/ssl/certs/nginx-selfsigned.crt
-COPY --from=publish /publish/nginx-selfsigned.key /etc/ssl/private/nginx-selfsigned.key 
+COPY --from=publish /publish/nginx-selfsigned.key /etc/ssl/private/nginx-selfsigned.key
 COPY --from=publish /publish/wwwroot /usr/local/webapp/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
