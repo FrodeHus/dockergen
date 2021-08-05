@@ -1,0 +1,44 @@
+kind: Recipe
+name: ".NET: Build & Test"
+description: |
+  Builds a .NET project and runs unit tests
+parameters:
+  - name: SourceLocation
+    description: Path to source
+    defaultValue: src/
+  - name: ProjectFile
+    description: Name of .csproj file
+    defaultValue: MyProject.csproj
+  - name: Configuration
+    description: Build Configuration
+    defaultValue: Release
+  - name: TestProjectFile
+    description: Name of the .csproj file for the unit tests
+    defaultValue: Tests/MyProjectTests.csproj
+instructions:
+  - kind: WorkDirInstruction
+    values:
+      - name: Directory
+        value: /src
+  - kind: CopyInstruction
+    values:
+      - name: Source
+        value: ${SourceLocation}/${ProjectFile}
+      - name: Destination
+        value: .
+  - kind: RunInstruction
+    values:
+    - name: ShellCommand
+      value: dotnet restore "${ProjectFile}"
+  - kind: CopyInstruction
+    values:
+      - name: Source
+        value: ${SourceLocation}/
+      - name: Destination
+        value: .
+  - kind: RunInstruction
+    values:
+    - name: ShellCommand
+      value: |
+        dotnet build "${ProjectFile}" -c ${Configuration}
+        dotnet test "${TestProjectFile}"
