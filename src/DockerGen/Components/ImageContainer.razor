@@ -6,24 +6,10 @@
             <ImageBuildStage Stage="stage"></ImageBuildStage>
         }
     </CascadingValue>
-    <div class="d-grid gap-2">
-        <a class="btn btn-success btn-sm" @onclick="AddStage" href="#">
-            <i class="fa fa-plus"></i>
-            Add build stage
-        </a>
-    </div>
-
 </div>
 
 @code {
     [CascadingParameter]
     public Pages.Index ContainerEditor { get; set; }
 
-    private void AddStage()
-    {
-        var stage = new BuildStage();
-        var stageCount = ContainerEditor.Container.Stages.Count();
-        stage.StageName = "stage" + stageCount;
-        ContainerEditor.Container.AddStage(stage);
-    }
 }

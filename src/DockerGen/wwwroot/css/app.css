@@ -60,9 +60,12 @@ main {
     font-weight: bold;
 }
 
+.container-stages{
+    grid-area: instructions;
+
+}
 
 .container-instructions {
-    grid-area: instructions;
     max-height: 100vh;
     overflow-y: auto;
     display: flex;
@@ -307,11 +310,14 @@ input:checked ~ .accordion__item-content {
 }
 
 .build-stage-overview{
-
+    display: flex;
+    justify-content: space-between;
 }
 
 .step-menu {
+    flex: 1;
     list-style-type: none;
+    padding-left: 1rem;
     margin: 0 auto;
 }
 

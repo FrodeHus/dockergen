@@ -1,19 +1,21 @@
 ﻿@page "/"
 @using DockerGen.Container
 <CascadingValue Value="this">
-<main>
-    <div class="instruction-toolbox">
-        <ComponentList></ComponentList>
-    </div>
-    <div class="container-instructions">
-        <BuildStageOverview></BuildStageOverview>
-        <ImageContainer></ImageContainer>
-    </div>
-    <div class="dockerfile">
-        <header class="title">
-            Dockerfile
-        </header>
-        <Preview ></Preview>
-    </div>
-</main>
+    <main>
+        <div class="instruction-toolbox">
+            <ComponentList></ComponentList>
+        </div>
+        <div class="container-stages">
+            <BuildStageOverview></BuildStageOverview>
+            <div class="container-instructions">
+                <ImageContainer></ImageContainer>
+            </div>
+        </div>
+        <div class="dockerfile">
+            <header class="title">
+                Dockerfile
+            </header>
+            <Preview></Preview>
+        </div>
+    </main>
 </CascadingValue>

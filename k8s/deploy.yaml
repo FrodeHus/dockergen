@@ -18,9 +18,19 @@ spec:
       labels:
         app: dockergen
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - dockergen
+            topologyKey: "kubernetes.io/hostname"
       containers:
       - name: dockergen
-        image: chaos.azurecr.io/dockergen:v0.23
+        image: chaos.azurecr.io/dockergen:v0.24
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

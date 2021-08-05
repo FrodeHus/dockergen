@@ -1,10 +1,25 @@
-﻿<div class="build-stage-overview">
-  <ul class="step-menu">
-    <li role="button" class="complete">Step 1</li>
-    <li role="button" class="current">Step 2</li>
-    <li role="button">Step 3</li>
-    <li role="button">Step 4</li>
-    <li role="button">Step 5</li>
-    <li role="button"><i class="fab fa-docker"></i>Step 6</li>
-  </ul>
+﻿@using DockerGen.Container
+<div class="build-stage-overview">
+    <ul class="step-menu">
+        @foreach (var stage in ContainerEditor.Container.Stages)
+        {
+            <li role="button">@stage.StageName</li>
+        }
+    </ul>
+    <a class="btn btn-success btn-sm" @onclick="AddStage" href="#">
+        <i class="fa fa-plus"></i>
+        Add build stage
+    </a>
 </div>
+
+@code {
+    [CascadingParameter]
+    public Pages.Index ContainerEditor { get; set; }
+    private void AddStage()
+    {
+        var stage = new BuildStage();
+        var stageCount = ContainerEditor.Container.Stages.Count();
+        stage.StageName = "stage" + stageCount;
+        ContainerEditor.Container.AddStage(stage);
+    }
+}
