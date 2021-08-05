@@ -23,7 +23,7 @@ namespace DockerGen.Container
             ShellCommand = shellCommand;
         }
         public override string Prefix => "RUN";
-        public override string DisplayName => "Execute command when building container image";
+        public override string DisplayName => "Install software and/or run a command";
         public virtual string ShellCommand
         {
             get { return _shellCommand; }
@@ -38,8 +38,14 @@ namespace DockerGen.Container
         {
             var lines = value.Split('\n', StringSplitOptions.RemoveEmptyEntries);
             var builder = new StringBuilder();
+            var firstLine = true;
             foreach (var line in lines.Where(l => !string.IsNullOrEmpty(l)).Select(l => l.TrimEnd('\r', ' ')))
             {
+                if (!firstLine)
+                {
+                    builder.Append('\t');
+                }
+
                 if (line.EndsWith('\\'))
                 {
                     builder.AppendLine(line);
@@ -47,6 +53,7 @@ namespace DockerGen.Container
                 else
                 {
                     builder.Append(line).Append(' ').AppendLine("\\");
+                    firstLine = false;
                 }
             }
             return builder.ToString().TrimEnd(' ', '\\', '\r', '\n');

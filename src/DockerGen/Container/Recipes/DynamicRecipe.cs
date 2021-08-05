@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -48,7 +49,28 @@ namespace DockerGen.Container
             {
                 return null;
             }
-            return _parameters[parameterName];
+            var value = _parameters[parameterName];
+            var valueType = GetValueType(parameterName);
+            if (valueType == null) return value;
+            var converted = Convert.ChangeType(value, valueType);
+            return converted;
+        }
+
+        private Type GetValueType(string parameterName)
+        {
+            var valueType = _recipe.Parameters.Single(p => p.Name == parameterName).ValueType;
+            Type type = null;
+            switch (valueType.ToLowerInvariant())
+            {
+                case "string":
+                    type = typeof(string);
+                    break;
+                case "integer":
+                    type = typeof(Int32);
+                    break;
+                default: break;
+            }
+            return type;
         }
 
         private bool SetParameterValue(string parameterName, object value)

@@ -4,17 +4,25 @@ description: |
   Uses openssl to create a self-signed certificate for use with ex. nginx
 parameters:
   - name: CertificateName
+    displayName: Certificate name
     description: Filename of the self-signed certificate
     defaultValue: selfsigned.crt
   - name: PrivateKey
+    displayName: Private key
     description: Filename of the self-signed certificate private key
     defaultValue: selfsigned.key
   - name: Subject
     description: Certificate Subject
     defaultValue: "/C=Somewhere/ST=None/O=Santa Clause/CN=example.com"
   - name: KeySize
-    description: Key KeySize
+    displayName: Key size
+    description: Key
     defaultValue: 2048
+    valueType: Int32
+    allowedValues:
+    - 1024
+    - 2048
+    - 4096
   - name: Directory
     description: Path to where the certificate and private key will be created
     defaultValue: "."

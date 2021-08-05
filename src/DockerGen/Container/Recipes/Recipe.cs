@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DockerGen.Container.Recipes
 {
@@ -15,7 +14,8 @@ namespace DockerGen.Container.Recipes
         public string Name { get; set; }
         public string Description { get; set; }
         public object DefaultValue { get; set; }
-        public Type ValueType { get; set; } = typeof(string);
+        public List<object> AllowedValues { get; set; }
+        public string ValueType { get; set; } = "String";
     }
 
     public class RecipeInstruction

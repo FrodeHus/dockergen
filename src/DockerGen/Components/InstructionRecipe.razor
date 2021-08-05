@@ -1,4 +1,5 @@
 ﻿@using DockerGen.Container
+@using System.Linq.Expressions
 
 <li class="instruction recipe" draggable="true" @ondragstart="@(() => OnDrag(Recipe))" @key="Recipe.Id">
     <div class="instruction-title image-item">
@@ -32,8 +33,15 @@
         ContainerEditor.Container.RemoveInstruction(Recipe);
     }
 
-    private void SetParameter(string parameterName, string value)
+    private object this[string parameter]
     {
+        get
+        {
+            return "";
+        }
+        set
+        {
 
+        }
     }
 }

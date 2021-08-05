@@ -20,8 +20,15 @@ spec:
     spec:
       containers:
       - name: dockergen
-        image: chaos.azurecr.io/dockergen:v0.19
+        image: chaos.azurecr.io/dockergen:v0.23
         imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            scheme: "HTTPS"
+            path: /
+            port: 443
+          initialDelaySeconds: 10
+          periodSeconds: 10
         ports:
         - containerPort: 443
         resources:

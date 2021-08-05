@@ -9,6 +9,7 @@ parameters:
   - name: Userid
     description: ID of the newly created user - recommended to be a high number to avoid collisions with host system
     defaultValue: 9999
+    valueType: Integer
 instructions:
   - kind: RunInstruction
     values:
