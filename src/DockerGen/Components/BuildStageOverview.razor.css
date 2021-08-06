@@ -1,0 +1,70 @@
+﻿.build-stage-overview {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.add-build-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    user-select: none;
+    background-color: var(--category-active-bg-color);
+    border-radius: 9999px;
+    height: 48px;
+    width: 48px;
+    color: white;
+    font-size: 1em;
+}
+
+    .add-build-stage:hover {
+        color: black;
+    }
+
+.wizard {
+    display: flex;
+    flex: 1;
+    justify-content: flex-start;
+}
+
+.wizard__step {
+    /* Make all steps have the same width */
+    flex: 1;
+}
+
+.wizard__dot {
+    /* Center the content */
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.wizard__connector {
+    flex: 1;
+    height: 1px;
+    background-color: var(--instruction-color);
+}
+
+/*.wizard__step:first-child .wizard__connector, .wizard__step:last-child .wizard__connector {
+    background-color: transparent;
+}*/
+
+.wizard__number {
+    /* Center the content */
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    /* Rounded border */
+    background-color: var(--category-active-bg-color);
+    border-radius: 9999px;
+    height: 32px;
+    width: 32px;
+    /* OPTIONAL: Spacing between it and connectors */
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+.wizard__step-title {
+    text-align: center;
+}
