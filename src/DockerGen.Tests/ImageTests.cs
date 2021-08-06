@@ -56,5 +56,19 @@ RUN echo hello!";
             image.Should().NotBeNull();
             image.Compile().Should().Be(dockerfile);
         }
+
+        [Fact]
+        public void Support_Init_Build_Arguments()
+        {
+            const string dockerfile = @"ARG INITARG=test
+FROM dotnet:v1 AS build
+RUN dotnet build stuff
+
+FROM dotnet-sdk:v1
+RUN echo hello!";
+            ContainerImage image = dockerfile;
+            image.Should().NotBeNull();
+            image.Compile().Should().Be(dockerfile);
+        }
     }
 }

@@ -312,90 +312,69 @@ input:checked ~ .accordion__item-content {
 .build-stage-overview{
     display: flex;
     justify-content: space-between;
+    margin: 10px;
 }
 
-.step-menu {
+.add-build-stage {
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    text-decoration: none;
+    user-select: none;
+    background-color: var(--category-active-bg-color);
+    border-radius: 9999px;
+    height: 48px;
+    width: 48px;
+    color: white;
+    font-size: 1em;
+}
+
+.add-build-stage:hover{
+    color: black;
+}
+
+.wizard {
+    display: flex;
     flex: 1;
-    list-style-type: none;
-    padding-left: 1rem;
-    margin: 0 auto;
+    justify-content: flex-start;
 }
 
-    .step-menu li {
-        box-sizing: border-box;
-        float: left;
-        background: #ddd;
-        height: 50px;
-        text-align: center;
-        padding: 15px 15px 15px 50px;
-        position: relative;
-        margin-left: 10px
-    }
+.wizard__step {
+    /* Make all steps have the same width */
+    flex: 1;
+}
 
-        .step-menu li:before {
-            content: '';
-            position: absolute;
-            border: 25px solid transparent;
-            border-left-color: #fff;
-            top: 0px;
-            right: -60px;
-        }
+.wizard__dot {
+    /* Center the content */
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
 
-        .step-menu li:after {
-            content: '';
-            position: absolute;
-            border: 25px solid transparent;
-            border-left-color: #ddd;
-            top: 0px;
-            right: -50px;
-        }
+.wizard__connector {
+    flex: 1;
+    height: 1px;
+    background-color: var(--instruction-color);
+}
 
-        .step-menu li:nth-child(1) {
-            z-index: 600;
-            margin-left: 0;
-            padding-left: 30px
-        }
+/*.wizard__step:first-child .wizard__connector, .wizard__step:last-child .wizard__connector {
+    background-color: transparent;
+}*/
 
-        .step-menu li:nth-child(2) {
-            z-index: 500;
-        }
-
-        .step-menu li:nth-child(3) {
-            z-index: 400;
-        }
-
-        .step-menu li:nth-child(4) {
-            z-index: 300;
-        }
-
-        .step-menu li:nth-child(5) {
-            z-index: 200;
-        }
-
-        .step-menu li:nth-child(6) {
-            z-index: 100;
-            padding-right: 30px
-        }
-
-            .step-menu li:nth-child(6):after,
-            .step-menu li:nth-child(6):before {
-                border: none
-            }
-
-        .step-menu li.current {
-            background-color: var(--category-active-bg-color);
-            color: white;
-        }
-
-            .step-menu li.current:after {
-                border-left-color: var(--category-active-bg-color);
-            }
-
-        .step-menu li.complete {
-            background-color: forestgreen;
-            color: white;
-        }
-
-            .step-menu li.complete:after {
-                border-left-color: forestgreen;
-            }
+.wizard__number {
+    /* Center the content */
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    /* Rounded border */
+    background-color: var(--category-active-bg-color);
+    border-radius: 9999px;
+    height: 32px;
+    width: 32px;
+    /* OPTIONAL: Spacing between it and connectors */
+    margin-right: 4px;
+    margin-left: 4px;
+}
+.wizard__step-title{
+    text-align: center;
+}

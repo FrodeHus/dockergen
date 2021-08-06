@@ -40,5 +40,5 @@ instructions:
     values:
     - name: ShellCommand
       value: |
-        dotnet build "${ProjectFile}" -c ${Configuration}
+        dotnet build "${ProjectFile}" -c ${Configuration} &&
         dotnet test "${TestProjectFile}"

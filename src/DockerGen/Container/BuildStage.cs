@@ -7,6 +7,7 @@ namespace DockerGen.Container
     public class BuildStage
     {
         private FromInstruction baseImage;
+        public IList<ArgumentInstruction> Arguments = new List<ArgumentInstruction>();
 
         public event EventHandler<BuildStageEventArgs> OnBuildStageChanged;
         public FromInstruction BaseImage
@@ -26,7 +27,7 @@ namespace DockerGen.Container
         }
         public BuildStage()
         {
-            BaseImage = new FromInstruction("scratch", "latest");
+            //BaseImage = new FromInstruction("scratch", "latest");
         }
 
         public BuildStage(FromInstruction baseImage, string name)
@@ -70,7 +71,14 @@ namespace DockerGen.Container
         public string Compile()
         {
             var builder = new StringBuilder();
-            builder.AppendLine(BaseImage.Compile());
+            foreach (var arg in Arguments)
+            {
+                builder.AppendLine(arg.Compile());
+            }
+            if (BaseImage != null)
+            {
+                builder.AppendLine(BaseImage.Compile());
+            }
             foreach (var instruction in Instructions)
             {
                 builder.AppendLine(instruction.Compile());

@@ -9,7 +9,7 @@ namespace DockerGen.Container
     public class ContainerImage
     {
         public event EventHandler<ContainerImageEventArgs> OnImageChanged;
-        public ICollection<BuildStage> Stages { get; set; } = new List<BuildStage>();
+        public IList<BuildStage> Stages { get; set; } = new List<BuildStage>();
         public string Name { get; set; }
         public IEnumerable<string> Tags { get; set; }
 
@@ -67,6 +67,9 @@ namespace DockerGen.Container
                 IInstruction instruction = null;
                 switch (instructionType)
                 {
+                    case "ARG":
+                        instruction = (ArgumentInstruction)line;
+                        break;
                     case "FROM":
                         instruction = (FromInstruction)line;
                         break;
@@ -90,11 +93,29 @@ namespace DockerGen.Container
                     continue;
                 }
 
+                if (instruction is ArgumentInstruction argumentInstruction && (image.Stages.Count == 0 || image.Stages[0].BaseImage == null))
+                {
+                    var stageCount = image.Stages.Count;
+                    stage = new BuildStage();
+                    stage.Arguments.Add(argumentInstruction);
+                    stage.StageName = "stage" + image.Stages.Count;
+                    image.AddStage(stage);
+                    continue;
+                }
+
                 if (instruction is FromInstruction fromInstruction)
                 {
-                    var stageCount = image.Stages.Count();
-                    stage = new BuildStage(fromInstruction, "stage" + stageCount);
-                    image.AddStage(stage);
+                    if (image.Stages.LastOrDefault() is BuildStage buildstage && buildstage.BaseImage == null)
+                    {
+                        buildstage.BaseImage = fromInstruction;
+                    }
+                    else
+                    {
+                        var stageCount = image.Stages.Count;
+                        stage = new BuildStage(fromInstruction, "stage" + stageCount);
+                        image.AddStage(stage);
+                    }
+                    continue;
                 }
                 else if (stage != null && instruction != null)
                 {

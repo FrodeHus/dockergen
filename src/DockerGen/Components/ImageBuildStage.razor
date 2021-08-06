@@ -16,7 +16,14 @@
         }
         <button type="button" class="btn-close" aria-label="Close" @onclick="RemoveStage"></button>
     </div>
-    <FromImage Instruction="@Stage.BaseImage"></FromImage>
+    @if (Stage.BaseImage == null)
+    {
+        <pre>TODO: implement adding build args and setting FROM image</pre>
+    }
+    else
+    {
+        <FromImage Instruction="@Stage.BaseImage"></FromImage>
+    }
     <div class="dropzone @dropClass" @ondrop="@(() => OnDrop())" @ondragenter="HandleDragEnter" @ondragleave="HandleDragLeave">
         <CascadingValue Value="this">
             <InstructionList Instructions="Stage.Instructions"></InstructionList>
