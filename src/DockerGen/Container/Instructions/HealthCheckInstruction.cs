@@ -18,7 +18,7 @@ namespace DockerGen.Container
         public int StartPeriod { get; set; } = 0;
         public int Retries { get; set; } = 3;
         public bool Disabled { get; set; }
-        public string Command { get; set; } = "curl -f http://localhost/ || exit 1"
+        public string Command { get; set; } = "curl -f http://localhost/ || exit 1";
         protected override void CompileArguments(StringBuilder builder)
         {
             if (Disabled)
