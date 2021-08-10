@@ -1,0 +1,53 @@
+﻿::deep .monaco-editor-container {
+    height: 90vh;
+}
+
+.preview{
+    min-width: 50px;
+    padding: 10px;
+    transition: width 125ms;
+}
+
+.toolbar{
+    display: flex;
+    justify-content: space-between;
+}
+
+.open{
+    width: 33vw;
+}
+
+.closed{
+    width: 0px;
+}
+
+.editor .open{
+    display: block;
+}
+
+.editor .closed{
+    display: none;
+}
+
+.panel-button{
+    text-decoration: none;
+    user-select: none;
+}
+
+.panel{
+    display: flex;
+    margin-top: 10px;
+}
+
+.preview-label{
+    margin-right: 10px;
+    width: 1.5rem;
+    padding-top: 10px;
+    background-color: var(--category-bg-color);
+    user-select: none;
+    font-size: 1.2rem;
+    font-weight: 400;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    text-transform: uppercase;
+}

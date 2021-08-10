@@ -20,6 +20,7 @@
 
     .add-build-stage:hover {
         color: black;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
 
 .wizard {
@@ -64,6 +65,11 @@
     margin-right: 4px;
     margin-left: 4px;
 }
+
+    .wizard__number:hover {
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+    }
 
 .wizard__step-title {
     text-align: center;
