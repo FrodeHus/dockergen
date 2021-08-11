@@ -43,6 +43,18 @@ namespace DockerGen.Container
             OnInstructionChanged?.Invoke(this, new InstructionEventArgs(this));
         }
 
+        public string this[string parameterName]
+        {
+            get
+            {
+                return GetParameterValue(parameterName)?.ToString();
+            }
+            set
+            {
+                SetParameterValue(parameterName, value);
+                FireInstructionChanged();
+            }
+        }
         private object GetParameterValue(string parameterName)
         {
             if (!_parameters.ContainsKey(parameterName))
@@ -72,6 +84,7 @@ namespace DockerGen.Container
             }
             return type;
         }
+
 
         private bool SetParameterValue(string parameterName, object value)
         {

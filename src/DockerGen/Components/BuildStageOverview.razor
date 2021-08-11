@@ -30,7 +30,7 @@
     private void AddStage()
     {
         var stage = new BuildStage();
-        stage.BaseImage = new FromInstruction("scratch");
+        stage.BaseImage = new FromInstruction("scratch", "");
         var stageCount = ContainerEditor.Container.Stages.Count();
         stage.StageName = "stage" + stageCount;
         ContainerEditor.Container.AddStage(stage);
