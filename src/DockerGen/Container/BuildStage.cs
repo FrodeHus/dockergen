@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace DockerGen.Container
@@ -49,10 +47,17 @@ namespace DockerGen.Container
         public string Name { get; set; }
         public List<IInstruction> Instructions { get; set; } = new List<IInstruction>();
 
-        public void AddInstruction(IInstruction instruction)
+        public void AddInstruction(IInstruction instruction, int index = -1)
         {
             instruction.OnInstructionChanged += InstructionChanged;
-            Instructions.Add(instruction);
+            if (index == -1 || index > Instructions.Count)
+            {
+                Instructions.Add(instruction);
+            }
+            else
+            {
+                Instructions.Insert(index, instruction);
+            }
             OnBuildStageChanged?.Invoke(this, new BuildStageEventArgs(this));
         }
 

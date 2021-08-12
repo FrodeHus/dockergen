@@ -1,39 +1,153 @@
 ﻿@using DockerGen.Container
 @using System.Text
-<ul class="instruction-list" ondragover="event.preventDefault();">
-    @foreach (var instruction in Instructions)
-    {
-        if (instruction is FromInstruction fromImage)
-        {
-            <FromImage Instruction="fromImage"></FromImage>
-        }
-        else if (instruction is RunInstruction runCommand)
-        {
-            <RunCommand Instruction="runCommand"></RunCommand>
-        }
-        else if (instruction is CopyInstruction copyFiles)
-        {
-            <CopyFiles Instruction="copyFiles" BuildStages="@GetBuildStageNames()"></CopyFiles>
-        }
-        else if (instruction is WorkDirInstruction workdir)
-        {
-            <WorkDir Instruction="workdir"></WorkDir>
-        }
-        else if (instruction is UserInstruction user)
-        {
-            <User Instruction="user"></User>
-        }
-        else if (instruction is ExposeInstruction exposed)
-        {
-            <Expose Instruction="exposed"></Expose>
-        }
-        else if (instruction is DynamicRecipe recipe)
-        {
-            <InstructionRecipe Recipe="recipe"></InstructionRecipe>
-        }
-        else
-        {
-            <NotImplemented Instruction="instruction"></NotImplemented>
-        }
-    }
-</ul>
+<div class="@GetDropzoneClass()">
+	<div class="@GetDropAreaClass() @activeClass" @ondragenter="SetActiveDrop" @ondragleave="SetInactiveDrop" @ondrop="@(() => OnDrop(-1))"></div>
+	<ul class="instruction-list" ondragover="event.preventDefault();">
+		@foreach (var instruction in Stage.Instructions)
+		{
+			@if (instruction is FromInstruction fromImage)
+			{
+				<FromImage Instruction="fromImage"></FromImage>
+			}
+			else if (instruction is RunInstruction runCommand)
+			{
+				<RunCommand Instruction="runCommand"></RunCommand>
+			}
+			else if (instruction is CopyInstruction copyFiles)
+			{
+				<CopyFiles Instruction="copyFiles" BuildStages="@GetBuildStageNames()"></CopyFiles>
+			}
+			else if (instruction is WorkDirInstruction workdir)
+			{
+				<WorkDir Instruction="workdir"></WorkDir>
+			}
+			else if (instruction is UserInstruction user)
+			{
+				<User Instruction="user"></User>
+			}
+			else if (instruction is ExposeInstruction exposed)
+			{
+				<Expose Instruction="exposed"></Expose>
+			}
+			else if (instruction is DynamicRecipe recipe)
+			{
+				<InstructionRecipe Recipe="recipe"></InstructionRecipe>
+			}
+			else
+			{
+				<NotImplemented Instruction="instruction"></NotImplemented>
+			}
+			<div class="@GetDropAreaClass() @activeClass" @ondragenter="SetActiveDrop" @ondragleave="SetInactiveDrop" @ondrop="@(() => OnDrop(GetIndex(instruction) + 1))"></div>
+		}
+	</ul>
+</div>
+
+@code {
+	[CascadingParameter]
+	private Pages.Index ContainerEditor { get; set; }
+	[Parameter]
+	public EventCallback OnInstructionsChanged { get; set; }
+
+	[Parameter]
+	public BuildStage Stage { get; set; }
+	private string activeClass = "";
+	private string dropAreaClass = "";
+
+	public void AddInstruction(IInstruction instruction, int index = -1)
+	{
+		Stage.AddInstruction(instruction, index);
+		StateHasChanged();
+	}
+
+	private string GetDropzoneClass()
+	{
+		if (ContainerEditor.IsDragging)
+		{
+			return "dropzone-active";
+		}
+		return "";
+	}
+
+	private string GetDropAreaClass()
+	{
+		if (ContainerEditor.IsDragging)
+		{
+
+
+			return "droparea";
+		}
+		return "";
+	}
+
+	private void SetActiveDrop()
+	{
+		if (CanDrop(ContainerEditor.CurrentInstruction))
+		{
+			activeClass = "active";
+		}
+		else
+		{
+			activeClass = "";
+		}
+	}
+
+	private void SetInactiveDrop()
+	{
+		activeClass = "";
+	}
+
+	private void OnDrop(int dropIndex = -1)
+	{
+		SetInactiveDrop();
+
+		var instruction = ContainerEditor.CurrentInstruction;
+		if (!CanDrop(instruction))
+		{
+			return;
+		}
+
+		if (dropIndex == -1)
+		{
+			AddInstruction(instruction);
+		}
+		else
+		{
+			AddInstruction(instruction, dropIndex);
+		}
+		StateHasChanged();
+	}
+
+	private bool CanDrop(IInstruction instruction)
+	{
+		if (instruction is FromInstruction)
+		{
+			return false;
+		}
+		else if (instruction is EntryPointInstruction && Stage.Instructions.Any(i => i is EntryPointInstruction))
+		{
+			return false;
+		}
+		else if (instruction is CommandInstruction && Stage.Instructions.Any(i => i is CommandInstruction))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+
+	private int GetIndex(IInstruction instruction)
+	{
+		return Stage.Instructions.FindIndex(i => i.Id == instruction.Id);
+	}
+
+	private void InstructionChanged(object sender, InstructionEventArgs e)
+	{
+		OnInstructionsChanged.InvokeAsync(this);
+	}
+
+	private List<string> GetBuildStageNames()
+	{
+		return ContainerEditor.Container.Stages.Select(s => s.StageName).ToList();
+	}
+}
