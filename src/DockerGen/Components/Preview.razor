@@ -1,9 +1,14 @@
 ﻿@using BlazorMonaco
+@using DockerGen.Infrastructure
+@inject ClipboardService Clipboard
 <div class="preview @toggleClass">
     <div class="toolbar">
         <a href="#" class="panel-button" @onclick="Toggle">
             <i class="fa fa-bars" />
         </a>
+        <a href="#" class="@buttonState.ButtonClass" @onclick="CopyDockerfileToClipboard">
+            <i class="@buttonState.IconClass"/>
+		</a>
     </div>
     <div class="panel">
         <div class="preview-label">
@@ -18,6 +23,7 @@
 @code {
     private bool isOpen = true;
     private string toggleClass = "open";
+    private ButtonState buttonState = new(false, "btn btn-info", "fa fa-clipboard");
     private void Toggle()
     {
         isOpen = !isOpen;
@@ -31,4 +37,31 @@
         }
         StateHasChanged();
     }
+
+    private async Task CopyDockerfileToClipboard()
+    {
+        var originalState = buttonState;
+        try
+        {
+            var dockerfile = await _editor.GetValue();
+            await Clipboard.WriteTextAsync(dockerfile);
+            buttonState = new(true, "btn btn-success", "fa fa-check");
+            await TriggerButtonState();
+            buttonState = originalState;
+        }
+        catch
+        {
+            buttonState = new ButtonState(true, "btn btn-error", "fa fa-exclamation-circle");
+            await TriggerButtonState();
+            buttonState = originalState;
+        }
+    }
+
+    private async Task TriggerButtonState()
+    {
+        StateHasChanged();
+        await Task.Delay(TimeSpan.FromMilliseconds(1500));
+    }
+
+    record ButtonState(bool IsDisabled, string ButtonClass, string IconClass);
 }

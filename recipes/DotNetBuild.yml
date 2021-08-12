@@ -23,7 +23,7 @@ instructions:
   - kind: CopyInstruction
     values:
       - name: Source
-        value: ${SourceLocation}/${ProjectFile}
+        value: ${SourceLocation}${ProjectFile}
       - name: Destination
         value: .
   - kind: RunInstruction
