@@ -1,6 +1,5 @@
 ﻿using DockerGen.Container;
 using Microsoft.AspNetCore.Components;
-using System;
 
 namespace DockerGen.Pages
 {
@@ -8,6 +7,7 @@ namespace DockerGen.Pages
     {
         private ContainerImage container = new ContainerImage();
         public event EventHandler<ContainerImageEventArgs> OnImageChanged;
+        public bool IsDragging { get; set; }
         public ContainerImage Container
         {
             get { return container; }

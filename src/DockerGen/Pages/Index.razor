@@ -1,7 +1,7 @@
 ﻿@page "/"
 @using DockerGen.Container
 <CascadingValue Value="this">
-    <main>
+    <main @ondragstart="@(e => IsDragging = true)" @ondragend="@(e => IsDragging = false)">
         <div class="instruction-toolbox">
             <ComponentList></ComponentList>
         </div>

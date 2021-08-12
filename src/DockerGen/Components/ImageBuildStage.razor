@@ -1,103 +1,104 @@
 ﻿@using DockerGen.Container
 <div class="image-container-build-stage">
-    <div class="title">
-        @if (ContainerEditor.Container.IsMultiStage())
-        {
-            <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text">Build stage</span>
-                <input type="text" class="form-control" @bind="Stage.StageName">
-            </div>
-        }
-        else
-        {
-            <div>
-                Build stage
-            </div>
-        }
-        <button type="button" class="btn-close" aria-label="Close" @onclick="RemoveStage"></button>
-    </div>
-    @if (Stage.BaseImage == null)
-    {
-        <pre>TODO: implement adding build args and setting FROM image</pre>
-    }
-    else
-    {
-        <FromImage Instruction="@Stage.BaseImage"></FromImage>
-    }
-    <div class="dropzone @dropClass" @ondrop="@(() => OnDrop())" @ondragenter="HandleDragEnter" @ondragleave="HandleDragLeave">
-        <CascadingValue Value="this">
-            <InstructionList Instructions="Stage.Instructions"></InstructionList>
-        </CascadingValue>
-    </div>
+	<div class="title">
+		@if (ContainerEditor.Container.IsMultiStage())
+		{
+			<div class="input-group input-group-sm mb-3">
+				<span class="input-group-text">Build stage</span>
+				<input type="text" class="form-control" @bind="Stage.StageName">
+			</div>
+		}
+		else
+		{
+			<div>
+				Build stage
+			</div>
+		}
+		<button type="button" class="btn-close" aria-label="Close" @onclick="RemoveStage"></button>
+	</div>
+	@if (Stage.BaseImage == null)
+	{
+		<pre>TODO: implement adding build args and setting FROM image</pre>
+	}
+	else
+	{
+		<FromImage Instruction="@Stage.BaseImage"></FromImage>
+	}
+	<div class="@GetDropzoneClass() @dropClass" @ondrop="@(() => OnDrop())">
+		<CascadingValue Value="this">
+			<InstructionList Instructions="Stage.Instructions"></InstructionList>
+		</CascadingValue>
+	</div>
 
 </div>
 
 @code {
-    [CascadingParameter]
-    public Pages.Index ContainerEditor { get; set; }
-    [Parameter]
-    public BuildStage Stage { get; set; }
-    private string dropClass = "";
+	[CascadingParameter]
+	public Pages.Index ContainerEditor { get; set; }
+	[Parameter]
+	public BuildStage Stage { get; set; }
+	private string dropClass = "";
 
-    private void RemoveStage()
-    {
-        ContainerEditor.Container.RemoveStage(Stage);
-    }
+	private string GetDropzoneClass()
+	{
 
-    private void OnDrop()
-    {
-        var instruction = ContainerEditor.CurrentInstruction;
-        var index = GetIndex(instruction);
-        if (CanDrop(instruction) && index == -1)
-        {
-            Stage.AddInstruction(instruction);
-            StateHasChanged();
-        }
-        else if (index != -1)
-        {
-        }
-        dropClass = "";
-    }
+		if (ContainerEditor.IsDragging)
+		{
+			if (CanDrop(ContainerEditor.CurrentInstruction))
+			{
+				dropClass = "can-drop";
+			}
+			else
+			{
+				dropClass = "no-drop";
+			}
+			return "dropzone-active";
+		}
+		dropClass = "";
+		return "dropzone";
+	}
+	private void RemoveStage()
+	{
+		ContainerEditor.Container.RemoveStage(Stage);
+	}
 
-    private bool CanDrop(IInstruction instruction)
-    {
-        if (instruction is FromInstruction)
-        {
-            return false;
-        }
-        else if (instruction is EntryPointInstruction && Stage.Instructions.Any(i => i is EntryPointInstruction))
-        {
-            return false;
-        }
-        else if (instruction is CommandInstruction && Stage.Instructions.Any(i => i is CommandInstruction))
-        {
-            return false;
-        }
+	private void OnDrop()
+	{
+		var instruction = ContainerEditor.CurrentInstruction;
+		var index = GetIndex(instruction);
+		if (CanDrop(instruction) && index == -1)
+		{
+			Stage.AddInstruction(instruction);
+			StateHasChanged();
+		}
+		else if (index != -1)
+		{
+		}
+		dropClass = "";
+	}
 
-        return true;
-    }
+	private bool CanDrop(IInstruction instruction)
+	{
+		if (instruction is FromInstruction)
+		{
+			return false;
+		}
+		else if (instruction is EntryPointInstruction && Stage.Instructions.Any(i => i is EntryPointInstruction))
+		{
+			return false;
+		}
+		else if (instruction is CommandInstruction && Stage.Instructions.Any(i => i is CommandInstruction))
+		{
+			return false;
+		}
 
-    private void HandleDragEnter()
-    {
-        if (CanDrop(ContainerEditor.CurrentInstruction))
-        {
-            dropClass = "can-drop";
-        }
-        else
-        {
-            dropClass = "no-drop";
-        }
-    }
-
-    private void HandleDragLeave()
-    {
-        dropClass = "";
-    }
+		return true;
+	}
 
 
-    private int GetIndex(IInstruction instruction)
-    {
-        return Stage.Instructions.FindIndex(i => i.Id == instruction.Id);
-    }
+	private int GetIndex(IInstruction instruction)
+	{
+		return Stage.Instructions.FindIndex(i => i.Id == instruction.Id);
+	}
 
 }

@@ -1,0 +1,25 @@
+﻿.dropzone{
+
+}
+
+.dropzone-active {
+    padding: 0 0 40px 0;
+    border: 1px dashed rgba(0,0,0,0.3);
+    border-radius: 4px;
+    min-height: 20px;
+}
+
+    .dropzone-active::after {
+        display: flex;
+        content: "drag instruction here";
+        color: hsl(0 0% 40%);
+        justify-content: center;
+    }
+
+.no-drop {
+    border: 2px dashed red;
+}
+
+.can-drop {
+    border: 2px dashed green;
+}
