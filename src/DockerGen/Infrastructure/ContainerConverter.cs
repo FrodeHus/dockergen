@@ -216,7 +216,11 @@ namespace DockerGen.Infrastructure
 
         private void SetValue(object instance, string property, object value)
         {
-            instance.GetType().GetProperty(property).SetValue(instance, value, null);
+            try{
+                instance.GetType().GetProperty(property).SetValue(instance, value, null);
+            }catch{
+                Console.WriteLine($"Failed to set {property}");
+            }
         }
 
         private (string, string) ReadBaseImage(ref Utf8JsonReader reader)
