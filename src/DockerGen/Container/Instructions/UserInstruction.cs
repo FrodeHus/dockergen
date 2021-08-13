@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace DockerGen.Container
 {
@@ -19,6 +20,7 @@ namespace DockerGen.Container
             User = user;
         }
         [Required]
+        [JsonInclude]
         public string User { get; set; }
 
         public override string Description => throw new System.NotImplementedException();

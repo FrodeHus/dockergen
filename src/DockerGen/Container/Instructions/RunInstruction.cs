@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace DockerGen.Container
@@ -24,6 +25,7 @@ namespace DockerGen.Container
         public override string Prefix => "RUN";
         public override string DisplayName => "Install software and/or run a command";
         [Required]
+        [JsonInclude]
         public virtual string ShellCommand
         {
             get { return _shellCommand; }

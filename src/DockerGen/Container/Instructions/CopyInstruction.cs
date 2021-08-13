@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace DockerGen.Container
 {
@@ -27,11 +28,16 @@ namespace DockerGen.Container
         }
 
         [Required]
+        [JsonInclude]
         public string Source { get; set; }
         [Required]
+        [JsonInclude]
         public string Destination { get; set; }
+        [JsonInclude]
         public string Owner { get; set; }
+        [JsonInclude]
         public string Group { get; set; }
+        [JsonInclude]
         public string Stage { get; set; }
         public bool IsOwnershipDefined()
         {

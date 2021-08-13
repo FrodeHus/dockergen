@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace DockerGen.Container
 {
@@ -21,7 +22,9 @@ namespace DockerGen.Container
         public override string DisplayName => "Expose ports to the outside";
         [Required]
         [RegularExpression(@"[0-9]+", ErrorMessage = "Port only allows integers")]
+        [JsonInclude]
         public int Port { get; set; }
+        [JsonInclude]
         public string Protocol { get; set; } = "tcp";
         protected override void CompileArguments(StringBuilder builder)
         {

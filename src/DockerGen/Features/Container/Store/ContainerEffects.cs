@@ -40,6 +40,7 @@ namespace DockerGen.Features.Container.Store
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.StackTrace);
                 dispatcher.Dispatch(new ContainerLoadStateFailureAction(ex.Message));
             }
         }

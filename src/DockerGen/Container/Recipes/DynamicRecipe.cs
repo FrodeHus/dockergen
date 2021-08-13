@@ -9,19 +9,19 @@ namespace DockerGen.Container
     {
         public DynamicRecipe(Recipe recipe)
         {
-            _recipe = recipe;
+            Recipe = recipe;
             SetParametersAndDefaultValues();
             InstantiateInstructions();
         }
 
         public readonly List<IDockerInstruction> Instructions = new();
 
-        private readonly Recipe _recipe;
+        internal readonly Recipe Recipe;
         private readonly Dictionary<string, object> _parameters = new();
-        public string DisplayName => _recipe.Name;
-        public string Description => _recipe.Description;
+        public string DisplayName => Recipe.Name;
+        public string Description => Recipe.Description;
         public string Id { get; set; } = Guid.NewGuid().ToString("N");
-        public List<string> Parameters => _recipe.Parameters.ConvertAll(p => p.Name);
+        public List<string> Parameters => Recipe.Parameters.ConvertAll(p => p.Name);
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
@@ -60,7 +60,7 @@ namespace DockerGen.Container
 
         private Type GetValueType(string parameterName)
         {
-            var valueType = _recipe.Parameters.Single(p => p.Name == parameterName).ValueType;
+            var valueType = Recipe.Parameters.Single(p => p.Name == parameterName).ValueType;
             Type type = null;
             switch (valueType.ToLowerInvariant())
             {
@@ -97,12 +97,12 @@ namespace DockerGen.Container
         }
         private void InstantiateInstructions()
         {
-            if (_recipe.Instructions == null)
+            if (Recipe.Instructions == null)
             {
                 return;
             }
             Instructions.Clear();
-            foreach (var instructionDefinition in _recipe.Instructions)
+            foreach (var instructionDefinition in Recipe.Instructions)
             {
                 if (Activator.CreateInstance(Type.GetType("DockerGen.Container." + instructionDefinition.Kind)) is not IDockerInstruction instance)
                 {
@@ -125,7 +125,7 @@ namespace DockerGen.Container
 
         private void SetParametersAndDefaultValues()
         {
-            foreach (var parameter in _recipe.Parameters)
+            foreach (var parameter in Recipe.Parameters)
             {
                 _parameters.Add(parameter.Name, parameter.DefaultValue);
             }
