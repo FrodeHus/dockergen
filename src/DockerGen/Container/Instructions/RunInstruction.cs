@@ -1,5 +1,4 @@
-using System;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -24,13 +23,13 @@ namespace DockerGen.Container
         }
         public override string Prefix => "RUN";
         public override string DisplayName => "Install software and/or run a command";
+        [Required]
         public virtual string ShellCommand
         {
             get { return _shellCommand; }
             set
             {
                 _shellCommand = Validate(value);
-                FireInstructionChanged();
             }
         }
 

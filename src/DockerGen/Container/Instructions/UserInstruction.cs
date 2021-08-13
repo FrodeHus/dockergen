@@ -1,10 +1,10 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace DockerGen.Container
 {
     public class UserInstruction : Instruction
     {
-        private string user;
 
         public UserInstruction()
         {
@@ -18,16 +18,8 @@ namespace DockerGen.Container
             }
             User = user;
         }
-
-        public string User
-        {
-            get { return user; }
-            set
-            {
-                user = value;
-                FireInstructionChanged();
-            }
-        }
+        [Required]
+        public string User { get; set; }
 
         public override string Description => throw new System.NotImplementedException();
 

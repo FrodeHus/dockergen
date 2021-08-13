@@ -1,7 +1,33 @@
 ﻿@using DockerGen.Container
-<div class="input-group mb-3">
-    <span class="input-group-text">Image</span>
-    <input type="text" id="instr-@Instruction.Id" class="form-control" @bind="Instruction.Image">
-    <span class="input-group-text">Tag</span>
-    <input type="text" id="instr-tag-@Instruction.Id" class="form-control" @bind="Instruction.Tag">
-</div>
+@using DockerGen.Features.Container.Store
+@inherits FluxorComponent
+@inject IDispatcher Dispatcher
+@inject IState<ContainerState> State
+<EditForm EditContext="_editContext">
+	<DataAnnotationsValidator />
+	<div class="input-group mb-3">
+		<span class="input-group-text">Image</span>
+		<InputText class="form-control" @bind-Value="Instruction.Image"></InputText>
+		<span class="input-group-text">Tag</span>
+		<InputText class="form-control" @bind-Value="Instruction.Tag"></InputText>
+	</div>
+	<ValidationSummary />
+</EditForm>
+
+@code {
+	[Parameter]
+	public FromInstruction Instruction { get; set; }
+	private EditContext _editContext;
+
+	protected override void OnInitialized()
+	{
+		_editContext = new EditContext(Instruction);
+		_editContext.OnFieldChanged += UpdateInstruction;
+		base.OnInitialized();
+	}
+	private void UpdateInstruction(object sender, FieldChangedEventArgs e)
+	{
+		Dispatcher.Dispatch(new ContainerSetStateAction(State.Value));
+		Dispatcher.Dispatch(new ContainerUpdatedAction());
+	}
+}

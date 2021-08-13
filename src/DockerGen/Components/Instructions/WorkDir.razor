@@ -3,7 +3,7 @@
 <InstructionElement Instruction="@Instruction" Title="@Instruction.DisplayName">
     <div class="input-group mb-3">
         <span class="input-group-text fa fa-folder"></span>
-        <input type="text" class="form-control" id="instr-@Instruction.Id" @bind="Instruction.Directory">
+        <InputText class="form-control" @bind-Value="Instruction.Directory"></InputText>
     </div>
 </InstructionElement>
 

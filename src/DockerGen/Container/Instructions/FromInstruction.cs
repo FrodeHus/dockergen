@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -5,9 +6,6 @@ namespace DockerGen.Container
 {
     public class FromInstruction : Instruction
     {
-        private string _image;
-        private string _tag;
-        private string _stageName;
 
         public FromInstruction()
         {
@@ -20,33 +18,12 @@ namespace DockerGen.Container
             StageName = stageName;
         }
 
-        public string Image
-        {
-            get { return _image; }
-            set
-            {
-                _image = value;
-                FireInstructionChanged();
-            }
-        }
-        public string Tag
-        {
-            get { return _tag; }
-            set
-            {
-                _tag = value;
-                FireInstructionChanged();
-            }
-        }
-        public string StageName
-        {
-            get { return _stageName; }
-            set
-            {
-                _stageName = value;
-                FireInstructionChanged();
-            }
-        }
+        [Required]
+        [RegularExpression(@"[\w\.\/\-${}]+", ErrorMessage = "Image name only supports: a-z,.,0-9,-")]
+        public string Image { get; set; }
+        [RegularExpression(@"[\w\.\-_]+", ErrorMessage = "Tag only supports: a-z,.,-,_")]
+        public string Tag { get; set; }
+        public string StageName { get; set; }
 
         public override string Description => "The FROM instruction initializes a new build stage and sets the Base Image for subsequent instructions. As such, a valid Dockerfile must start with a FROM instruction. ";
 

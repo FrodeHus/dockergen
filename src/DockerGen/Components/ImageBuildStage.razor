@@ -1,4 +1,8 @@
 ﻿@using DockerGen.Container
+@using DockerGen.Features.Container.Store
+@inherits FluxorComponent
+@inject IState<ContainerState> State
+@inject IDispatcher Dispatcher
 <div class="image-container-build-stage">
 
 	<div class="build-stage__title">
@@ -37,8 +41,7 @@
 </div>
 
 @code {
-	[CascadingParameter]
-	public Pages.Index ContainerEditor { get; set; }
+
 	[Parameter]
 	public BuildStage Stage { get; set; }
 
@@ -46,12 +49,15 @@
 
 	private void RemoveStage()
 	{
-		ContainerEditor.Container.RemoveStage(Stage);
+		Dispatcher.Dispatch(new ContainerRemoveBuildStageAction(Stage));
+		Dispatcher.Dispatch(new ContainerUpdatedAction());
 	}
 
 	private void ToggleEdit()
 	{
 		IsEditing = !IsEditing;
+		Dispatcher.Dispatch(new ContainerSetStateAction(State.Value));
+		Dispatcher.Dispatch(new ContainerUpdatedAction());
 	}
 
 	private string GetButtonIcon()

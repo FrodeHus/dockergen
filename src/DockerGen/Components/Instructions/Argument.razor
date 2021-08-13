@@ -1,0 +1,15 @@
+﻿@using DockerGen.Container
+
+<InstructionElement Instruction="@Instruction" Title="@Instruction.DisplayName">
+    <div class="input-group mb-3">
+        <span class="input-group-text">Argument</span>
+        <InputText class="form-control" @bind-Value="Instruction.Argument"></InputText>
+        <span class="input-group-text">Default value</span>
+        <InputText class="form-control" @bind-Value="Instruction.Value"></InputText>
+    </div>
+</InstructionElement>
+
+@code {
+    [Parameter]
+    public ArgumentInstruction Instruction { get; set; }
+}

@@ -1,67 +1,91 @@
 ﻿@using BlazorMonaco
+@using DockerGen.Features.Container.Store
 @using DockerGen.Infrastructure
+@inherits FluxorComponent
 @inject ClipboardService Clipboard
+@inject IDispatcher Dispatcher
+@inject IState<ContainerState> State
 <div class="preview @toggleClass">
-    <div class="toolbar">
-        <a href="#" class="panel-button" @onclick="Toggle">
-            <i class="fa fa-bars" />
-        </a>
-        <a href="#" class="@buttonState.ButtonClass" @onclick="CopyDockerfileToClipboard">
-            <i class="@buttonState.IconClass"/>
+	<div class="toolbar">
+		<a href="#" class="panel-button" @onclick="Toggle">
+			<i class="fa fa-bars" />
 		</a>
-    </div>
-    <div class="panel">
-        <div class="preview-label">
-            dockerfile
-        </div>
-        <div class="editor @toggleClass">
-            <MonacoEditor @ref="_editor" ConstructionOptions=EditorConstructionOptions OnKeyUp="UpdateContainer" />
-        </div>
-    </div>
+	</div>
+	<div class="panel">
+		<div class="preview-label">
+			dockerfile
+		</div>
+		<div class="editor @toggleClass">
+			<MonacoEditor @ref="_editor" ConstructionOptions=EditorConstructionOptions OnKeyUp="UpdateContainer" />
+		</div>
+	</div>
 </div>
 
 @code {
-    private bool isOpen = true;
-    private string toggleClass = "open";
-    private ButtonState buttonState = new(false, "btn btn-info", "fa fa-clipboard");
-    private void Toggle()
-    {
-        isOpen = !isOpen;
-        if (isOpen)
-        {
-            toggleClass = "open";
-        }
-        else
-        {
-            toggleClass = "closed";
-        }
-        StateHasChanged();
-    }
+	private MonacoEditor _editor;
+	private bool isOpen = true;
+	private string toggleClass = "open";
+	private void Toggle()
+	{
+		isOpen = !isOpen;
+		if (isOpen)
+		{
+			toggleClass = "open";
+		}
+		else
+		{
+			toggleClass = "closed";
+		}
+		StateHasChanged();
+	}
 
-    private async Task CopyDockerfileToClipboard()
-    {
-        var originalState = buttonState;
-        try
-        {
-            var dockerfile = await _editor.GetValue();
-            await Clipboard.WriteTextAsync(dockerfile);
-            buttonState = new(true, "btn btn-success", "fa fa-check");
-            await TriggerButtonState();
-            buttonState = originalState;
-        }
-        catch
-        {
-            buttonState = new ButtonState(true, "btn btn-error", "fa fa-exclamation-circle");
-            await TriggerButtonState();
-            buttonState = originalState;
-        }
-    }
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		SubscribeToAction<ContainerUpdatedAction>(_ => UpdateEditor());
+		SubscribeToAction<ContainerLoadStateSuccessAction>(_ => UpdateEditor());
+		SubscribeToAction<ContainerClearStateSuccessAction>(_ => UpdateEditor());
+	}
+	private async Task UpdateContainer(KeyboardEvent _)
+	{
+		var dockerfile = await _editor.GetValue();
+		try
+		{
+			Dispatcher.Dispatch(new ContainerLoadDockerfileFromStringAction(dockerfile));
+			Dispatcher.Dispatch(new ContainerLoadDockerfileFromStringSuccessAction());
+		}
+		catch (Exception ex)
+		{
+			Dispatcher.Dispatch(new ContainerLoadDockerfileFromStringFailureAction(ex.Message));
+		}
+	}
 
-    private async Task TriggerButtonState()
-    {
-        StateHasChanged();
-        await Task.Delay(TimeSpan.FromMilliseconds(1500));
-    }
+	private void UpdateEditor()
+	{
+		_editor.SetValue(GetCompiledDockerfile());
+	}
 
-    record ButtonState(bool IsDisabled, string ButtonClass, string IconClass);
+	private string GetCompiledDockerfile()
+	{
+		var dockerFile = State.Value.Container.Compile();
+		if (string.IsNullOrEmpty(dockerFile))
+		{
+			return "# No instructions found - try adding one now or copy/paste an existing Dockerfile!";
+		}
+
+		return dockerFile;
+	}
+
+	private StandaloneEditorConstructionOptions EditorConstructionOptions(MonacoEditor _)
+	{
+		return new StandaloneEditorConstructionOptions
+		{
+			AutomaticLayout = true,
+			FormatOnType = true,
+			FormatOnPaste = true,
+			Language = "dockerfile",
+			Value = GetCompiledDockerfile(),
+			Minimap = new EditorMinimapOptions { Enabled = false }
+		};
+	}
 }

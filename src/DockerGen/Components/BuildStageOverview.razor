@@ -1,43 +1,46 @@
 ﻿@using DockerGen.Container
+@using DockerGen.Features.Container.Store
+@inherits FluxorComponent
+@inject IDispatcher Dispatcher
+@inject IState<ContainerState> State
 <div class="build-stage-overview">
-    <div class="wizard">
-        @foreach (var stage in ContainerEditor.Container.Stages)
-        {
+	<div class="wizard">
+		@foreach (var stage in State.Value.Container.Stages)
+		{
 
-            <div class="wizard__step">
-                <div class="wizard__dot">
-                    <div class="wizard__connector"></div>
-                    <div class="wizard__number">
-                        <i class="fab fa-docker" style="color: white;"></i>
-                    </div>
-                    <div class="wizard__connector"></div>
-                </div>
-                <div class="wizard__step-title">
-                    @stage.StageName
-                </div>
-            </div>
-        }
-    </div>
-    <a class="add-build-stage" @onclick="AddStage" href="#">
-        <i class="fab fa-docker" style="color: white;"></i>&nbsp;
-        <i class="fa fa-plus"></i>
-    </a>
+			<div class="wizard__step">
+				<div class="wizard__dot">
+					<div class="wizard__connector"></div>
+					<div class="wizard__number">
+						<i class="fab fa-docker" style="color: white;"></i>
+					</div>
+					<div class="wizard__connector"></div>
+				</div>
+				<div class="wizard__step-title">
+					@stage.StageName
+				</div>
+			</div>
+		}
+	</div>
+	<a class="add-build-stage" @onclick="AddStage" href="#">
+		<i class="fab fa-docker" style="color: white;"></i>&nbsp;
+		<i class="fa fa-plus"></i>
+	</a>
 </div>
 
 @code {
-    [CascadingParameter]
-    public Pages.Index ContainerEditor { get; set; }
-    private void AddStage()
-    {
-        var stage = new BuildStage();
-        stage.BaseImage = new FromInstruction("scratch", "");
-        var stageCount = ContainerEditor.Container.Stages.Count();
-        stage.StageName = "stage" + stageCount;
-        ContainerEditor.Container.AddStage(stage);
-    }
+	private void AddStage()
+	{
+		var stage = new BuildStage();
+		stage.BaseImage = new FromInstruction("scratch", "");
+		var stageCount = State.Value.Container.Stages.Count();
+		stage.StageName = "stage" + stageCount;
+		Dispatcher.Dispatch(new ContainerAddBuildStageAction (stage ));
+		Dispatcher.Dispatch(new ContainerUpdatedAction());
+	}
 
-    private int GetIndex(BuildStage stage)
-    {
-        return ContainerEditor.Container.Stages.IndexOf(stage) + 1;
-    }
+	private int GetIndex(BuildStage stage)
+	{
+		return State.Value.Container.Stages.IndexOf(stage) + 1;
+	}
 }

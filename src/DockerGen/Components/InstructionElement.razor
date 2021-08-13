@@ -1,33 +1,55 @@
 ﻿@using DockerGen.Container
+@using DockerGen.Features.Container.Store
+@inherits FluxorComponent
+@inject IDispatcher Dispatcher
+@inject IState<ContainerState> State
 <li class="@CssClass" draggable="true" @ondragstart="@(() => OnDrag(Instruction))" @key="Instruction.Id">
-    <div class="instruction-title image-item">
-        @Title
-        <a href="#" aria-label="Close" @onclick="RemoveInstruction">
+	<div class="instruction-title image-item">
+		@Title
+		<a href="#" aria-label="Close" @onclick="RemoveInstruction">
 			<i class="fa fa-window-close" />
 		</a>
-    </div>
-
-    @ChildContent
+	</div>
+	<EditForm EditContext="_editContext">
+		<DataAnnotationsValidator />
+		@ChildContent
+		<ValidationSummary />
+	</EditForm>
 </li>
 
 @code {
-    [CascadingParameter]
-    public Pages.Index ContainerEditor { get; set; }
-    [Parameter]
-    public RenderFragment ChildContent { get; set; }
-    [Parameter]
-    public IInstruction Instruction { get; set; }
-    [Parameter]
-    public string Title { get; set; }
-    [Parameter]
-    public string CssClass { get; set; } = "instruction";
-    [Parameter]
-    public Action<IInstruction> OnDrag { get; set; }
-    [Parameter]
-    public Action<IInstruction> OnDrop { get; set; }
+	[CascadingParameter]
+	public Features.Container.Pages.Index ContainerEditor { get; set; }
+	[Parameter]
+	public RenderFragment ChildContent { get; set; }
+	[Parameter]
+	public IInstruction Instruction { get; set; }
+	[Parameter]
+	public string Title { get; set; }
+	[Parameter]
+	public string CssClass { get; set; } = "instruction";
+	[Parameter]
+	public Action<IInstruction> OnDrag { get; set; }
+	[Parameter]
+	public Action<IInstruction> OnDrop { get; set; }
 
-    private void RemoveInstruction()
-    {
-        ContainerEditor.Container.RemoveInstruction(Instruction);
-    }
+	private EditContext _editContext;
+
+	protected override void OnInitialized()
+	{
+		_editContext = new EditContext(Instruction);
+		_editContext.OnFieldChanged += UpdateInstruction;
+		base.OnInitialized();
+	}
+	private void UpdateInstruction(object sender, FieldChangedEventArgs e)
+	{
+		Dispatcher.Dispatch(new ContainerSetStateAction(State.Value));
+		Dispatcher.Dispatch(new ContainerUpdatedAction());
+	}
+
+	private void RemoveInstruction()
+	{
+		Dispatcher.Dispatch(new ContainerRemoveInstructionAction(Instruction));
+		Dispatcher.Dispatch(new ContainerUpdatedAction());
+	}
 }

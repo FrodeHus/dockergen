@@ -1,23 +1,18 @@
 ﻿@using DockerGen.Container
 
 <InstructionElement Instruction="@Instruction" Title="@Instruction.DisplayName">
-    @if (BuildStages?.Count() > 1)
-    {
-        <div class="input-group mb-3">
-            <span class="input-group-text">Stage</span>
-            <input type="text" class="form-control" @bind="Instruction.Port">
-        </div>
-    }
-
     <div class="input-group mb-3">
         <span class="input-group-text">Port</span>
-        <input type="text" class="form-control" id="instr-@Instruction.Id" @bind="Instruction.Port" placeholder="/app">
+        <InputNumber class="form-control" @bind-Value="Instruction.Port" placeholder="80"></InputNumber>
+        <span class="input-group-text">Protocol</span>
+        <InputSelect class="form-control" @bind-Value="Instruction.Protocol" placeholder="tcp">
+            <option>tcp</option>
+            <option>udp</option>
+		</InputSelect>
     </div>
 </InstructionElement>
 
 @code {
     [Parameter]
     public ExposeInstruction Instruction { get; set; }
-    [Parameter]
-    public List<string> BuildStages { get; set; }
 }
