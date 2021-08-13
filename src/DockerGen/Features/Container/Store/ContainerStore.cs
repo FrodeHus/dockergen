@@ -115,7 +115,7 @@ namespace DockerGen.Features.Container.Store
             };
         }
         [ReducerMethod(typeof(ContainerPanelCloseAction))]
-        public static ContainerState OnSidePanelOpen(ContainerState state){
+        public static ContainerState OnSidePanelClose(ContainerState state){
             return state with {
                 SidePanelOpen = false
             };
