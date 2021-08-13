@@ -1,0 +1,13 @@
+﻿@using DockerGen.Container
+
+<InstructionElement Instruction="@Instruction" Title="@Instruction.DisplayName">
+    <div class="input-group mb-3">
+        <span class="input-group-text">Command</span>
+        <InputText class="form-control" @bind-Value="Instruction.Command"></InputText>
+    </div>
+</InstructionElement>
+
+@code {
+    [Parameter]
+    public CommandInstruction Instruction { get; set; }
+}
