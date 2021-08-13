@@ -3,7 +3,7 @@ name: ".NET: Build & Test"
 description: |
   Builds a .NET project and runs unit tests
 parameters:
-  - name: SourceLocation
+  - name: LocalDirectory
     description: Path to source
     defaultValue: src/
   - name: ProjectFile
@@ -23,7 +23,7 @@ instructions:
   - kind: CopyInstruction
     values:
       - name: Source
-        value: ${SourceLocation}${ProjectFile}
+        value: ${LocalDirectory}${ProjectFile}
       - name: Destination
         value: .
   - kind: RunInstruction
@@ -33,7 +33,7 @@ instructions:
   - kind: CopyInstruction
     values:
       - name: Source
-        value: ${SourceLocation}
+        value: ${LocalDirectory}
       - name: Destination
         value: .
   - kind: RunInstruction
