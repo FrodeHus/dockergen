@@ -27,5 +27,7 @@ namespace DockerGen.Features.Container.Store
     public record ContainerRecipesLoadedAction(List<Recipe> Recipes);
     public record ContainerRecipesLoadedSuccessAction();
     public record ContainerRecipesLoadedFailureAction();
+    public record ContainerPanelOpenAction();
+    public record ContainerPanelCloseAction();
 
 }

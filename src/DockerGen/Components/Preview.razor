@@ -31,10 +31,13 @@
 		if (isOpen)
 		{
 			toggleClass = "open";
+			Dispatcher.Dispatch(new ContainerSidePanelOpenAction());
 		}
 		else
 		{
 			toggleClass = "closed";
+			Dispatcher.Dispatch(new ContainerSidePanelCloseAction());
+
 		}
 		StateHasChanged();
 	}
@@ -42,6 +45,7 @@
 	protected override void OnInitialized()
 	{
 		base.OnInitialized();
+		toggleClass = State.Value.SidePanelOpen ? "open":"closed";
 		SubscribeToAction<ContainerUpdatedAction>(_ => UpdateEditor());
 		SubscribeToAction<ContainerLoadStateSuccessAction>(_ => UpdateEditor());
 		SubscribeToAction<ContainerClearStateSuccessAction>(_ => UpdateEditor());
