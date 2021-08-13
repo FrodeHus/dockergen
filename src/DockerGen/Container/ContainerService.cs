@@ -1,17 +1,17 @@
 ﻿using DockerGen.Container.Recipes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using DockerGen.Features.Container.Store;
+using Fluxor;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace DockerGen.Container
 {
     public class ContainerService
     {
+        public static List<Recipe> Recipes;
+
         private List<IDockerInstruction> _validInstructions;
-        private List<Recipe> _validRecipes;
         private readonly RecipeLoader _recipeLoader;
+        private readonly IDispatcher _dispatcher;
 
         public static List<string> GetValidPrefixes()
         {
@@ -38,14 +38,15 @@ namespace DockerGen.Container
                 "WORKDIR",
             };
         }
-        public ContainerService(RecipeLoader recipeLoader)
+        public ContainerService(RecipeLoader recipeLoader, IDispatcher dispatcher)
         {
             _recipeLoader = recipeLoader;
+            _dispatcher = dispatcher;
         }
         public async Task<List<Recipe>> GetValidRecipesAsync()
         {
             await EnsureRecipesLoaded();
-            return _validRecipes;
+            return ContainerService.Recipes;
         }
 
         public List<IDockerInstruction> GetValidInstructions()
@@ -66,12 +67,13 @@ namespace DockerGen.Container
 
         private async Task EnsureRecipesLoaded()
         {
-            if (_validRecipes != null)
+            if (ContainerService.Recipes != null)
             {
                 return;
             }
 
-            _validRecipes = await _recipeLoader.LoadRecipesAsync();
+            ContainerService.Recipes = await _recipeLoader.LoadRecipesAsync();
+            _dispatcher.Dispatch(new ContainerRecipesLoadedAction(ContainerService.Recipes));
         }
     }
 }

@@ -20,7 +20,6 @@ namespace DockerGen.Infrastructure
             {
                 if (reader.TokenType == JsonTokenType.EndObject)
                 {
-                    Console.WriteLine("Finished deserializing container");
                     return container;
                 }
                 if (reader.TokenType != JsonTokenType.PropertyName)
@@ -115,7 +114,10 @@ namespace DockerGen.Infrastructure
                     return instructions;
                 }
                 var instruction = ReadInstruction(ref reader);
-                instructions.Add(instruction);
+                if (instruction != null)
+                {
+                    instructions.Add(instruction);
+                }
             }
             throw new JsonException();
         }
@@ -134,6 +136,10 @@ namespace DockerGen.Infrastructure
             {
                 if (reader.TokenType == JsonTokenType.EndObject)
                 {
+                    if (kind == "Recipe")
+                    {
+                        return InstantiateRecipe(parameters);
+                    }
                     return InstantiateInstruction(kind, parameters);
                 }
                 if (reader.TokenType != JsonTokenType.PropertyName)
@@ -182,9 +188,20 @@ namespace DockerGen.Infrastructure
             }
             throw new JsonException();
         }
-        private IInstruction InstantiateRecipe(Utf8JsonReader reader)
+        private IInstruction InstantiateRecipe(Dictionary<string, string> parameters)
         {
-            throw new NotImplementedException();
+            var recipe = ContainerService.Recipes.SingleOrDefault(r => r.Name == parameters["Name"]);
+            if (recipe == null)
+            {
+                return null;
+            }
+            foreach (var parameter in recipe.Parameters)
+            {
+                var value = parameters[parameter.Name];
+                parameter.DefaultValue = value;
+            }
+
+            return new DynamicRecipe(recipe);
         }
 
         private IInstruction InstantiateInstruction(string kind, Dictionary<string, string> parameters)
@@ -280,11 +297,14 @@ namespace DockerGen.Infrastructure
             var recipe = dynamicRecipe.Recipe;
             writer.WriteStartObject();
             writer.WriteString("Kind", "Recipe");
+            writer.WriteStartObject("Parameters");
+
             writer.WriteString("Name", recipe.Name);
             foreach (var parameter in dynamicRecipe.Parameters)
             {
                 writer.WriteString(parameter, dynamicRecipe[parameter]);
             }
+            writer.WriteEndObject();
             writer.WriteEndObject();
         }
 

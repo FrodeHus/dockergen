@@ -1,13 +1,19 @@
 ﻿using DockerGen.Container;
+using DockerGen.Container.Recipes;
 using Fluxor;
+using System.Text.Json.Serialization;
 
 namespace DockerGen.Features.Container.Store
 {
     public record ContainerState
     {
         public ContainerImage Container { get; init; }
+        [JsonIgnore]
         public bool IsDragging { get; set; }
+        [JsonIgnore]
         public IInstruction CurrentInstruction { get; set; }
+        [JsonIgnore]
+        public List<Recipe> Recipes { get; set; }
     }
 
     public class ContainerFeature : Feature<ContainerState>
@@ -88,6 +94,15 @@ namespace DockerGen.Features.Container.Store
             return state with
             {
                 CurrentInstruction = action.Instruction
+            };
+        }
+
+        [ReducerMethod]
+        public static ContainerState OnRecipesLoaded(ContainerState state, ContainerRecipesLoadedAction action)
+        {
+            return state with
+            {
+                Recipes = action.Recipes
             };
         }
     }

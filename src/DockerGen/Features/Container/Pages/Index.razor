@@ -19,19 +19,3 @@
 		</div>
 	</div>
 </CascadingValue>
-
-@code {
-	protected override void OnAfterRender(bool firstRender)
-	{
-		base.OnAfterRender(firstRender);
-		if (firstRender)
-		{
-			Dispatcher.Dispatch(new ContainerLoadStateAction());
-		}
-	}
-
-	private void ContainerChanged(object sender, ContainerImageEventArgs e)
-	{
-		StateHasChanged();
-	}
-}
