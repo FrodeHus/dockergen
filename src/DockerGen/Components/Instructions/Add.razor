@@ -1,0 +1,13 @@
+﻿@using DockerGen.Container
+
+<InstructionElement Instruction="@Instruction" Title="@Instruction.DisplayName">
+    <div class="input-group mb-3">
+        <InputText class="form-control" @bind-Value="Instruction.LocalOrRemoteSource"></InputText>
+        <span class="input-group-text fa fa-arrow-right"></span>
+        <InputText class="form-control" @bind-Value="Instruction.Destination" placeholder="/app"></InputText>
+    </div>
+</InstructionElement>
+@code {
+    [Parameter]
+    public AddFilesInstruction Instruction { get; set; }
+}

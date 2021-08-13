@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace DockerGen.Container
 {
@@ -14,8 +15,10 @@ namespace DockerGen.Container
 			Executable = values[0];
 		}
 
+		[JsonInclude]
 		public string Executable { get; set; }
 
+		[JsonInclude]
 		public string Arguments { get; set; }
 
 		public override string Description => "Setting this value will cause the container to run as an executable ie. it will execute this command and any commands following will be interpreted as parameters.";

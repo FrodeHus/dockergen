@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace DockerGen.Container
 {
@@ -13,16 +14,17 @@ namespace DockerGen.Container
 			Command = command;
 		}
 
+		[JsonInclude]
 		public string Command { get; set; }
 
-		public override string Description => throw new System.NotImplementedException();
+		public override string Description => "The main purpose of a CMD is to provide defaults for an executing container. These defaults can include an executable, or they can omit the executable, in which case you must specify an ENTRYPOINT instruction as well.";
 
 		public override string Prefix => "CMD";
 		public override string DisplayName => "Set default command to run if nothing is already specified";
 
 		protected override void CompileArguments(StringBuilder builder)
 		{
-			builder.Append("[");
+			builder.Append('[');
 			var commands = Command?.Split(' ') ?? null;
 			if (commands != null)
 			{

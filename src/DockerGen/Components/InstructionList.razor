@@ -40,17 +40,25 @@
 			{
 				<Argument Instruction="argument"></Argument>
 			}
-			else if(instruction is HealthCheckInstruction health){
+			else if (instruction is HealthCheckInstruction health)
+			{
 				<HealthCheck Instruction="health"></HealthCheck>
 			}
-			else if(instruction is EnvironmentInstruction env){
+			else if (instruction is EnvironmentInstruction env)
+			{
 				<EnvironmentVariable Instruction="env"></EnvironmentVariable>
 			}
-			else if(instruction is EntryPointInstruction entry){
+			else if (instruction is EntryPointInstruction entry)
+			{
 				<EntryPoint Instruction="entry"></EntryPoint>
 			}
-			else if(instruction is CommandInstruction cmd){
+			else if (instruction is CommandInstruction cmd)
+			{
 				<Command Instruction="cmd"></Command>
+			}
+			else if (instruction is AddFilesInstruction add)
+			{
+				<Add Instruction="add"></Add>
 			}
 			else
 			{
