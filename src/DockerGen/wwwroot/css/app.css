@@ -44,7 +44,7 @@ html {
     font-family: var(--primary-font-family);
 }
 
-main {
+.container-editor {
     font-size: var(--primary-font-size);
     display: grid;
     background-color: var(--main-bg-color);

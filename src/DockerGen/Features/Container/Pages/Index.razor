@@ -4,7 +4,7 @@
 @using DockerGen.Features.Container.Store
 @inject IDispatcher Dispatcher
 <CascadingValue Value="this">
-	<main @ondragstart="@(e => Dispatcher.Dispatch(new DragAction(true)))" @ondragend="@(e => Dispatcher.Dispatch(new DragAction(false)))">
+	<div class="container-editor" @ondragstart="@(e => Dispatcher.Dispatch(new DragAction(true)))" @ondragend="@(e => Dispatcher.Dispatch(new DragAction(false)))">
 		<div class="instruction-toolbox">
 			<ComponentList></ComponentList>
 		</div>
@@ -17,7 +17,7 @@
 		<div class="dockerfile">
 			<Preview></Preview>
 		</div>
-	</main>
+	</div>
 </CascadingValue>
 
 @code {
