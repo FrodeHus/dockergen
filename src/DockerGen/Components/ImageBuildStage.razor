@@ -50,6 +50,7 @@
 	private void RemoveStage()
 	{
 		Dispatcher.Dispatch(new ContainerRemoveBuildStageAction(Stage));
+		Dispatcher.Dispatch(new ContainerUpdatedAction());
 	}
 
 	private void ToggleEdit()

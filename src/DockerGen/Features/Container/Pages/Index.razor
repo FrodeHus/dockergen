@@ -21,11 +21,6 @@
 </CascadingValue>
 
 @code {
-	private ContainerImage container = new ContainerImage();
-	public event EventHandler<ContainerImageEventArgs> OnImageChanged;
-	public bool IsDragging { get; set; }
-	public IInstruction CurrentInstruction { get; set; }
-
 	protected override void OnAfterRender(bool firstRender)
 	{
 		base.OnAfterRender(firstRender);

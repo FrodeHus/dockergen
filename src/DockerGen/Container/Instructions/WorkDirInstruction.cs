@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace DockerGen.Container
 {
@@ -12,6 +13,7 @@ namespace DockerGen.Container
 
         public override string Prefix => "WORKDIR";
         public override string DisplayName => "Set current directory";
+        [Required]
         public string Directory { get; set; }
 
         protected override void CompileArguments(StringBuilder builder)

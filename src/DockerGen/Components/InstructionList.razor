@@ -110,7 +110,8 @@
 		{
 			AddInstruction(instruction, dropIndex);
 		}
-		StateHasChanged();
+		Dispatcher.Dispatch(new ContainerSetCurrentInstructionAction(null));
+		Dispatcher.Dispatch(new ContainerUpdatedAction());
 	}
 
 	private bool CanDrop(IInstruction instruction)

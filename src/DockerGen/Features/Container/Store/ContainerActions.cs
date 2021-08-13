@@ -8,6 +8,8 @@ namespace DockerGen.Features.Container.Store
     public record ContainerAddInstructionToStageAction(BuildStage Stage, IInstruction Instruction, int Index = -1);
     public record ContainerRemoveInstructionAction(IInstruction Instruction);
     public record ContainerLoadDockerfileFromStringAction(string dockerfile);
+    public record ContainerLoadDockerfileFromStringFailureAction(string ErrorMessage);
+    public record ContainerLoadDockerfileFromStringSuccessAction();
     public record ContainerSetStateAction(ContainerState State);
     public record ContainerLoadStateAction();
     public record ContainerLoadStateSuccessAction();
@@ -20,4 +22,5 @@ namespace DockerGen.Features.Container.Store
     public record ContainerClearStateFailureAction(string ErrorMessage);
     public record DragAction(bool IsDragging);
     public record ContainerSetCurrentInstructionAction(IInstruction Instruction);
+    public record ContainerUpdatedAction();
 }

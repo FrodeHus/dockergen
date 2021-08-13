@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace DockerGen.Container
@@ -25,7 +26,9 @@ namespace DockerGen.Container
             Destination = destination;
         }
 
+        [Required]
         public string Source { get; set; }
+        [Required]
         public string Destination { get; set; }
         public string Owner { get; set; }
         public string Group { get; set; }

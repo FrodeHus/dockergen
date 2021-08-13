@@ -1,0 +1,45 @@
+﻿@using DockerGen.Features.Container.Store
+@using DockerGen.Infrastructure
+@inherits FluxorComponent
+@inject IDispatcher Dispatcher
+@inject IState<ContainerState> State
+@inject ClipboardService Clipboard
+
+<header class="header">
+	<a href="#" class="@buttonState.ButtonClass" @onclick="CopyDockerfileToClipboard">
+		<i class="@buttonState.IconClass"/>&nbsp;Copy Dockerfile
+	</a>
+
+	<a href="#" class="btn" @onclick="(() => Dispatcher.Dispatch(new ContainerClearStateAction()))">Clear</a>
+	<a href="#" class="btn" @onclick="(() => Dispatcher.Dispatch(new ContainerPersistStateAction(State.Value)))">Save</a>
+</header>
+
+@code {
+	private ButtonState buttonState = new(false, "btn btn-info", "fa fa-clipboard");
+	private async Task CopyDockerfileToClipboard()
+	{
+		var originalState = buttonState;
+		try
+		{
+			var dockerfile = State.Value.Container.Compile();
+			await Clipboard.WriteTextAsync(dockerfile);
+			buttonState = new(true, "btn btn-success", "fa fa-check");
+			await TriggerButtonState();
+			buttonState = originalState;
+		}
+		catch
+		{
+			buttonState = new ButtonState(true, "btn btn-error", "fa fa-exclamation-circle");
+			await TriggerButtonState();
+			buttonState = originalState;
+		}
+	}
+	private async Task TriggerButtonState()
+	{
+		StateHasChanged();
+		await Task.Delay(TimeSpan.FromMilliseconds(1500));
+	}
+
+	record ButtonState(bool IsDisabled, string ButtonClass, string IconClass);
+
+}

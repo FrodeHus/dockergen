@@ -1,5 +1,6 @@
 ﻿@using DockerGen.Container
 @using DockerGen.Features.Container.Store
+@inherits FluxorComponent
 @inject IDispatcher Dispatcher
 @inject IState<ContainerState> State
 <li class="@CssClass" draggable="true" @ondragstart="@(() => OnDrag(Instruction))" @key="Instruction.Id">
@@ -29,5 +30,6 @@
     private void RemoveInstruction()
     {
         Dispatcher.Dispatch(new ContainerRemoveInstructionAction(Instruction));
+		Dispatcher.Dispatch(new ContainerUpdatedAction());
     }
 }

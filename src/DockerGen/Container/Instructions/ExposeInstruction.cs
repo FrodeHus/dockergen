@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace DockerGen.Container
 {
@@ -18,6 +19,8 @@ namespace DockerGen.Container
 
         public override string Prefix => "EXPOSE";
         public override string DisplayName => "Expose ports to the outside";
+        [Required]
+        [RegularExpression(@"[0-9]+", ErrorMessage = "Port only allows integers")]
         public int Port { get; set; }
         public string Protocol { get; set; } = "tcp";
         protected override void CompileArguments(StringBuilder builder)

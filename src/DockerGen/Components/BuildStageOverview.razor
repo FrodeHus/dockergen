@@ -1,6 +1,6 @@
 ﻿@using DockerGen.Container
 @using DockerGen.Features.Container.Store
-
+@inherits FluxorComponent
 @inject IDispatcher Dispatcher
 @inject IState<ContainerState> State
 <div class="build-stage-overview">
@@ -36,6 +36,7 @@
 		var stageCount = State.Value.Container.Stages.Count();
 		stage.StageName = "stage" + stageCount;
 		Dispatcher.Dispatch(new ContainerAddBuildStageAction (stage ));
+		Dispatcher.Dispatch(new ContainerUpdatedAction());
 	}
 
 	private int GetIndex(BuildStage stage)

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace DockerGen.Container
@@ -17,7 +18,7 @@ namespace DockerGen.Container
             }
             User = user;
         }
-
+        [Required]
         public string User { get; set; }
 
         public override string Description => throw new System.NotImplementedException();

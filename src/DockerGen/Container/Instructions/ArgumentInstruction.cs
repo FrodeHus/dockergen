@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -9,6 +10,7 @@ namespace DockerGen.Container
 
         public override string Prefix => "ARG";
         public override string DisplayName => "Define build argument";
+        [Required]
         public string Argument { get; set; }
         public string Value { get; set; }
         protected override void CompileArguments(StringBuilder builder)

@@ -1,8 +1,12 @@
 @using DockerGen.Container
 
 <InstructionElement Instruction="@Instruction" Title="@Instruction.DisplayName">
-    <div class="input-group mb-3">
-        <span class="input-group-text">Command</span>
-        <textarea class="form-control" id="instr-@Instruction.Id" @bind="Instruction.ShellCommand" rows=3 placeholder="echo 'Hello, World!'"></textarea>
-    </div>
+	<div class="input-group mb-3">
+		<span class="input-group-text">Command</span>
+		<InputTextArea class="form-control" @bind-Value="Instruction.ShellCommand" rows=3 placeholder="echo 'Hello, World!'"></InputTextArea>
+	</div>
 </InstructionElement>
+@code {
+	[Parameter]
+	public RunInstruction Instruction { get; set; }
+}

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -17,7 +18,10 @@ namespace DockerGen.Container
             StageName = stageName;
         }
 
+        [Required]
+        [RegularExpression(@"[\w\.\/\-${}]+", ErrorMessage = "Image name only supports: a-z,.,0-9,-")]
         public string Image { get; set; }
+        [RegularExpression(@"[\w\.\-_]+", ErrorMessage = "Tag only supports: a-z,.,-,_")]
         public string Tag { get; set; }
         public string StageName { get; set; }
 
