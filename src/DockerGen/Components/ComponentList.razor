@@ -43,7 +43,7 @@
 </div>
 @code {
     [CascadingParameter]
-    public Pages.Index ContainerEditor { get; set; }
+    public Features.Container.Pages.Index ContainerEditor { get; set; }
     private List<IDockerInstruction> AvailableComponents { get; set; } = new();
     private List<Recipe> AvailableRecipes { get; set; } = new();
 

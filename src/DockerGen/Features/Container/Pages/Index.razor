@@ -1,0 +1,62 @@
+﻿@page "/"
+@inherits FluxorComponent
+@using DockerGen.Container
+@using DockerGen.Features.Container.Store
+@inject IDispatcher Dispatcher
+<CascadingValue Value="this">
+	<main @ondragstart="@(e => IsDragging = true)" @ondragend="@(e => IsDragging = false)">
+		<div class="instruction-toolbox">
+			<ComponentList></ComponentList>
+		</div>
+		<div class="container-stages">
+			<BuildStageOverview></BuildStageOverview>
+			<div class="container-instructions">
+				<ImageContainer></ImageContainer>
+			</div>
+		</div>
+		<div class="dockerfile">
+			<Preview></Preview>
+		</div>
+	</main>
+</CascadingValue>
+
+@code {
+	private ContainerImage container = new ContainerImage();
+	public event EventHandler<ContainerImageEventArgs> OnImageChanged;
+	public bool IsDragging { get; set; }
+	public ContainerImage Container
+	{
+		get { return container; }
+		set
+		{
+			if (container != null)
+			{
+				container.OnImageChanged -= ContainerChanged;
+			}
+			container = value;
+			container.OnImageChanged += ContainerChanged;
+			OnImageChanged?.Invoke(this, new ContainerImageEventArgs(container));
+			StateHasChanged();
+		}
+	}
+	public IInstruction CurrentInstruction { get; set; }
+
+	protected override void OnInitialized()
+	{
+		Container.OnImageChanged += ContainerChanged;
+	}
+
+	protected override void OnAfterRender(bool firstRender)
+	{
+		base.OnAfterRender(firstRender);
+		if (firstRender)
+		{
+			Dispatcher.Dispatch(new ContainerLoadStateAction());
+		}
+	}
+
+	private void ContainerChanged(object sender, ContainerImageEventArgs e)
+	{
+		StateHasChanged();
+	}
+}

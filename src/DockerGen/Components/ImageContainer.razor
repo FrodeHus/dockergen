@@ -1,15 +1,12 @@
 ﻿@using DockerGen.Container
+@using DockerGen.Features.Container.Store
+@inherits FluxorComponent
+@inject IState<ContainerState> State
 <div class="image-container" ondragover="event.preventDefault();">
     <CascadingValue Value="this">
-        @foreach (var stage in ContainerEditor.Container.Stages)
+        @foreach (var stage in State.Value.Container.Stages)
         {
             <ImageBuildStage Stage="stage"></ImageBuildStage>
         }
     </CascadingValue>
 </div>
-
-@code {
-    [CascadingParameter]
-    public Pages.Index ContainerEditor { get; set; }
-
-}

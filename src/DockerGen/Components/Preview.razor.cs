@@ -8,7 +8,7 @@ namespace DockerGen.Components
 	{
 		private MonacoEditor _editor;
 		[CascadingParameter]
-		public Pages.Index ContainerEditor { get; set; }
+		public Features.Container.Pages.Index ContainerEditor { get; set; }
 		[Inject]
 		private ILogger<Preview> _logger { get; set; }
 		protected override void OnInitialized()
