@@ -16,8 +16,11 @@ namespace DockerGen.Container
         protected override void CompileArguments(StringBuilder builder)
         {
             builder.Append(Argument);
-            builder.Append('=');
-            builder.AppendLine(Value);
+            if (!string.IsNullOrEmpty(Value))
+            {
+                builder.Append('=');
+                builder.AppendLine(Value);
+            }
         }
 
         public static implicit operator ArgumentInstruction(string value)

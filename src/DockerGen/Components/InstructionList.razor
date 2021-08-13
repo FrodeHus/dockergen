@@ -36,6 +36,10 @@
 			{
 				<InstructionRecipe Recipe="recipe"></InstructionRecipe>
 			}
+			else if (instruction is ArgumentInstruction argument)
+			{
+				<Argument Instruction="argument"></Argument>
+			}
 			else
 			{
 				<NotImplemented Instruction="instruction"></NotImplemented>
