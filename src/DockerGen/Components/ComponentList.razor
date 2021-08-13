@@ -1,9 +1,10 @@
 ﻿@using DockerGen.Container
 @using System.Reflection
 @using DockerGen.Container.Recipes
+@using DockerGen.Features.Container.Store
 @inject ContainerService _containerService
-
-
+@inject IState<ContainerState> State
+@inject IDispatcher Dispatcher
 <div class="accordion">
     <div class="accordion__item">
         <input type="checkbox" id="dockerComponents" checked>
@@ -42,8 +43,6 @@
     </div>
 </div>
 @code {
-    [CascadingParameter]
-    public Features.Container.Pages.Index ContainerEditor { get; set; }
     private List<IDockerInstruction> AvailableComponents { get; set; } = new();
     private List<Recipe> AvailableRecipes { get; set; } = new();
 
@@ -56,12 +55,12 @@
     {
         if (component is Recipe recipe)
         {
-            ContainerEditor.CurrentInstruction = new DynamicRecipe(recipe);
+            Dispatcher.Dispatch(new ContainerSetCurrentInstructionAction(new DynamicRecipe(recipe)));
         }
         else if (component is IInstruction instruction)
         {
             var instance = (Instruction)Activator.CreateInstance(instruction.GetType());
-            ContainerEditor.CurrentInstruction = instance;
+            Dispatcher.Dispatch(new ContainerSetCurrentInstructionAction(instance));
         }
     }
    }

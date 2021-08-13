@@ -1,4 +1,6 @@
 ﻿@using DockerGen.Container
+@using DockerGen.Features.Container.Store
+@inject IDispatcher Dispatcher
 <li class="@CssClass" draggable="true" @ondragstart="@(() => OnDrag(Instruction))" @key="Instruction.Id">
     <div class="instruction-title image-item">
         @Title
@@ -28,6 +30,6 @@
 
     private void RemoveInstruction()
     {
-        ContainerEditor.Container.RemoveInstruction(Instruction);
+        Dispatcher.Dispatch(new ContainerRemoveInstructionAction(Instruction));
     }
 }

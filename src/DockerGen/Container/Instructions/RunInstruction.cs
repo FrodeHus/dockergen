@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -30,7 +28,6 @@ namespace DockerGen.Container
             set
             {
                 _shellCommand = Validate(value);
-                FireInstructionChanged();
             }
         }
 

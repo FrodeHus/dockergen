@@ -1,7 +1,8 @@
 ﻿@using DockerGen.Container
 @using System.Linq.Expressions
-
-<li class="instruction recipe" draggable="true" @ondragstart="@(() => OnDrag(Recipe))" @key="Recipe.Id">
+@using DockerGen.Features.Container.Store
+@inject IDispatcher Dispatcher
+<li class="instruction recipe" draggable="true" @ondragstart="@(() => Dispatcher.Dispatch(new ContainerSetCurrentInstructionAction(Recipe)))" @key="Recipe.Id">
     <div class="instruction-title image-item">
         @Recipe.DisplayName
         <button type="button" class="btn-close" aria-label="Close" @onclick="RemoveInstruction"></button>
@@ -19,17 +20,11 @@
 </li>
 
 @code {
-    [CascadingParameter]
-    public Features.Container.Pages.Index ContainerEditor { get; set; }
     [Parameter]
     public DynamicRecipe Recipe { get; set; }
-    [Parameter]
-    public Action<DynamicRecipe> OnDrag { get; set; }
-    [Parameter]
-    public Action<DynamicRecipe> OnDrop { get; set; }
 
     private void RemoveInstruction()
     {
-        ContainerEditor.Container.RemoveInstruction(Recipe);
+        Dispatcher.Dispatch(new ContainerRemoveInstructionAction(Recipe));
     }
 }

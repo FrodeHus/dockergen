@@ -29,20 +29,17 @@
 </div>
 
 @code {
-	[CascadingParameter]
-	public Features.Container.Pages.Index ContainerEditor { get; set; }
 	private void AddStage()
 	{
 		var stage = new BuildStage();
 		stage.BaseImage = new FromInstruction("scratch", "");
-		var stageCount = ContainerEditor.Container.Stages.Count();
+		var stageCount = State.Value.Container.Stages.Count();
 		stage.StageName = "stage" + stageCount;
 		Dispatcher.Dispatch(new ContainerAddBuildStageAction (stage ));
-		Dispatcher.Dispatch(new ContainerPersistStateAction(State.Value));
 	}
 
 	private int GetIndex(BuildStage stage)
 	{
-		return ContainerEditor.Container.Stages.IndexOf(stage) + 1;
+		return State.Value.Container.Stages.IndexOf(stage) + 1;
 	}
 }

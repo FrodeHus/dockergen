@@ -2,17 +2,22 @@
 
 namespace DockerGen.Features.Container.Store
 {
-	public record ContainerAddBuildStageAction(BuildStage Stage);
+    public record ContainerAddBuildStageAction(BuildStage Stage);
 
-	public record ContainerRemoveBuildStageAction(BuildStage Stage);
-	public record ContainerSetStateAction(ContainerState State);
-	public record ContainerLoadStateAction();
-	public record ContainerLoadStateSuccessAction();
-	public record ContainerLoadStateFailureAction(string ErrorMessage);
-	public record ContainerPersistStateAction(ContainerState State);
-	public record ContainerPersistStateSuccessAction();
-	public record ContainerPersistStateFailureAction(string ErrorMessage);
-	public record ContainerClearStateAction();
-	public record ContainerClearStateSuccessAction();
-	public record ContainerClearStateFailureAction(string ErrorMessage);
+    public record ContainerRemoveBuildStageAction(BuildStage Stage);
+    public record ContainerAddInstructionToStageAction(BuildStage Stage, IInstruction Instruction, int Index = -1);
+    public record ContainerRemoveInstructionAction(IInstruction Instruction);
+    public record ContainerLoadDockerfileFromStringAction(string dockerfile);
+    public record ContainerSetStateAction(ContainerState State);
+    public record ContainerLoadStateAction();
+    public record ContainerLoadStateSuccessAction();
+    public record ContainerLoadStateFailureAction(string ErrorMessage);
+    public record ContainerPersistStateAction(ContainerState State);
+    public record ContainerPersistStateSuccessAction();
+    public record ContainerPersistStateFailureAction(string ErrorMessage);
+    public record ContainerClearStateAction();
+    public record ContainerClearStateSuccessAction();
+    public record ContainerClearStateFailureAction(string ErrorMessage);
+    public record DragAction(bool IsDragging);
+    public record ContainerSetCurrentInstructionAction(IInstruction Instruction);
 }
