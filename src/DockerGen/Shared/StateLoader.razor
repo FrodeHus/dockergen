@@ -1,8 +1,15 @@
 ﻿@using DockerGen.Container
 @using DockerGen.Features.Container.Store
+@inherits FluxorComponent
 @inject IDispatcher Dispatcher
 @inject ContainerService ContainerService
+@inject IState<ContainerState> State
 @code {
+
+	protected override void OnInitialized()
+	{
+		SubscribeToAction<ContainerUpdatedAction>(_ => Dispatcher.Dispatch(new ContainerPersistStateAction(State.Value)));
+	}
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
