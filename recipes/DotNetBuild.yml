@@ -33,7 +33,7 @@ instructions:
   - kind: CopyInstruction
     values:
       - name: Source
-        value: ${SourceLocation}/
+        value: ${SourceLocation}
       - name: Destination
         value: .
   - kind: RunInstruction
