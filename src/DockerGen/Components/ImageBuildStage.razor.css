@@ -1,1 +1,54 @@
-﻿
+﻿.image-container-build-stage {
+    background-color: var(--category-bg-color);
+    border: 1px solid var(--component-color);
+    border-radius: 4px;
+    padding: 4px;
+    margin: 0 0 10px 8px;
+}
+
+    .image-container-build-stage .title {
+        color: var(--component-color);
+        font-size: 14px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+    }
+
+
+.build-stage__title {
+    display: flex;
+    align-content: center;
+    justify-content: flex-end;
+    width: 100%;
+}
+    .build-stage__title input[type=checkbox] {
+        position: absolute;
+        opacity: 0;
+        z-index: -1;
+    }
+
+    .build-stage__title .label {
+        text-transform: uppercase;
+        font-weight: 100;
+        font-size: 1.2rem;
+        margin-right: auto;
+    }
+
+    .build-stage__title .stage-name {
+        margin: 0,0, 5px,0;
+        align-self: center;
+    }
+
+    .build-stage__title .name {
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+
+    .build-stage__title .button {
+        font-size: 1.2rem;
+        padding: 4px;
+    }
+
+    .build-stage__title input {
+       border-radius: 4px;
+    }

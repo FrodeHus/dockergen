@@ -1,7 +1,7 @@
 ﻿@using DockerGen.Container
 @using System.Text
 <div class="@GetDropzoneClass()">
-	<div class="@GetDropAreaClass() @activeClass" @ondragenter="SetActiveDrop" @ondragleave="SetInactiveDrop" @ondrop="@(() => OnDrop(-1))"></div>
+	<div class="@GetDropAreaClass() @activeClass" @ondragenter="SetActiveDrop" @ondragleave="SetInactiveDrop" @ondrop="@(() => OnDrop(0))"></div>
 	<ul class="instruction-list" ondragover="event.preventDefault();">
 		@foreach (var instruction in Stage.Instructions)
 		{

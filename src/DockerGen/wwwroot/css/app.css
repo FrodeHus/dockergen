@@ -188,22 +188,6 @@ main {
         margin: 4px;
     }
 
-.image-container-build-stage {
-    background-color: var(--category-bg-color);
-    border: 1px solid var(--component-color);
-    border-radius: 4px;
-    padding: 4px;
-    margin: 0 0 10px 8px;
-}
-
-    .image-container-build-stage .title {
-        color: var(--component-color);
-        font-size: 14px;
-        font-weight: bold;
-        display: flex;
-        justify-content: space-between;
-    }
-
 
 .image-item {
     display: flex;
