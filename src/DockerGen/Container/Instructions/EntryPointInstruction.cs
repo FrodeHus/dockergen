@@ -2,45 +2,51 @@ using System.Text;
 
 namespace DockerGen.Container
 {
-    public class EntryPointInstruction : Instruction
-    {
-        public EntryPointInstruction()
-        {
+	public class EntryPointInstruction : Instruction
+	{
+		public EntryPointInstruction()
+		{
 
-        }
-        public EntryPointInstruction(string executable, params string[] arguments)
-        {
-            Executable = executable;
-            Arguments = arguments;
-        }
-        public string Executable { get; set; }
-        public string[] Arguments { get; set; }
+		}
+		public EntryPointInstruction(string cmd)
+		{
+			var values = cmd.Split(' ');
+			Executable = values[0];
+		}
 
-        public override string Description => throw new System.NotImplementedException();
+		public string Executable { get; set; }
 
-        public override string Prefix => "ENTRYPOINT";
-        public override string DisplayName => "Set which executable container will run on start";
+		public string Arguments { get; set; }
 
-        protected override void CompileArguments(StringBuilder builder)
-        {
-            builder.Append("[");
-            builder.Append($"\"{Executable}\"");
-            if (Arguments.Length > 0)
-            {
-                builder.Append(", ");
-                for (var i = 0; i < Arguments.Length; i++)
-                {
-                    var arg = Arguments[i];
-                    builder.Append("\"");
-                    builder.Append(arg);
-                    builder.Append("\"");
-                    if (i < Arguments.Length - 1)
-                    {
-                        builder.Append(", ");
-                    }
-                }
-            }
-            builder.Append("]");
-        }
-    }
+		public override string Description => "Setting this value will cause the container to run as an executable ie. it will execute this command and any commands following will be interpreted as parameters.";
+
+		public override string Prefix => "ENTRYPOINT";
+		public override string DisplayName => "Set command to run at start";
+
+		protected override void CompileArguments(StringBuilder builder)
+		{
+			builder.Append('[');
+			builder.Append('\"').Append(Executable).Append('\"');
+			if (Arguments != null)
+			{
+				var args = Arguments.Split(' ');
+				if (args.Length > 0)
+				{
+					builder.Append(", ");
+					for (var i = 0; i < args.Length; i++)
+					{
+						var arg = args[i];
+						builder.Append('"');
+						builder.Append(arg);
+						builder.Append('"');
+						if (i < args.Length - 1)
+						{
+							builder.Append(", ");
+						}
+					}
+				}
+			}
+			builder.Append(']');
+		}
+	}
 }

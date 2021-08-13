@@ -1,0 +1,24 @@
+﻿@using DockerGen.Container
+
+<InstructionElement Instruction="@Instruction" Title="@Instruction.DisplayName">
+	<div class="input-group mb-3">
+		<span class="input-group-text">Command</span>
+		<InputTextArea class="form-control" @bind-Value="Instruction.Command" rows=3 placeholder="echo 'Hello, World!'"></InputTextArea>
+	</div>
+	<div class="input-group mb-3">
+		<span class="input-group-text">Start time</span>
+		<InputNumber class="form-control" @bind-Value="Instruction.StartPeriod" rows=3 placeholder="echo 'Hello, World!'"></InputNumber>
+	</div>
+	<div class="input-group mb-3">
+		<span class="input-group-text">Interval</span>
+		<InputNumber class="form-control" @bind-Value="Instruction.Interval" rows=3 placeholder="echo 'Hello, World!'"></InputNumber>
+	</div>
+	<div class="input-group mb-3">
+		<span class="input-group-text">Retries</span>
+		<InputNumber class="form-control" @bind-Value="Instruction.Retries" rows=3 placeholder="echo 'Hello, World!'"></InputNumber>
+	</div>
+</InstructionElement>
+@code {
+	[Parameter]
+	public HealthCheckInstruction Instruction { get; set; }
+}
