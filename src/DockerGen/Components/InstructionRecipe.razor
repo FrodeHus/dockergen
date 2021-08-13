@@ -2,29 +2,35 @@
 @using System.Linq.Expressions
 @using DockerGen.Features.Container.Store
 @inject IDispatcher Dispatcher
+@inject IState<ContainerState> State
 <li class="instruction recipe" draggable="true" @ondragstart="@(() => Dispatcher.Dispatch(new ContainerSetCurrentInstructionAction(Recipe)))" @key="Recipe.Id">
-    <div class="instruction-title image-item">
-        @Recipe.DisplayName
-        <button type="button" class="btn-close" aria-label="Close" @onclick="RemoveInstruction"></button>
-    </div>
-    <div class="instruction-values">
-        @foreach (var parameter in Recipe.Parameters)
-        {
-            <div class="form-group">
-                <label for="@parameter">@parameter</label>
-                <input type="text" id="@parameter" @bind="Recipe[parameter]" />
-            </div>
-        }
-    </div>
+	<div class="instruction-title image-item">
+		@Recipe.DisplayName
+		<button type="button" class="btn-close" aria-label="Close" @onclick="RemoveInstruction"></button>
+	</div>
+	<div class="instruction-values">
+		@foreach (var parameter in Recipe.Parameters)
+		{
+			<div class="form-group">
+				<label for="@parameter">@parameter</label>
+				<input type="text" id="@parameter" value="@Recipe[parameter]" @onchange="@((e) => {
+								Recipe[parameter] = e.Value.ToString();
+								Dispatcher.Dispatch(new ContainerSetStateAction(State.Value));
+								Dispatcher.Dispatch(new ContainerUpdatedAction());
+							})" />
+			</div>
+		}
+	</div>
 
 </li>
 
 @code {
-    [Parameter]
-    public DynamicRecipe Recipe { get; set; }
+	[Parameter]
+	public DynamicRecipe Recipe { get; set; }
 
-    private void RemoveInstruction()
-    {
-        Dispatcher.Dispatch(new ContainerRemoveInstructionAction(Recipe));
-    }
+
+	private void RemoveInstruction()
+	{
+		Dispatcher.Dispatch(new ContainerRemoveInstructionAction(Recipe));
+	}
 }

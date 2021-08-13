@@ -1,4 +1,5 @@
 ﻿using DockerGen.Container;
+using DockerGen.Container.Recipes;
 
 namespace DockerGen.Features.Container.Store
 {
@@ -23,4 +24,8 @@ namespace DockerGen.Features.Container.Store
     public record DragAction(bool IsDragging);
     public record ContainerSetCurrentInstructionAction(IInstruction Instruction);
     public record ContainerUpdatedAction();
+    public record ContainerRecipesLoadedAction(List<Recipe> Recipes);
+    public record ContainerRecipesLoadedSuccessAction();
+    public record ContainerRecipesLoadedFailureAction();
+
 }

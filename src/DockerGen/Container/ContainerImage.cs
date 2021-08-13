@@ -1,8 +1,10 @@
 using DockerGen.Infrastructure;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace DockerGen.Container
 {
+    [JsonConverter(typeof(ContainerConverter))]
     public class ContainerImage
     {
         public IList<BuildStage> Stages { get; set; } = new List<BuildStage>();

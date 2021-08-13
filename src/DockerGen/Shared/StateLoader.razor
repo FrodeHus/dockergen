@@ -1,0 +1,17 @@
+﻿@using DockerGen.Container
+@using DockerGen.Features.Container.Store
+@inject IDispatcher Dispatcher
+@inject ContainerService ContainerService
+@code {
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		base.OnAfterRender(firstRender);
+		if (firstRender)
+		{
+			await ContainerService.GetValidRecipesAsync();
+			Dispatcher.Dispatch(new ContainerRecipesLoadedSuccessAction());
+			Dispatcher.Dispatch(new ContainerLoadStateAction());
+		}
+	}
+}
