@@ -31,12 +31,12 @@
 		if (isOpen)
 		{
 			toggleClass = "open";
-			Dispatcher.Dispatch(new ContainerSidePanelOpenAction());
+			Dispatcher.Dispatch(new ContainerPanelOpenAction());
 		}
 		else
 		{
 			toggleClass = "closed";
-			Dispatcher.Dispatch(new ContainerSidePanelCloseAction());
+			Dispatcher.Dispatch(new ContainerPanelCloseAction());
 
 		}
 		StateHasChanged();
