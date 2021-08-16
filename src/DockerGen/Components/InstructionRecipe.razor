@@ -6,7 +6,9 @@
 <li class="instruction recipe" draggable="true" @ondragstart="@(() => Dispatcher.Dispatch(new ContainerSetCurrentInstructionAction(Recipe)))" @key="Recipe.Id">
 	<div class="instruction-title image-item">
 		@Recipe.DisplayName
-		<button type="button" class="btn-close" aria-label="Close" @onclick="RemoveInstruction"></button>
+		<a href="#" aria-label="Close" @onclick="RemoveInstruction">
+			<i class="fa fa-window-close" />
+		</a>
 	</div>
 	<div class="instruction-values">
 		@foreach (var parameter in Recipe.Parameters)
