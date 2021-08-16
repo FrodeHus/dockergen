@@ -7,6 +7,8 @@ on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
+    paths:
+      - "src/**"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -30,5 +32,5 @@ jobs:
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
       - run: |
-          docker build . -t chaos.azurecr.io/dockergen:${{ github.run_id }}
-          docker push chaos.azurecr.io/dockergen:${{ github.run_id }}
+          docker build . -t chaos.azurecr.io/dockergen:${GITHUB_SHA::8}
+          docker push chaos.azurecr.io/dockergen:${GITHUB_SHA::8}
