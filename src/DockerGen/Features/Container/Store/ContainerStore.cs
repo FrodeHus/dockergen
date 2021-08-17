@@ -15,6 +15,8 @@ namespace DockerGen.Features.Container.Store
         [JsonIgnore]
         public List<Recipe> Recipes { get; set; }
         public bool SidePanelOpen { get; set; }
+        [JsonIgnore]
+        public int ItemIndex { get; internal set; } = -1;
     }
 
     public class ContainerFeature : Feature<ContainerState>
@@ -89,6 +91,14 @@ namespace DockerGen.Features.Container.Store
             };
         }
 
+        [ReducerMethod]
+        public static ContainerState OnDragSetIndex(ContainerState state, DragSetIndexAction action)
+        {
+            return state with
+            {
+                ItemIndex = action.ItemIndex
+            };
+        }
         [ReducerMethod]
         public static ContainerState OnSetCurrentInstruction(ContainerState state, ContainerSetCurrentInstructionAction action)
         {

@@ -1,67 +1,57 @@
 ﻿@using DockerGen.Container
 @using DockerGen.Features.Container.Store
+@using System.Text
 @inherits FluxorComponent
 @inject IDispatcher Dispatcher
 @inject IState<ContainerState> State
-<li class="@CssClass" draggable="true" @ondragstart="OnStartDrag" @ondrop="OnDrop" @key="Instruction.Id">
-	<div class="instruction-title image-item">
-		@Title
-		<a href="#" aria-label="Close" @onclick="RemoveInstruction">
-			<i class="fa fa-window-close" />
-		</a>
-	</div>
-	<EditForm EditContext="_editContext">
-		<DataAnnotationsValidator />
-		@ChildContent
-		<ValidationSummary />
-	</EditForm>
-</li>
+<div class="instruction" draggable="true" @ondragstart="StartDrag">
+    <div class="instruction-title image-item">
+        @Title
+        <a href="#" aria-label="Close" @onclick="RemoveInstruction">
+            <i class="fa fa-window-close" />
+        </a>
+    </div>
+    <EditForm EditContext="_editContext">
+        <DataAnnotationsValidator />
+        @ChildContent
+        <ValidationSummary />
+    </EditForm>
+</div>
 
 @code {
-	[Parameter]
-	public RenderFragment ChildContent { get; set; }
-	[Parameter]
-	public IInstruction Instruction { get; set; }
-	[Parameter]
-	public string Title { get; set; }
-	[Parameter]
-	public string CssClass { get; set; } = "instruction";
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    [Parameter]
+    public IInstruction Instruction { get; set; }
+    [Parameter]
+    public string Title { get; set; }
+    [Parameter]
+    public string CssClass { get; set; } = "instruction";
 
 
-	private EditContext _editContext;
+    private EditContext _editContext;
 
-	protected override void OnInitialized()
-	{
-		_editContext = new EditContext(Instruction);
-		_editContext.OnFieldChanged += UpdateInstruction;
-		base.OnInitialized();
-	}
+    protected override void OnInitialized()
+    {
+        _editContext = new EditContext(Instruction);
+        _editContext.OnFieldChanged += UpdateInstruction;
+        base.OnInitialized();
+    }
 
-	private void OnStartDrag()
-	{
-		Console.WriteLine("Starting Drag");
-		Dispatcher.Dispatch(new DragAction(true));
-		Dispatcher.Dispatch(new ContainerSetCurrentInstructionAction(Instruction));
-	}
+    private void StartDrag()
+    {
+        Dispatcher.Dispatch(new ContainerSetCurrentInstructionAction(Instruction));
+    }
 
-	private void OnDrop()
-	{
-		if(State.Value.CurrentInstruction == Instruction){
-			return;
-		}
+    private void UpdateInstruction(object sender, FieldChangedEventArgs e)
+    {
+        Dispatcher.Dispatch(new ContainerSetStateAction(State.Value));
+        Dispatcher.Dispatch(new ContainerUpdatedAction());
+    }
 
-		Console.WriteLine("Reordering!");
-	}
-
-	private void UpdateInstruction(object sender, FieldChangedEventArgs e)
-	{
-		Dispatcher.Dispatch(new ContainerSetStateAction(State.Value));
-		Dispatcher.Dispatch(new ContainerUpdatedAction());
-	}
-
-	private void RemoveInstruction()
-	{
-		Dispatcher.Dispatch(new ContainerRemoveInstructionAction(Instruction));
-		Dispatcher.Dispatch(new ContainerUpdatedAction());
-	}
+    private void RemoveInstruction()
+    {
+        Dispatcher.Dispatch(new ContainerRemoveInstructionAction(Instruction));
+        Dispatcher.Dispatch(new ContainerUpdatedAction());
+    }
 }

@@ -1,4 +1,16 @@
 ﻿/* Accordion styles */
+input:checked + .accordion__item-label {
+    color: var(--category-active-color);
+}
+
+    input:checked + .accordion__item-label::after {
+        transform: rotate(90deg);
+    }
+
+input:checked ~ .accordion__item-content {
+    max-height: 100vh;
+    padding: 0;
+}
 .accordion {
     border-radius: 8px;
     overflow: hidden;

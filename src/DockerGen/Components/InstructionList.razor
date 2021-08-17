@@ -3,125 +3,148 @@
 @using DockerGen.Features.Container.Store
 @inject IState<ContainerState> State
 @inject IDispatcher Dispatcher
-<div class="@GetDropzoneClass()">
-	<div class="@GetDropAreaClass() @activeClass" @ondragenter="SetActiveDrop" @ondragleave="SetInactiveDrop" @ondrop="@(() => OnDrop(0))"></div>
-	<ul class="instruction-list" ondragover="event.preventDefault();">
-		@foreach (var instruction in Stage.Instructions)
-		{
-			<DynamicComponent Type="@instruction.UIType" Parameters="GetParametersForInstruction(instruction)"></DynamicComponent>
-			<div class="@GetDropAreaClass() @activeClass" @ondragenter="SetActiveDrop" @ondragleave="SetInactiveDrop" @ondrop="@(() => OnDrop(GetIndex(instruction) + 1))"></div>
-		}
-	</ul>
+<div class="instruction-list @GetDropzoneClass()" @ondragover:preventDefault @ondrop:preventDefault @ondragenter:preventDefault>
+    <div class="@GetDropzoneClasses(0)" @ondrop="() => OnDrop(0)" @ondrop:stopPropagation @ondragenter="(() => DropDragEnter(0))" @ondragleave="DropDragLeave"></div>
+
+    @foreach (var instruction in Stage.Instructions)
+    {
+        <DynamicComponent Type="@instruction.UIType" Parameters="GetParametersForInstruction(instruction)"></DynamicComponent>
+        <div class="@GetDropzoneClasses(GetIndex(instruction) + 1)" @ondrop="() => OnDrop(GetIndex(instruction)+1)" @ondrop:stopPropagation @ondragenter="(() => DropDragEnter(GetIndex(instruction)+1))" @ondragleave="DropDragLeave"></div>
+
+    }
 </div>
 
 @code {
-	[Parameter]
-	public BuildStage Stage { get; set; }
-	private string activeClass = "";
+    [Parameter]
+    public BuildStage Stage { get; set; }
 
-	public void AddInstruction(IInstruction instruction, int index = -1)
-	{
-		Dispatcher.Dispatch(new ContainerAddInstructionToStageAction(Stage, instruction, index));
-	}
+    public void AddInstruction(IInstruction instruction, int index = -1)
+    {
+        Dispatcher.Dispatch(new ContainerAddInstructionToStageAction(Stage, instruction, index));
+    }
 
-	private Dictionary<string, object> GetParametersForInstruction(IInstruction instruction)
-	{
-		var paramName = "Instruction";
-		if (instruction is DynamicRecipe)
-		{
-			paramName = "Recipe";
-		}
-		return new Dictionary<string, object>
-			{
-				{ paramName, instruction}
-			};
-	}
+    public void RemoveInstruction(IInstruction instruction)
+    {
+        Dispatcher.Dispatch(new ContainerRemoveInstructionAction(instruction));
+    }
 
-	private string GetDropzoneClass()
-	{
-		if (State.Value.IsDragging)
-		{
-			return "dropzone-active";
-		}
-		return "";
-	}
+    private Dictionary<string, object> GetParametersForInstruction(IInstruction instruction)
+    {
+        var paramName = "Instruction";
+        if (instruction is DynamicRecipe)
+        {
+            paramName = "Recipe";
+        }
+        return new Dictionary<string, object>
+    {
+    { paramName, instruction}
+    };
+    }
 
-	private string GetDropAreaClass()
-	{
-		if (State.Value.IsDragging)
-		{
+    private string GetDropzoneClasses(int index)
+    {
+        var builder = new StringBuilder();
+        if (State.Value.IsDragging)
+            builder.Append("drag-spacing");
 
+        if (State.Value.ItemIndex == index)
+        {
+            builder.Append(" drag-dragover");
+            builder.Append(" drag-dragover__spacing");
+        }
 
-			return "droparea";
-		}
-		return "";
-	}
+        return builder.ToString();
+    }
 
-	private void SetActiveDrop()
-	{
-		if (CanDrop(State.Value.CurrentInstruction))
-		{
-			activeClass = "active";
-		}
-		else
-		{
-			activeClass = "";
-		}
-	}
+    private void DropDragEnter(int index)
+    {
+        Dispatcher.Dispatch(new DragSetIndexAction(index));
+    }
 
-	private void SetInactiveDrop()
-	{
-		activeClass = "";
-	}
-
-	private void OnDrop(int dropIndex = -1)
-	{
-		SetInactiveDrop();
-
-		var instruction = State.Value.CurrentInstruction;
-		if (!CanDrop(instruction))
-		{
-			return;
-		}
-
-		if (dropIndex == -1)
-		{
-			AddInstruction(instruction);
-		}
-		else
-		{
-			AddInstruction(instruction, dropIndex);
-		}
-		Dispatcher.Dispatch(new ContainerSetCurrentInstructionAction(null));
-		Dispatcher.Dispatch(new ContainerUpdatedAction());
-	}
-
-	private bool CanDrop(IInstruction instruction)
-	{
-		if (instruction is FromInstruction)
-		{
-			return false;
-		}
-		else if (instruction is EntryPointInstruction && Stage.Instructions.Any(i => i is EntryPointInstruction))
-		{
-			return false;
-		}
-		else if (instruction is CommandInstruction && Stage.Instructions.Any(i => i is CommandInstruction))
-		{
-			return false;
-		}
-
-		return true;
-	}
+    private void DropDragLeave()
+    {
+        Dispatcher.Dispatch(new DragSetIndexAction(-1));
+    }
 
 
-	private int GetIndex(IInstruction instruction)
-	{
-		return Stage.Instructions.FindIndex(i => i.Id == instruction.Id);
-	}
+    private string GetDropzoneClass()
+    {
+        if (State.Value.IsDragging)
+        {
+            return "dropzone-active";
+        }
+        return "";
+    }
 
-	private List<string> GetBuildStageNames()
-	{
-		return State.Value.Container.Stages.Select(s => s.StageName).ToList();
-	}
+    private string GetDropAreaClass()
+    {
+        if (State.Value.IsDragging)
+        {
+
+
+            return "droparea";
+        }
+        return "";
+    }
+
+
+    private void OnDrop(int dropIndex = -1)
+    {
+        var instruction = State.Value.CurrentInstruction;
+        if (instruction == null)
+        {
+            return;
+        }
+        if (!CanDrop(instruction))
+        {
+            return;
+        }
+        
+        if (GetIndex(instruction) != -1)
+        {
+            RemoveInstruction(instruction);
+        }
+
+        if (dropIndex == -1)
+        {
+            AddInstruction(instruction);
+        }
+        else
+        {
+            AddInstruction(instruction, dropIndex);
+        }
+        Dispatcher.Dispatch(new DragAction(false));
+        Dispatcher.Dispatch(new DragSetIndexAction(-1));
+        Dispatcher.Dispatch(new ContainerSetCurrentInstructionAction(null));
+        Dispatcher.Dispatch(new ContainerUpdatedAction());
+    }
+
+    private bool CanDrop(IInstruction instruction)
+    {
+        if (instruction is FromInstruction)
+        {
+            return false;
+        }
+        else if (instruction is EntryPointInstruction && Stage.Instructions.Any(i => i is EntryPointInstruction))
+        {
+            return false;
+        }
+        else if (instruction is CommandInstruction && Stage.Instructions.Any(i => i is CommandInstruction))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    private int GetIndex(IInstruction instruction)
+    {
+        return Stage.Instructions.FindIndex(i => i.Id == instruction.Id);
+    }
+
+    private List<string> GetBuildStageNames()
+    {
+        return State.Value.Container.Stages.Select(s => s.StageName).ToList();
+    }
 }

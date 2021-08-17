@@ -29,3 +29,29 @@
 .can-drop {
     border: 2px dashed green;
 }
+
+.drag-dragover__spacing {
+    padding: 25px;
+}
+
+.drag-spacing {
+    height: 10px;
+    transition: padding .125s ease-in-out;
+}
+
+.drag-dragover {
+    background: repeating-linear-gradient( 45deg, var(--category-active-bg-color), var(--category-active-bg-color) 10px, var(--category-bg-color) 10px, var(--category-bg-color) 20px );
+    border: 1px dashed var(--category-color);
+    opacity: 0.6;
+    animation: blinker 1s linear infinite;
+}
+
+.blink-me {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0.4;
+    }
+}

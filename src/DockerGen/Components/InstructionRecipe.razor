@@ -3,7 +3,7 @@
 @using DockerGen.Features.Container.Store
 @inject IDispatcher Dispatcher
 @inject IState<ContainerState> State
-<li class="instruction recipe" draggable="true" @ondragstart="@(() => Dispatcher.Dispatch(new ContainerSetCurrentInstructionAction(Recipe)))" @key="Recipe.Id">
+<div class="instruction recipe" draggable="true" @ondragstart="@(() => Dispatcher.Dispatch(new ContainerSetCurrentInstructionAction(Recipe)))">
 	<div class="instruction-title image-item">
 		@Recipe.DisplayName
 		<a href="#" aria-label="Close" @onclick="RemoveInstruction">
@@ -24,7 +24,7 @@
 		}
 	</div>
 
-</li>
+</div>
 
 @code {
 	[Parameter]

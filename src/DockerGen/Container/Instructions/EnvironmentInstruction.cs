@@ -22,7 +22,7 @@ namespace DockerGen.Container
 
 		protected override void CompileArguments(StringBuilder builder)
 		{
-			builder.Append(Variable.ToUpperInvariant());
+			builder.Append(Variable?.ToUpperInvariant());
 			builder.Append('=');
 			builder.Append(DefaultValue);
 		}

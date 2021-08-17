@@ -4,9 +4,9 @@
     --primary-font-family: 'Roboto';
     --recipe-bg-color: hsl(300 100% 90%);
     --recipe-color: hsl(300 100% 30%);
-    --category-bg-color: hsl(200 100% 75%);
     --category-active-bg-color: hsl(200 100% 65%);
     --category-active-color: hsl(190 100% 100%);
+    --category-bg-color: hsl(200 100% 75%);
     --category-color: hsl(156 80% 30%);
     --component-bg-color: hsl(156 100% 90%);
     --component-color: hsl(156 80% 30%);
@@ -60,23 +60,21 @@ html {
     font-weight: bold;
 }
 
-.container-stages{
+.container-stages {
     grid-area: instructions;
-
 }
 
 .container-instructions {
-    height: 95vh;
+    height: 85vh;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
 }
 
 .instruction-list {
-    display: contents;
+    display:contents;
     user-select: none;
     position: absolute;
-    list-style-type: none;
     margin: 0px;
     padding: 0px;
     width: 40%;
@@ -94,28 +92,6 @@ html {
     padding: 0px;
 }
 
-.instruction {
-    margin: 0 0 5px 0;
-    padding: 14px;
-    cursor: grab;
-    list-style-type: none;
-    border-style: none none solid;
-    background-color: var(--instruction-bg-color);
-    color: var(--instruction-color);
-    border-color: var(--instruction-border-color);
-}
-
-    .instruction label.floating-label {
-        font-size: 0.75rem;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        width: calc(100% - 13px);
-    }
-
-.instruction-title {
-    font-weight: bold;
-}
 
 .instruction-values {
     display: grid;
@@ -173,6 +149,8 @@ html {
     background-color: var(--recipe-bg-color);
     color: var(--recipe-color);
     border: 1px solid var(--recipe-color);
+    margin: 0 0 5px 0;
+    padding: 14px;
 }
 
 
@@ -194,18 +172,6 @@ html {
     justify-content: space-between;
 }
 
-input:checked + .accordion__item-label {
-    color: var(--category-active-color);
-}
-
-    input:checked + .accordion__item-label::after {
-        transform: rotate(90deg);
-    }
-
-input:checked ~ .accordion__item-content {
-    max-height: 100vh;
-    padding: 0;
-}
 
 ::-webkit-scrollbar {
     width: 20px;
