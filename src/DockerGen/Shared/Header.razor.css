@@ -1,6 +1,7 @@
 ﻿.header {
     min-height: 40px;
     display: flex;
+    align-items: center;
     justify-content: flex-end;
     background-color: var(--category-bg-color);
     margin: 0 0 4px 0;
