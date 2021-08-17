@@ -71,13 +71,7 @@ html {
     flex-direction: column;
 }
 
-.instruction-list {
-    display: contents;
-    position: absolute;
-    margin: 0px;
-    padding: 0px;
-    width: 40%;
-}
+
 
 .base-image {
     padding: 0 0 10px 0;

@@ -8,17 +8,21 @@
 
     @foreach (var instruction in Stage.Instructions)
     {
-        <div class="instruction-card" draggable="true" @ondragstart="() => StartDrag(instruction)">
-            <div class="instruction-card__header">
-                @instruction.DisplayName
-                <a class="btn-close-instruction" href="#" aria-label="Close" @onclick="() => RemoveInstruction(instruction)">
-                    <i class="fa fa-window-close" />
-                </a>
+        <div class="draggable-component" draggable="true" @ondragstart="() => StartDrag(instruction)">
+            <span class="drag-handle"></span>
+            <div class="instruction-card collapsible">
+                <div class="instruction-card__header">
+                    @instruction.DisplayName
+                    <a class="btn-close-instruction" href="#" aria-label="Close" @onclick="() => RemoveInstruction(instruction)">
+                        <i class="fa fa-window-close" />
+                    </a>
+                </div>
+                <div class="instruction-card__content">
+                    <DynamicComponent Type="@instruction.UIType" Parameters="GetParametersForInstruction(instruction)"></DynamicComponent>
+                </div>
             </div>
-            <DynamicComponent Type="@instruction.UIType" Parameters="GetParametersForInstruction(instruction)"></DynamicComponent>
         </div>
         <div class="@GetDropzoneClasses(GetIndex(instruction) + 1)" @ondrop="() => OnDrop(GetIndex(instruction)+1)" @ondrop:stopPropagation @ondragenter="(() => DropDragEnter(GetIndex(instruction)+1))" @ondragleave="DropDragLeave"></div>
-
     }
 </div>
 
