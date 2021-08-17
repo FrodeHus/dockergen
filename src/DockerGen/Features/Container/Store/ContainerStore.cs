@@ -17,6 +17,8 @@ namespace DockerGen.Features.Container.Store
         public bool SidePanelOpen { get; set; }
         [JsonIgnore]
         public int ItemIndex { get; internal set; } = -1;
+        [JsonIgnore]
+        public BuildStage ActiveStage { get; set; }
     }
 
     public class ContainerFeature : Feature<ContainerState>
@@ -131,6 +133,15 @@ namespace DockerGen.Features.Container.Store
             return state with
             {
                 SidePanelOpen = false
+            };
+        }
+
+        [ReducerMethod]
+        public static ContainerState OnSetActiveStage(ContainerState state, ContainerSetActiveStage action)
+        {
+            return state with
+            {
+                ActiveStage = action.Stage
             };
         }
     }

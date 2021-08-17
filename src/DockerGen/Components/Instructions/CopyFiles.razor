@@ -1,15 +1,17 @@
 ﻿@using DockerGen.Container
-
+@using DockerGen.Features.Container.Store
+@inherits FluxorComponent
+@inject IState<ContainerState> State
 <InstructionElement Instruction="@Instruction" Title="@Instruction.DisplayName">
-    @if (BuildStages?.Count() > 1)
+    @if (State.Value.Container.Stages?.Count > 1)
     {
         <div class="input-group mb-3">
             <span class="input-group-text">Stage</span>
             <InputSelect class="form-select form-select-sm" @bind-Value="Instruction.Stage">
                 <option value="">current</option>
-                @foreach (var stage in BuildStages)
+                @foreach (var stage in State.Value.Container.Stages)
                 {
-                    <option value="@stage">@stage</option>
+                    <option value="@stage.StageName">@stage.StageName</option>
                 }
             </InputSelect>
         </div>
@@ -24,6 +26,4 @@
 @code {
     [Parameter]
     public CopyInstruction Instruction { get; set; }
-    [Parameter]
-    public List<string> BuildStages { get; set; }
 }

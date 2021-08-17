@@ -72,8 +72,7 @@ html {
 }
 
 .instruction-list {
-    display:contents;
-    user-select: none;
+    display: contents;
     position: absolute;
     margin: 0px;
     padding: 0px;
@@ -86,7 +85,6 @@ html {
 
 
 .component-list {
-    user-select: none;
     list-style-type: none;
     margin: 0px;
     padding: 0px;
@@ -145,14 +143,6 @@ html {
     border-radius: 4px;
 }
 
-.recipe {
-    background-color: var(--recipe-bg-color);
-    color: var(--recipe-color);
-    border: 1px solid var(--recipe-color);
-    margin: 0 0 5px 0;
-    padding: 14px;
-}
-
 
 .image-container {
     justify-content: center;
@@ -165,12 +155,6 @@ html {
         justify-content: flex-end;
         margin: 4px;
     }
-
-
-.image-item {
-    display: flex;
-    justify-content: space-between;
-}
 
 
 ::-webkit-scrollbar {

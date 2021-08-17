@@ -3,36 +3,27 @@
 @using DockerGen.Features.Container.Store
 @inject IDispatcher Dispatcher
 @inject IState<ContainerState> State
-<div class="instruction recipe" draggable="true" @ondragstart="@(() => Dispatcher.Dispatch(new ContainerSetCurrentInstructionAction(Recipe)))">
-	<div class="instruction-title image-item">
-		@Recipe.DisplayName
-		<a href="#" aria-label="Close" @onclick="RemoveInstruction">
-			<i class="fa fa-window-close" />
-		</a>
-	</div>
-	<div class="instruction-values">
-		@foreach (var parameter in Recipe.Parameters)
-		{
-			<div class="form-group">
-				<label for="@parameter">@parameter</label>
-				<input type="text" id="@parameter" value="@Recipe[parameter]" @onchange="@((e) => {
+<div class="instruction-values">
+    @foreach (var parameter in Recipe.Parameters)
+    {
+        <div class="form-group">
+            <label for="@parameter">@parameter</label>
+            <input type="text" id="@parameter" value="@Recipe[parameter]" @onchange="@((e) => {
 								Recipe[parameter] = e.Value.ToString();
 								Dispatcher.Dispatch(new ContainerSetStateAction(State.Value));
 								Dispatcher.Dispatch(new ContainerUpdatedAction());
 							})" />
-			</div>
-		}
-	</div>
-
+        </div>
+    }
 </div>
 
 @code {
-	[Parameter]
-	public DynamicRecipe Recipe { get; set; }
+    [Parameter]
+    public DynamicRecipe Recipe { get; set; }
 
 
-	private void RemoveInstruction()
-	{
-		Dispatcher.Dispatch(new ContainerRemoveInstructionAction(Recipe));
-	}
+    private void RemoveInstruction()
+    {
+        Dispatcher.Dispatch(new ContainerRemoveInstructionAction(Recipe));
+    }
 }

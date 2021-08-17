@@ -4,19 +4,11 @@
 @inherits FluxorComponent
 @inject IDispatcher Dispatcher
 @inject IState<ContainerState> State
-<div class="instruction" draggable="true" @ondragstart="StartDrag">
-    <div class="instruction-title image-item">
-        @Title
-        <a href="#" aria-label="Close" @onclick="RemoveInstruction">
-            <i class="fa fa-window-close" />
-        </a>
-    </div>
-    <EditForm EditContext="_editContext">
-        <DataAnnotationsValidator />
-        @ChildContent
-        <ValidationSummary />
-    </EditForm>
-</div>
+<EditForm EditContext="_editContext">
+    <DataAnnotationsValidator />
+    @ChildContent
+    <ValidationSummary />
+</EditForm>
 
 @code {
     [Parameter]

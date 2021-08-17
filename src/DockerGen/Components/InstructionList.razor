@@ -8,7 +8,15 @@
 
     @foreach (var instruction in Stage.Instructions)
     {
-        <DynamicComponent Type="@instruction.UIType" Parameters="GetParametersForInstruction(instruction)"></DynamicComponent>
+        <div class="instruction-card" draggable="true" @ondragstart="() => StartDrag(instruction)">
+            <div class="instruction-card__header">
+                @instruction.DisplayName
+                <a class="btn-close-instruction" href="#" aria-label="Close" @onclick="() => RemoveInstruction(instruction)">
+                    <i class="fa fa-window-close" />
+                </a>
+            </div>
+            <DynamicComponent Type="@instruction.UIType" Parameters="GetParametersForInstruction(instruction)"></DynamicComponent>
+        </div>
         <div class="@GetDropzoneClasses(GetIndex(instruction) + 1)" @ondrop="() => OnDrop(GetIndex(instruction)+1)" @ondrop:stopPropagation @ondragenter="(() => DropDragEnter(GetIndex(instruction)+1))" @ondragleave="DropDragLeave"></div>
 
     }
@@ -21,11 +29,18 @@
     public void AddInstruction(IInstruction instruction, int index = -1)
     {
         Dispatcher.Dispatch(new ContainerAddInstructionToStageAction(Stage, instruction, index));
+        Dispatcher.Dispatch(new ContainerUpdatedAction());
     }
 
     public void RemoveInstruction(IInstruction instruction)
     {
         Dispatcher.Dispatch(new ContainerRemoveInstructionAction(instruction));
+        Dispatcher.Dispatch(new ContainerUpdatedAction());
+    }
+
+    private void StartDrag(IInstruction instruction)
+    {
+        Dispatcher.Dispatch(new ContainerSetCurrentInstructionAction(instruction));
     }
 
     private Dictionary<string, object> GetParametersForInstruction(IInstruction instruction)
@@ -47,7 +62,7 @@
         if (State.Value.IsDragging)
             builder.Append("drag-spacing");
 
-        if (State.Value.ItemIndex == index)
+        if (State.Value.ItemIndex == index && Stage.StageName == State.Value.ActiveStage.StageName)
         {
             builder.Append(" drag-dragover");
             builder.Append(" drag-dragover__spacing");
@@ -59,11 +74,15 @@
     private void DropDragEnter(int index)
     {
         Dispatcher.Dispatch(new DragSetIndexAction(index));
+        Dispatcher.Dispatch(new ContainerSetActiveStage(Stage));
+
     }
 
     private void DropDragLeave()
     {
         Dispatcher.Dispatch(new DragSetIndexAction(-1));
+        Dispatcher.Dispatch(new ContainerSetActiveStage(null));
+
     }
 
 
@@ -99,7 +118,7 @@
         {
             return;
         }
-        
+
         if (GetIndex(instruction) != -1)
         {
             RemoveInstruction(instruction);

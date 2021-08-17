@@ -30,5 +30,5 @@ namespace DockerGen.Features.Container.Store
     public record ContainerRecipesLoadedFailureAction();
     public record ContainerPanelOpenAction();
     public record ContainerPanelCloseAction();
-
+    public record ContainerSetActiveStage(BuildStage Stage);
 }
