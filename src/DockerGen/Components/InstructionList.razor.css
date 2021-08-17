@@ -94,15 +94,13 @@
 }
 
     .drag-handle::after {
-        content: '.. .. .. .. .. ..';
+        content: '.. .. .. .. .. .';
     }
 
 .instruction-card {
     flex: 1;
     display: block;
 }
-
-
 
 .instruction-card__header {
     display: flex;
@@ -112,8 +110,23 @@
     font-size: 1rem;
 }
 
-instruction-card__content {
+.instruction-card__content {
+    display: none;
+    transition: display .125s ease-in-out;
 }
+
+.lbl-toggle{
+    cursor: pointer;
+}
+
+.instruction-card > input[type=checkbox] {
+    display: none;
+}
+
+.toggle:checked ~ .instruction-card__content {
+    display: block;
+}
+
 
 .instruction-card__footer {
     display: flex;

@@ -22,9 +22,10 @@
          @ondragstart="() => StartDrag(instruction)"
          @ondragend="EndDrag">
             <span class="drag-handle"></span>
-            <div class="instruction-card collapsible">
+            <div class="instruction-card">
+                <input type="checkbox" checked class="toggle" id="@instruction.Id">
                 <div class="instruction-card__header">
-                    @instruction.DisplayName
+                    <label for="@instruction.Id" class="lbl-toggle">@instruction.DisplayName</label>
                     <a class="btn-close-instruction" href="#" aria-label="Close" @onclick="() => RemoveInstruction(instruction)">
                         <i class="fa fa-window-close" />
                     </a>
