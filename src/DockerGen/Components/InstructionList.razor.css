@@ -67,6 +67,7 @@
 
 .draggable-component {
     display: flex;
+    align-items: center;
     flex-direction: row;
     background-color: var(--instruction-bg-color);
     margin: 0 0 5px 0;
@@ -83,19 +84,11 @@
     }
 
 .drag-handle {
-    width: 10px;
     display: inline-block;
-    height: 40px;
-    user-select: none;
-    letter-spacing: 2px;
-    line-height: 5px;
-    font-size: 12px;
     cursor: move;
+    vertical-align: middle;
+    margin-right: 4px;
 }
-
-    .drag-handle::after {
-        content: '.. .. .. .. .. .';
-    }
 
 .instruction-card {
     flex: 1;
@@ -117,6 +110,9 @@
 
 .lbl-toggle{
     cursor: pointer;
+}
+.lbl-toggle:hover{
+    text-decoration: underline;
 }
 
 .instruction-card > input[type=checkbox] {

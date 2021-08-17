@@ -23,12 +23,10 @@
 
 @code {
 	private MonacoEditor _editor;
-	private bool isOpen = true;
 	private string toggleClass = "open";
 	private void Toggle()
-	{
-		isOpen = !isOpen;
-		if (isOpen)
+	{		
+		if (!State.Value.SidePanelOpen)
 		{
 			toggleClass = "open";
 			Dispatcher.Dispatch(new ContainerPanelOpenAction());
