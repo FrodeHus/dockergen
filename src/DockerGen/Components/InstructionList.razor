@@ -3,12 +3,24 @@
 @using DockerGen.Features.Container.Store
 @inject IState<ContainerState> State
 @inject IDispatcher Dispatcher
-<div class="instruction-list @GetDropzoneClass()" @ondragover:preventDefault @ondrop:preventDefault @ondragenter:preventDefault>
+<div class="instruction-list @GetDropzoneClass()"
+     ondragstart="event.dataTransfer.setData('text', event.target.id);"
+     @ondragover:preventDefault
+     @ondrop:preventDefault
+     @ondragenter:preventDefault
+     @ondrop:stopPropagation
+     @ondragenter:stopPropagation
+     @ondragover:stopPropagation
+     @ondragstart:stopPropagation
+     @ondragleave:stopPropagation
+     @ondragend:stopPropagation>
     <div class="@GetDropzoneClasses(0)" @ondrop="() => OnDrop(0)" @ondrop:stopPropagation @ondragenter="(() => DropDragEnter(0))" @ondragleave="DropDragLeave"></div>
 
     @foreach (var instruction in Stage.Instructions)
     {
-        <div class="draggable-component" draggable="true" @ondragstart="() => StartDrag(instruction)">
+        <div class="draggable-component" draggable="true"
+         @ondragstart="() => StartDrag(instruction)"
+         @ondragend="EndDrag">
             <span class="drag-handle"></span>
             <div class="instruction-card collapsible">
                 <div class="instruction-card__header">
@@ -29,7 +41,7 @@
 @code {
     [Parameter]
     public BuildStage Stage { get; set; }
-
+    private bool IsDragging;
     public void AddInstruction(IInstruction instruction, int index = -1)
     {
         Dispatcher.Dispatch(new ContainerAddInstructionToStageAction(Stage, instruction, index));
@@ -44,7 +56,13 @@
 
     private void StartDrag(IInstruction instruction)
     {
+        IsDragging = true;
         Dispatcher.Dispatch(new ContainerSetCurrentInstructionAction(instruction));
+    }
+
+    private void EndDrag()
+    {
+        IsDragging = false;
     }
 
     private Dictionary<string, object> GetParametersForInstruction(IInstruction instruction)
@@ -63,7 +81,7 @@
     private string GetDropzoneClasses(int index)
     {
         var builder = new StringBuilder();
-        if (State.Value.IsDragging)
+        if (State.Value.IsDragging || IsDragging)
             builder.Append("drag-spacing");
 
         if (State.Value.ItemIndex == index && Stage.StageName == State.Value.ActiveStage.StageName)
