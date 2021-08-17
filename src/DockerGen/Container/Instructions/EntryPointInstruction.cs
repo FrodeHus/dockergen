@@ -24,10 +24,10 @@ namespace DockerGen.Container
 		[JsonInclude]
 		public string Arguments { get; set; }
 
-		public override string Description => "Setting this value will cause the container to run as an executable ie. it will execute this command and any commands following will be interpreted as parameters.";
+		public override string Description => "Ensure the container runs the same executable every time";
 
 		public override string Prefix => "ENTRYPOINT";
-		public override string DisplayName => "Set command to run at start";
+		public override string DisplayName => "Set startup command";
 
 		protected override void CompileArguments(StringBuilder builder)
 		{

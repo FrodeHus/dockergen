@@ -6,7 +6,7 @@ namespace DockerGen.Container
 {
 	public class AddFilesInstruction : Instruction
 	{
-		public override string Description => "Copes files, directories or remote files URLs from `Source` and adds ito th the filesystem of the image at the path `Destination`";
+		public override string Description => "Copes files, directories or remote files URLs from `Source` and adds it to the filesystem of the image at the path `Destination`";
 		public override string Prefix => "ADD";
 		public override Type UIType => typeof(Add);
 
