@@ -144,5 +144,25 @@ namespace DockerGen.Features.Container.Store
                 ActiveStage = action.Stage
             };
         }
+
+        [ReducerMethod]
+        public static ContainerState OnStartDrag(ContainerState state, StartDragAction action)
+        {
+            return state with
+            {
+                IsDragging = true,
+                CurrentInstruction = action.Instruction
+            };
+        }
+        [ReducerMethod(typeof(EndDragAction))]
+        public static ContainerState OnEndDrag(ContainerState state)
+        {
+            return state with
+            {
+                IsDragging = false,
+                CurrentInstruction = null
+            };
+        }
+
     }
 }

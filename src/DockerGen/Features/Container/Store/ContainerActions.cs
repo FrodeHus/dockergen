@@ -24,6 +24,8 @@ namespace DockerGen.Features.Container.Store
     public record DragAction(bool IsDragging);
     public record DragSetIndexAction(int ItemIndex = -1);
     public record ContainerSetCurrentInstructionAction(IInstruction Instruction);
+    public record StartDragAction(IInstruction Instruction);
+    public record EndDragAction();
     public record ContainerUpdatedAction();
     public record ContainerRecipesLoadedAction(List<Recipe> Recipes);
     public record ContainerRecipesLoadedSuccessAction();

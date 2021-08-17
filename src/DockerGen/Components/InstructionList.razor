@@ -15,28 +15,13 @@
      @ondragleave:stopPropagation
      @ondragend:stopPropagation>
     <div class="@GetDropzoneClasses(0)" @ondrop="() => OnDrop(0)" @ondrop:stopPropagation @ondragenter="(() => DropDragEnter(0))" @ondragleave="DropDragLeave"></div>
-
-    @foreach (var instruction in Stage.Instructions)
-    {
-        <div class="draggable-component" draggable="true"
-         @ondragstart="() => StartDrag(instruction)"
-         @ondragend="EndDrag">
-            <i class="drag-handle fa fa-grip-lines"></i>
-            <div class="instruction-card">
-                <input type="checkbox" checked class="toggle" id="@instruction.Id">
-                <div class="instruction-card__header">
-                    <label for="@instruction.Id" class="lbl-toggle">@instruction.DisplayName</label>
-                    <a class="btn-close-instruction" href="#" aria-label="Close" @onclick="() => RemoveInstruction(instruction)">
-                        <i class="fa fa-window-close" />
-                    </a>
-                </div>
-                <div class="instruction-card__content">
-                    <DynamicComponent Type="@instruction.UIType" Parameters="GetParametersForInstruction(instruction)"></DynamicComponent>
-                </div>
-            </div>
-        </div>
-        <div class="@GetDropzoneClasses(GetIndex(instruction) + 1)" @ondrop="() => OnDrop(GetIndex(instruction)+1)" @ondrop:stopPropagation @ondragenter="(() => DropDragEnter(GetIndex(instruction)+1))" @ondragleave="DropDragLeave"></div>
-    }
+    <CascadingValue Value="this">
+        @foreach (var instruction in Stage.Instructions)
+        {
+            <DraggableComponent Instruction="instruction"></DraggableComponent>
+            <div class="@GetDropzoneClasses(GetIndex(instruction) + 1)" @ondrop="() => OnDrop(GetIndex(instruction)+1)" @ondrop:stopPropagation @ondragenter="(() => DropDragEnter(GetIndex(instruction)+1))" @ondragleave="DropDragLeave"></div>
+        }
+    </CascadingValue>
 </div>
 
 @code {
@@ -53,30 +38,6 @@
     {
         Dispatcher.Dispatch(new ContainerRemoveInstructionAction(instruction));
         Dispatcher.Dispatch(new ContainerUpdatedAction());
-    }
-
-    private void StartDrag(IInstruction instruction)
-    {
-        IsDragging = true;
-        Dispatcher.Dispatch(new ContainerSetCurrentInstructionAction(instruction));
-    }
-
-    private void EndDrag()
-    {
-        IsDragging = false;
-    }
-
-    private Dictionary<string, object> GetParametersForInstruction(IInstruction instruction)
-    {
-        var paramName = "Instruction";
-        if (instruction is DynamicRecipe)
-        {
-            paramName = "Recipe";
-        }
-        return new Dictionary<string, object>
-    {
-    { paramName, instruction}
-    };
     }
 
     private string GetDropzoneClasses(int index)

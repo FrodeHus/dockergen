@@ -6,38 +6,6 @@
     width: 40%;
 }
 
-.dropzone {
-}
-
-.dropzone-active {
-    border: 1px dashed rgba(0,0,0,0.3);
-    border-radius: 4px;
-    min-height: 20px;
-}
-
-.droparea {
-    height: 20px;
-    border: 1px dashed rgba(0,0,0,0.3);
-    background-color: var(--category-active-bg-color);
-}
-
-
-    .droparea::after {
-        display: flex;
-        content: "drop instruction here";
-        color: hsl(0 0% 40%);
-        justify-content: center;
-    }
-
-
-.no-drop {
-    border: 2px dashed red;
-}
-
-.can-drop {
-    border: 2px dashed green;
-}
-
 .drag-dragover__spacing {
     padding: 25px;
 }
@@ -65,67 +33,3 @@
     }
 }
 
-.draggable-component {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    background-color: var(--instruction-bg-color);
-    margin: 0 0 5px 0;
-    padding: 5px 5px 5px 2px;
-    border-style: none none solid;
-    color: var(--instruction-color);
-    border-color: var(--instruction-border-color);
-}
-
-    .draggable-component:hover {
-        -moz-box-shadow: #830f94 0 1px 3px;
-        -webkit-box-shadow: #830f94 0 1px 3px;
-        box-shadow: #830f94 0 1px 3px;
-    }
-
-.drag-handle {
-    display: inline-block;
-    cursor: move;
-    vertical-align: middle;
-    margin-right: 4px;
-}
-
-.instruction-card {
-    flex: 1;
-    display: block;
-}
-
-.instruction-card__header {
-    display: flex;
-    justify-content: space-between;
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 1rem;
-}
-
-.instruction-card__content {
-    display: none;
-    transition: display .125s ease-in-out;
-}
-
-.lbl-toggle{
-    cursor: pointer;
-}
-.lbl-toggle:hover{
-    text-decoration: underline;
-}
-
-.instruction-card > input[type=checkbox] {
-    display: none;
-}
-
-.toggle:checked ~ .instruction-card__content {
-    display: block;
-}
-
-
-.instruction-card__footer {
-    display: flex;
-    justify-content: flex-end;
-    border-top: 1px solid rgba(0, 0, 0.3);
-}

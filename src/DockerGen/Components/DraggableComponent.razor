@@ -1,0 +1,42 @@
+﻿@using DockerGen.Container
+@using DockerGen.Features.Container.Store
+@inherits FluxorComponent
+@inject IDispatcher Dispatcher
+<div class="draggable-component" draggable="true"
+     @ondragstart="() => Dispatcher.Dispatch(new StartDragAction(Instruction))"
+     @ondragend="() => Dispatcher.Dispatch(new EndDragAction())">
+    <i class="drag-handle fa fa-grip-lines"></i>
+    <div class="instruction-card">
+        <input type="checkbox" checked class="toggle" id="@Instruction.Id">
+        <div class="instruction-card__header">
+            <label for="@Instruction.Id" class="lbl-toggle">@Instruction.DisplayName</label>
+            <a class="btn-close-instruction" href="#" aria-label="Close" @onclick="() => ParentList.RemoveInstruction(Instruction)">
+                <i class="fa fa-window-close" />
+            </a>
+        </div>
+        <div class="instruction-card__content">
+            <DynamicComponent Type="@Instruction.UIType" Parameters="GetParametersForInstruction(Instruction)"></DynamicComponent>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [CascadingParameter]
+    public InstructionList ParentList { get; set; }
+    [Parameter]
+    public IInstruction Instruction { get; set; }
+
+    private Dictionary<string, object> GetParametersForInstruction(IInstruction instruction)
+    {
+        var paramName = "Instruction";
+        if (instruction is DynamicRecipe)
+        {
+            paramName = "Recipe";
+        }
+        return new Dictionary<string, object>
+    {
+    { paramName, instruction}
+    };
+    }
+}
