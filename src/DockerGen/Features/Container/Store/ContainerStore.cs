@@ -1,7 +1,6 @@
 ﻿using DockerGen.Container;
 using DockerGen.Container.Recipes;
 using Fluxor;
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace DockerGen.Features.Container.Store
@@ -15,7 +14,7 @@ namespace DockerGen.Features.Container.Store
         public IInstruction CurrentInstruction { get; set; }
         [JsonIgnore]
         public List<Recipe> Recipes { get; set; }
-        public bool SidePanelOpen{get;set;}
+        public bool SidePanelOpen { get; set; }
     }
 
     public class ContainerFeature : Feature<ContainerState>
@@ -109,14 +108,18 @@ namespace DockerGen.Features.Container.Store
         }
 
         [ReducerMethod]
-        public static ContainerState OnSidePanelOpen(ContainerState state, ContainerPanelOpenAction action){
-            return state with {
+        public static ContainerState OnSidePanelOpen(ContainerState state, ContainerPanelOpenAction action)
+        {
+            return state with
+            {
                 SidePanelOpen = true
             };
         }
         [ReducerMethod]
-        public static ContainerState OnSidePanelClose(ContainerState state, ContainerPanelCloseAction action){
-            return state with {
+        public static ContainerState OnSidePanelClose(ContainerState state, ContainerPanelCloseAction action)
+        {
+            return state with
+            {
                 SidePanelOpen = false
             };
         }

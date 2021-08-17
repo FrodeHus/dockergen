@@ -1,3 +1,4 @@
+using DockerGen.Components.Instructions;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -16,6 +17,7 @@ namespace DockerGen.Container
 
 		[JsonInclude]
 		public string Command { get; set; }
+		public override Type UIType => typeof(Command);
 
 		public override string Description => "The main purpose of a CMD is to provide defaults for an executing container. These defaults can include an executable, or they can omit the executable, in which case you must specify an ENTRYPOINT instruction as well.";
 

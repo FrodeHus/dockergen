@@ -3,7 +3,7 @@
 @inherits FluxorComponent
 @inject IDispatcher Dispatcher
 @inject IState<ContainerState> State
-<li class="@CssClass" draggable="true" @ondragstart="@(() => OnDrag(Instruction))" @key="Instruction.Id">
+<li class="@CssClass" draggable="true" @ondragstart="OnStartDrag" @ondrop="OnDrop" @key="Instruction.Id">
 	<div class="instruction-title image-item">
 		@Title
 		<a href="#" aria-label="Close" @onclick="RemoveInstruction">
@@ -18,8 +18,6 @@
 </li>
 
 @code {
-	[CascadingParameter]
-	public Features.Container.Pages.Index ContainerEditor { get; set; }
 	[Parameter]
 	public RenderFragment ChildContent { get; set; }
 	[Parameter]
@@ -28,10 +26,7 @@
 	public string Title { get; set; }
 	[Parameter]
 	public string CssClass { get; set; } = "instruction";
-	[Parameter]
-	public Action<IInstruction> OnDrag { get; set; }
-	[Parameter]
-	public Action<IInstruction> OnDrop { get; set; }
+
 
 	private EditContext _editContext;
 
@@ -41,6 +36,23 @@
 		_editContext.OnFieldChanged += UpdateInstruction;
 		base.OnInitialized();
 	}
+
+	private void OnStartDrag()
+	{
+		Console.WriteLine("Starting Drag");
+		Dispatcher.Dispatch(new DragAction(true));
+		Dispatcher.Dispatch(new ContainerSetCurrentInstructionAction(Instruction));
+	}
+
+	private void OnDrop()
+	{
+		if(State.Value.CurrentInstruction == Instruction){
+			return;
+		}
+
+		Console.WriteLine("Reordering!");
+	}
+
 	private void UpdateInstruction(object sender, FieldChangedEventArgs e)
 	{
 		Dispatcher.Dispatch(new ContainerSetStateAction(State.Value));

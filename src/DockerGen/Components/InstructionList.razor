@@ -8,62 +8,7 @@
 	<ul class="instruction-list" ondragover="event.preventDefault();">
 		@foreach (var instruction in Stage.Instructions)
 		{
-			@if (instruction is FromInstruction fromImage)
-			{
-				<FromImage Instruction="fromImage"></FromImage>
-			}
-			else if (instruction is RunInstruction runCommand)
-			{
-				<RunCommand Instruction="runCommand"></RunCommand>
-			}
-			else if (instruction is CopyInstruction copyFiles)
-			{
-				<CopyFiles Instruction="copyFiles" BuildStages="@GetBuildStageNames()"></CopyFiles>
-			}
-			else if (instruction is WorkDirInstruction workdir)
-			{
-				<WorkDir Instruction="workdir"></WorkDir>
-			}
-			else if (instruction is UserInstruction user)
-			{
-				<User Instruction="user"></User>
-			}
-			else if (instruction is ExposeInstruction exposed)
-			{
-				<Expose Instruction="exposed"></Expose>
-			}
-			else if (instruction is DynamicRecipe recipe)
-			{
-				<InstructionRecipe Recipe="recipe"></InstructionRecipe>
-			}
-			else if (instruction is ArgumentInstruction argument)
-			{
-				<Argument Instruction="argument"></Argument>
-			}
-			else if (instruction is HealthCheckInstruction health)
-			{
-				<HealthCheck Instruction="health"></HealthCheck>
-			}
-			else if (instruction is EnvironmentInstruction env)
-			{
-				<EnvironmentVariable Instruction="env"></EnvironmentVariable>
-			}
-			else if (instruction is EntryPointInstruction entry)
-			{
-				<EntryPoint Instruction="entry"></EntryPoint>
-			}
-			else if (instruction is CommandInstruction cmd)
-			{
-				<Command Instruction="cmd"></Command>
-			}
-			else if (instruction is AddFilesInstruction add)
-			{
-				<Add Instruction="add"></Add>
-			}
-			else
-			{
-				<NotImplemented Instruction="instruction"></NotImplemented>
-			}
+			<DynamicComponent Type="@instruction.UIType" Parameters="GetParametersForInstruction(instruction)"></DynamicComponent>
 			<div class="@GetDropAreaClass() @activeClass" @ondragenter="SetActiveDrop" @ondragleave="SetInactiveDrop" @ondrop="@(() => OnDrop(GetIndex(instruction) + 1))"></div>
 		}
 	</ul>
@@ -77,6 +22,19 @@
 	public void AddInstruction(IInstruction instruction, int index = -1)
 	{
 		Dispatcher.Dispatch(new ContainerAddInstructionToStageAction(Stage, instruction, index));
+	}
+
+	private Dictionary<string, object> GetParametersForInstruction(IInstruction instruction)
+	{
+		var paramName = "Instruction";
+		if (instruction is DynamicRecipe)
+		{
+			paramName = "Recipe";
+		}
+		return new Dictionary<string, object>
+			{
+				{ paramName, instruction}
+			};
 	}
 
 	private string GetDropzoneClass()

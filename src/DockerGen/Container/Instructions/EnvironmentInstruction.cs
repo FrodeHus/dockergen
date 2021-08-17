@@ -1,3 +1,4 @@
+using DockerGen.Components.Instructions;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -10,6 +11,7 @@ namespace DockerGen.Container
 
 		public override string Prefix => "ENV";
 		public override string DisplayName => "Define environment variable";
+		public override Type UIType => typeof(EnvironmentVariable);
 
 		[Required]
 		[JsonInclude]
