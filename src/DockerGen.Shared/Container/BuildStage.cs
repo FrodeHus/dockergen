@@ -40,7 +40,6 @@ namespace DockerGen.Container
                 }
             }
         }
-        public string Name { get; set; }
         public List<IInstruction> Instructions { get; set; } = new List<IInstruction>();
 
         public void AddInstruction(IInstruction instruction, int index = -1)

@@ -7,7 +7,14 @@ namespace DockerGen.Container
     {
         public static IServiceCollection AddContainerService(this IServiceCollection services, Action<ContainerServiceOptions> configureOptions = null)
         {
-            services.Configure(configureOptions);
+            if(configureOptions == null)
+            {
+                services.AddOptions<ContainerServiceOptions>().Configure(o => { });
+            }
+            else
+            {
+                services.Configure(configureOptions);
+            }
 
             services.AddScoped<RecipeLoader>();
             services.AddScoped<ContainerService>();

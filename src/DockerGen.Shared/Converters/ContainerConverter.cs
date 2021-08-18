@@ -190,6 +190,11 @@ namespace DockerGen.Container
         }
         private IInstruction InstantiateRecipe(Dictionary<string, string> parameters)
         {
+            if (!ContainerService.Recipes?.Any() ?? true)
+            {
+                return null;
+            }
+
             var recipe = ContainerService.Recipes.SingleOrDefault(r => r.Name == parameters["Name"]);
             if (recipe == null)
             {

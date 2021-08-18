@@ -8,8 +8,6 @@ namespace DockerGen.Container
 	public class ContainerImage
 	{
 		public IList<BuildStage> Stages { get; set; } = new List<BuildStage>();
-		public string Name { get; set; }
-		public IEnumerable<string> Tags { get; set; }
 
 		public void AddStage(BuildStage stage)
 		{

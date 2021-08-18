@@ -50,7 +50,7 @@ namespace DockerGen.Container
 		public override string Prefix => "COPY";
 		public override string DisplayName => "Copy files into container image";
 
-		public override string Description => throw new NotImplementedException();
+		public override string Description => "Copies specified file or directory into image from a source location";
 
 		protected override void CompileArguments(StringBuilder builder)
 		{

@@ -6,7 +6,7 @@ namespace DockerGen.Container
 {
 	public class EnvironmentInstruction : Instruction
 	{
-		public override string Description => throw new System.NotImplementedException();
+		public override string Description => "Defines an environmental variable that can be overriden at runtime";
 
 		public override string Prefix => "ENV";
 		public override string DisplayName => "Define environment variable";
