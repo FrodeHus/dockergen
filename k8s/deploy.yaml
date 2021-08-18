@@ -32,7 +32,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       containers:
       - name: dockergen
-        image: chaos.azurecr.io/dockergen:b7739aa4
+        image: chaos.azurecr.io/dockergen:82f97b9d
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

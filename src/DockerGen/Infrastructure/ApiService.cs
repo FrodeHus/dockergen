@@ -1,4 +1,5 @@
 ﻿using DockerGen.Container;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Json;
 using System.Text;
@@ -9,12 +10,14 @@ namespace DockerGen.Infrastructure
     public class ApiService
     {
         private readonly HttpClient _httpClient;
-        private readonly Config _config;
+		private readonly NavigationManager _navigationManager;
+		private readonly Config _config;
 
-        public ApiService(HttpClient httpClient, IOptions<Config> config)
+        public ApiService(HttpClient httpClient, IOptions<Config> config, NavigationManager navigationManager)
         {
             _httpClient = httpClient;
-            _config = config.Value;
+			_navigationManager = navigationManager;
+			_config = config.Value;
         }
 
         public async Task<string> CreateQuickShareLinkAsync(ContainerImage containerImage)
@@ -28,7 +31,7 @@ namespace DockerGen.Infrastructure
                 {
                     return null;
                 }
-                var shareUrl = @"{_config.ApiEndpoint}{result.Headers.Location.ToString()}";
+                var shareUrl = $"{_navigationManager.BaseUri}{result.Headers.Location.ToString()}";
                 return shareUrl;
             }
             catch (Exception ex)

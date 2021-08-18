@@ -25,7 +25,7 @@ builder.Services.AddSwaggerGen(c =>
         {
             Example = new OpenApiObject
             {
-                
+
             }
         };
         return s;
@@ -43,6 +43,12 @@ if (builder.Environment.IsDevelopment())
 }
 
 
+app.UseCors(c =>
+{
+    c.AllowAnyMethod()
+    .AllowAnyOrigin()
+    .AllowAnyHeader();
+});
 
 app.UseAuthentication();
 app.UseAuthorization();
