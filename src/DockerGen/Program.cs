@@ -29,12 +29,21 @@ namespace DockerGen
             builder.Services.AddMsalAuthentication(options =>
             {
                 builder.Configuration.Bind("AzureAdB2C", options.ProviderOptions.Authentication);
-                
+
                 options.ProviderOptions.DefaultAccessTokenScopes.Add("openid");
                 options.ProviderOptions.DefaultAccessTokenScopes.Add("offline_access");
             });
 
-            builder.Services.AddFluxor(o => o.ScanAssemblies(typeof(Program).Assembly).UseReduxDevTools());
+            builder.Services.AddFluxor(o => o.ScanAssemblies(typeof(Program).Assembly).UseReduxDevTools(o =>
+            {
+                o.UseSystemTextJson((_) =>
+                {
+                    return new System.Text.Json.JsonSerializerOptions
+                    {
+                        WriteIndented = true,                        
+                    };
+                });
+            }));
             await builder.Build().RunAsync();
         }
     }
