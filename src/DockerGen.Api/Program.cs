@@ -33,6 +33,7 @@ builder.Services.AddCors(o =>
             .WithOrigins("https://dockergen.frodehus.dev", "https://localhost:5001")
             .AllowAnyMethod()
             .AllowAnyHeader()
+            .WithExposedHeaders("Location")
             .AllowCredentials();
     });
 });

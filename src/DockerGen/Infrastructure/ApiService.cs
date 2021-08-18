@@ -32,6 +32,7 @@ namespace DockerGen.Infrastructure
                 {
                     return null;
                 }
+                
                 var shareUrl = $"{_navigationManager.BaseUri}{result.Headers.GetValues("Location").SingleOrDefault()}";
                 return shareUrl;
             }
