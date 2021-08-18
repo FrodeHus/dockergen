@@ -46,10 +46,15 @@
     private async Task CreateQuickShareLink()
     {
         var url = await ApiClient.CreateQuickShareLinkAsync(State.Value.Container);
+
         if(url != null)
         {
             ToastService.ShowSuccess("Successfully created a quick link for you to share with your friends: " + url);
             await Clipboard.WriteTextAsync(url);
+        }
+        else
+        {
+            ToastService.ShowError("Something went wrong when trying to create a quick link");
         }
     }
     private async Task TriggerButtonState()

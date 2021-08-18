@@ -11,12 +11,14 @@ namespace DockerGen.Infrastructure
     {
         private readonly HttpClient _httpClient;
 		private readonly NavigationManager _navigationManager;
+		private readonly ILogger<ApiService> _log;
 		private readonly Config _config;
 
-        public ApiService(HttpClient httpClient, IOptions<Config> config, NavigationManager navigationManager)
+        public ApiService(HttpClient httpClient, IOptions<Config> config, NavigationManager navigationManager, ILogger<ApiService> log)
         {
             _httpClient = httpClient;
 			_navigationManager = navigationManager;
+			_log = log;
 			_config = config.Value;
         }
 
@@ -24,7 +26,6 @@ namespace DockerGen.Infrastructure
         {
             try
             {
-                Console.WriteLine(_config.ApiEndpoint);
                 var content = new StringContent(JsonSerializer.Serialize(containerImage), Encoding.UTF8, "application/json");
                 var result = await _httpClient.PostAsync($"{_config.ApiEndpoint}share/quick", content);
                 if (!result.IsSuccessStatusCode)
@@ -36,7 +37,7 @@ namespace DockerGen.Infrastructure
             }
             catch (Exception ex)
             {
-
+                _log.LogError(ex, "Failed to create quick link");
             }
             return null;
         }
