@@ -1,8 +1,8 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0-bullseye-slim AS build
 WORKDIR /src
-COPY src/DockerGen/DockerGen.csproj DockerGen/DockerGen.csproj
-RUN dotnet restore "DockerGen.Shared/DockerGen.Shared.csproj"
 COPY src/DockerGen.Shared/DockerGen.Shared.csproj DockerGen.Shared/DockerGen.Shared.csproj
+RUN dotnet restore "DockerGen.Shared/DockerGen.Shared.csproj"
+COPY src/DockerGen/DockerGen.csproj DockerGen/DockerGen.csproj
 RUN dotnet restore "DockerGen/DockerGen.csproj"
 COPY src/DockerGen/ DockerGen/
 COPY src/DockerGen.Shared/ DockerGen.Shared/
