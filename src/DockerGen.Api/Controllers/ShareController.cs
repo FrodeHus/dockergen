@@ -18,19 +18,26 @@ namespace DockerGen.Api.Controllers
             _log = log;
         }
 
-        [HttpGet("{id}", Name = "GetDockerfile")]
+        [HttpGet("/{id}", Name = "GetDockerfile")]
         public async Task<IActionResult> GetQuickShareDockerfileAsync(string id)
         {
             _log.LogInformation($"Retrieving quick link: {id}");
-            var actualId = GuidEncoder.Decode(id);
-            var dockerfile = await _cache.GetStringAsync(actualId.ToString());
-            if (dockerfile == null)
+            try
             {
-                _log.LogInformation($"No value in cache for {id}");
-                return NotFound();
+                var actualId = GuidEncoder.Decode(id);
+                var dockerfile = await _cache.GetStringAsync(actualId.ToString());
+                if (dockerfile == null)
+                {
+                    _log.LogInformation($"No value in cache for {id}");
+                    return NotFound();
+                }
+                var containerImage = JsonSerializer.Deserialize<ContainerImage>(dockerfile);
+                return Ok(containerImage);
+            }catch(Exception ex)
+            {
+                _log.LogInformation(ex.Message);
+                return StatusCode(500);
             }
-            var containerImage = JsonSerializer.Deserialize<ContainerImage>(dockerfile);
-            return Ok(containerImage);
         }
         [HttpPost("quick", Name = "ShareDockerfile")]
         public async Task<IActionResult> ShareDockerfileAsync([FromBody] ContainerImage dockerfile)

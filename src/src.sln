@@ -7,6 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DockerGen", "DockerGen\Dock
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deploy", "Deploy", "{09303D28-F3E4-4452-A556-9A61492FE584}"
 	ProjectSection(SolutionItems) = preProject
+		..\k8s\api-deploy.yaml = ..\k8s\api-deploy.yaml
 		..\k8s\deploy.yaml = ..\k8s\deploy.yaml
 		..\Dockerfile = ..\Dockerfile
 		..\nginx.conf = ..\nginx.conf

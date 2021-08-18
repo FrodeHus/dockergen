@@ -33,10 +33,11 @@ spec:
       containers:
       - name: dockergen
         image: chaos.azurecr.io/dockergen-api:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         livenessProbe:
           httpGet:
-            path: /
+            scheme: "HTTP"
+            path: /health
             port: 80
           initialDelaySeconds: 10
           periodSeconds: 10
@@ -60,7 +61,7 @@ metadata:
   namespace: dockergen
   name: dockergen-api
   labels:
-    name: dockergen
+    name: dockergen-api
 spec:
   type: ClusterIP
   ports:
@@ -79,7 +80,7 @@ metadata:
     "kemp.ax/vspip": "192.168.6.200"
     "kemp.ax/vsport": "443"
     "kemp.ax/vsprot": "tcp"
-    "kemp.ax/vsid": "1"
+    "kemp.ax/checkurl": "/health"
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:

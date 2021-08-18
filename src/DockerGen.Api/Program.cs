@@ -11,6 +11,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddContainerService();
+builder.Services.AddHealthChecks();
 builder.Services.AddControllers().AddJsonOptions(o =>
 {
     o.JsonSerializerOptions.Converters.Add(new ContainerConverter());
@@ -42,11 +43,14 @@ if (builder.Environment.IsDevelopment())
 }
 
 
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseRouting();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHealthChecks("/health");
+});
 app.MapControllers();
 
 app.Run();

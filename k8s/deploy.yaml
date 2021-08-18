@@ -79,7 +79,6 @@ metadata:
     "kemp.ax/vspip": "192.168.6.200"
     "kemp.ax/vsport": "443"
     "kemp.ax/vsprot": "tcp"
-    "kemp.ax/vsid": "1"
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
