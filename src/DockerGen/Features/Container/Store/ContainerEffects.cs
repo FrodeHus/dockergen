@@ -1,4 +1,5 @@
 ﻿using Blazored.LocalStorage;
+using DockerGen.Infrastructure;
 using Fluxor;
 
 namespace DockerGen.Features.Container.Store
@@ -6,10 +7,12 @@ namespace DockerGen.Features.Container.Store
     public class ContainerEffects
     {
         private readonly ILocalStorageService _localStorageService;
+        private readonly ApiService _apiClient;
         private const string ContainerStatePersistenceName = "DockerGen_ContainerState";
-        public ContainerEffects(ILocalStorageService localStorageService)
+        public ContainerEffects(ILocalStorageService localStorageService, ApiService apiClient)
         {
             _localStorageService = localStorageService;
+            _apiClient = apiClient;
         }
 
         [EffectMethod]
@@ -57,6 +60,21 @@ namespace DockerGen.Features.Container.Store
             catch (Exception ex)
             {
                 dispatcher.Dispatch(new ContainerClearStateFailureAction(ex.Message));
+            }
+        }
+
+        [EffectMethod]
+        public async Task LoadQuickLink(ContainerLoadQuickLinkAction action, IDispatcher dispatcher)
+        {
+            try
+            {
+                var image = await _apiClient.LoadFromQuickLinkAsync(action.QuickLinkId);
+                dispatcher.Dispatch(new ContainerSetStateAction(new ContainerState { Container = image }));
+                dispatcher.Dispatch(new ContainerLoadQuickLinkSuccess());
+            }
+            catch (Exception)
+            {
+                dispatcher.Dispatch(new ContainerLoadQuickLinkFailed("Something went wrong when opening quick link"));
             }
         }
     }

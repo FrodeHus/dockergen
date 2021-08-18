@@ -26,11 +26,11 @@ namespace DockerGen.Features.Container.Store
     public record ContainerSetCurrentInstructionAction(IInstruction Instruction);
     public record StartDragAction(IInstruction Instruction);
     public record EndDragAction();
-    public record ContainerUpdatedAction();
-    public record ContainerRecipesLoadedAction(List<Recipe> Recipes);
-    public record ContainerRecipesLoadedSuccessAction();
-    public record ContainerRecipesLoadedFailureAction();
+    public record ContainerUpdatedAction();    
     public record ContainerPanelOpenAction();
     public record ContainerPanelCloseAction();
     public record ContainerSetActiveStage(BuildStage Stage);
+    public record ContainerLoadQuickLinkAction(string QuickLinkId);
+    public record ContainerLoadQuickLinkSuccess();
+    public record ContainerLoadQuickLinkFailed(string ErrorMessage);
 }

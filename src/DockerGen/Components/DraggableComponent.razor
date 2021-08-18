@@ -1,6 +1,7 @@
 ﻿@using DockerGen.Container
 @using DockerGen.Features.Container.Store
 @inherits FluxorComponent
+@inject ContainerService ContainerService
 @inject IDispatcher Dispatcher
 <div class="draggable-component" draggable="true"
      @ondragstart="() => Dispatcher.Dispatch(new StartDragAction(Instruction))"
@@ -15,7 +16,7 @@
             </a>
         </div>
         <div class="instruction-card__content">
-            <DynamicComponent Type="@Instruction.UIType" Parameters="GetParametersForInstruction(Instruction)"></DynamicComponent>
+            <DynamicComponent Type="@ContainerService.GetMappedUIComponent(Instruction)" Parameters="GetParametersForInstruction(Instruction)"></DynamicComponent>
         </div>
     </div>
 </div>

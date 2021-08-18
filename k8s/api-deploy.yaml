@@ -2,13 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: dockergen
-  name: dockergen
+  name: dockergen-api
 spec:
   replicas: 3
   selector:
     matchLabels:
       app: dockergen
-      component: web
+      component: api
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -18,7 +18,7 @@ spec:
     metadata:
       labels:
         app: dockergen
-        component: web
+        component: api
     spec:
       affinity:
         podAntiAffinity:
@@ -28,21 +28,22 @@ spec:
               - key: component
                 operator: In
                 values:
-                  - web
+                  - api
             topologyKey: "kubernetes.io/hostname"
       containers:
       - name: dockergen
-        image: chaos.azurecr.io/dockergen:b7739aa4
-        imagePullPolicy: IfNotPresent
+        image: chaos.azurecr.io/dockergen-api:latest
+        imagePullPolicy: Always
         livenessProbe:
           httpGet:
-            scheme: "HTTPS"
-            path: /
-            port: 443
+            scheme: "HTTP"
+            path: /health
+            port: 80
           initialDelaySeconds: 10
           periodSeconds: 10
         ports:
         - containerPort: 443
+        - containerPort: 80
         resources:
           requests:
             memory: "50Mi"
@@ -58,37 +59,38 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: dockergen
-  name: dockergen
+  name: dockergen-api
   labels:
-    name: dockergen
+    name: dockergen-api
 spec:
   type: ClusterIP
   ports:
   - port: 443
   selector:
     app: dockergen
-    component: web
+    component: api
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   namespace: dockergen
-  name: dockergen
+  name: dockergen-api
   annotations:
     "kubernetes.io/ingress.class": "kempLB"
     "kemp.ax/vspip": "192.168.6.200"
     "kemp.ax/vsport": "443"
     "kemp.ax/vsprot": "tcp"
+    "kemp.ax/checkurl": "/health"
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: dockergen.frodehus.dev
+  - host: api.dockergen.frodehus.dev
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: dockergen
+            name: dockergen-api
             port:
               number: 443

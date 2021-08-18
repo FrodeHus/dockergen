@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/{quicklink?}"
 @inherits FluxorComponent
 @using DockerGen.Container
 @using DockerGen.Features.Container.Store
@@ -19,3 +19,15 @@
 		</div>
 	</div>
 </CascadingValue>
+
+@code{
+	[Parameter]
+	public string QuickLink{get;set;}
+
+	protected override void OnInitialized()
+	{
+		if(!string.IsNullOrEmpty(QuickLink)){
+			Dispatcher.Dispatch(new ContainerLoadQuickLinkAction(QuickLink));
+		}
+	}
+}

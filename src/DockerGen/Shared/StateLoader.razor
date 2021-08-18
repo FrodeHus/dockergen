@@ -17,7 +17,6 @@
 		if (firstRender)
 		{
 			await ContainerService.GetValidRecipesAsync();
-			Dispatcher.Dispatch(new ContainerRecipesLoadedSuccessAction());
 			Dispatcher.Dispatch(new ContainerLoadStateAction());
 		}
 	}
