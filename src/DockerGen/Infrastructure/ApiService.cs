@@ -32,8 +32,8 @@ namespace DockerGen.Infrastructure
                 {
                     return null;
                 }
-                
-                var shareUrl = $"{_navigationManager.BaseUri}{result.Headers.GetValues("Location").SingleOrDefault()}";
+                var location = result.Headers.Location.OriginalString.Trim('/');
+                var shareUrl = $"{_navigationManager.BaseUri}{location}";
                 return shareUrl;
             }
             catch (Exception ex)
