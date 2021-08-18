@@ -24,7 +24,7 @@ namespace DockerGen.Container
 		[JsonInclude]
 		public string User { get; set; }
 
-		public override string Description => throw new System.NotImplementedException();
+		public override string Description => @"The USER instruction sets the user name (or UID) and optionally the user group (or GID) to use when running the image and for any RUN, CMD and ENTRYPOINT instructions that follow it in the Dockerfile.";
 
 		public override string Prefix => "USER";
 		public override string DisplayName => "Set which user runs commands";
