@@ -26,6 +26,7 @@
 
 	protected override void OnInitialized()
 	{
+		base.OnInitialized();
 		if(!string.IsNullOrEmpty(QuickLink)){
 			Dispatcher.Dispatch(new ContainerLoadQuickLinkAction(QuickLink));
 		}

@@ -48,7 +48,6 @@ namespace DockerGen
 
                 options.ProviderOptions.DefaultAccessTokenScopes.Add("openid");
                 options.ProviderOptions.DefaultAccessTokenScopes.Add("offline_access");
-                options.ProviderOptions.DefaultAccessTokenScopes.Add("api://90d0860b-694f-4f1c-a200-126c74c2ea5a/access_as_user");
             });
 
             builder.Services.AddFluxor(o => o.ScanAssemblies(typeof(Program).Assembly).UseReduxDevTools(o =>
