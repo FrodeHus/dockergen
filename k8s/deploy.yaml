@@ -8,6 +8,7 @@ spec:
   selector:
     matchLabels:
       app: dockergen
+      component: web
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -17,16 +18,17 @@ spec:
     metadata:
       labels:
         app: dockergen
+        component: web
     spec:
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
               matchExpressions:
-              - key: app
+              - key: component
                 operator: In
                 values:
-                - dockergen
+                  - web
             topologyKey: "kubernetes.io/hostname"
       containers:
       - name: dockergen
@@ -65,6 +67,7 @@ spec:
   - port: 443
   selector:
     app: dockergen
+    component: web
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress

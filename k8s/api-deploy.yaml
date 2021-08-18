@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: dockergen
-  name: dockergen
+  name: dockergen-api
 spec:
   replicas: 3
   selector:
@@ -25,10 +25,6 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
               matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - dockergen
               - key: component
                 operator: In
                 values:
@@ -36,7 +32,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       containers:
       - name: dockergen
-        image: chaos.azurecr.io/dockergen-api:b7739aa4
+        image: chaos.azurecr.io/dockergen-api:latest
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -45,6 +41,7 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 10
         ports:
+        - containerPort: 443
         - containerPort: 80
         resources:
           requests:
@@ -67,7 +64,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - port: 80
+  - port: 443
   selector:
     app: dockergen
     component: api
@@ -86,13 +83,13 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: dockergen.frodehus.dev
+  - host: api.dockergen.frodehus.dev
     http:
       paths:
-      - path: /api/
+      - path: /
         pathType: Prefix
         backend:
           service:
             name: dockergen-api
             port:
-              number: 80
+              number: 443
