@@ -15,11 +15,11 @@ namespace DockerGen
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
-
+            builder.Services.Configure<Config>(c => builder.Configuration.Bind("DockerGen", c));
             builder.Services.AddHttpClient("DockerGen.Api", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
                 .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("DockerGen.Api"));
-
+            builder.Services.AddScoped<ApiService>();
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddContainerService(o =>
             {

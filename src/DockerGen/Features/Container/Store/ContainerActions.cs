@@ -30,4 +30,7 @@ namespace DockerGen.Features.Container.Store
     public record ContainerPanelOpenAction();
     public record ContainerPanelCloseAction();
     public record ContainerSetActiveStage(BuildStage Stage);
+    public record ContainerLoadQuickLinkAction(string QuickLinkId);
+    public record ContainerLoadQuickLinkSuccess();
+    public record ContainerLoadQuickLinkFailed(string ErrorMessage);
 }

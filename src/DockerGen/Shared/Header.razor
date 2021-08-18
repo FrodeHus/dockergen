@@ -3,17 +3,18 @@
 @inherits FluxorComponent
 @inject IDispatcher Dispatcher
 @inject IState<ContainerState> State
+@inject ApiService ApiClient
 @inject ClipboardService Clipboard
 
 <header class="header">
     <LoginDisplay />
     <AuthorizeView>
         <Authorized>
-            <a href="#" class="@buttonState.ButtonClass" @onclick="CopyDockerfileToClipboard">
-                <i class="fa fa-share-square" />
-            </a>
         </Authorized>
     </AuthorizeView>
+    <a href="#" class="@buttonState.ButtonClass" @onclick="CreateQuickShareLink">
+        <i class="fa fa-share-square" />
+    </a>
     <a href="#" class="@buttonState.ButtonClass" @onclick="CopyDockerfileToClipboard">
         <i class="@buttonState.IconClass" />&nbsp;Copy Dockerfile
     </a>
@@ -39,6 +40,15 @@
             buttonState = new ButtonState(true, "btn btn-error", "fa fa-exclamation-circle");
             await TriggerButtonState();
             buttonState = originalState;
+        }
+    }
+
+    private async Task CreateQuickShareLink()
+    {
+        var url = await ApiClient.CreateQuickShareLinkAsync(State.Value.Container);
+        if(url != null)
+        {
+            await Clipboard.WriteTextAsync(url);
         }
     }
     private async Task TriggerButtonState()
