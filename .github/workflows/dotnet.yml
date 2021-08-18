@@ -27,4 +27,4 @@ jobs:
     - name: Build
       run: dotnet build src/src.sln --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal src/DockerGen.Tests/DockerGen.Tests.csproj
+      run: dotnet test --no-build --verbosity normal src/DockerGen.Tests/DockerGen.Shared.Tests.csproj
