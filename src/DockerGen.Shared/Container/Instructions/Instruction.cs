@@ -1,4 +1,3 @@
-using DockerGen.Components.Instructions;
 using System.Text;
 
 namespace DockerGen.Container
@@ -11,7 +10,6 @@ namespace DockerGen.Container
 		public abstract string Prefix { get; }
 		public virtual string DisplayName => Prefix;
 
-		public virtual Type UIType => typeof(NotImplemented);
 
 		public string Compile()
 		{

@@ -15,4 +15,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DockerGen.Shared\DockerGen.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

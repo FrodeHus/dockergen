@@ -1,6 +1,5 @@
 ﻿using DockerGen.Container.Recipes;
-using DockerGen.Features.Container.Store;
-using Fluxor;
+using Microsoft.Extensions.Options;
 using System.Reflection;
 
 namespace DockerGen.Container
@@ -11,7 +10,6 @@ namespace DockerGen.Container
 
         private List<IDockerInstruction> _validInstructions;
         private readonly RecipeLoader _recipeLoader;
-        private readonly IDispatcher _dispatcher;
 
         public static List<string> GetValidPrefixes()
         {
@@ -38,10 +36,16 @@ namespace DockerGen.Container
                 "WORKDIR",
             };
         }
-        public ContainerService(RecipeLoader recipeLoader, IDispatcher dispatcher)
+        private readonly ContainerServiceOptions _options;
+        public ContainerService(RecipeLoader recipeLoader, IOptions<ContainerServiceOptions> options)
         {
             _recipeLoader = recipeLoader;
-            _dispatcher = dispatcher;
+            _options = options.Value;
+        }
+
+        public Type GetMappedUIComponent(IInstruction instruction)
+        {
+            return _options.UIComponentMappings[instruction.GetType()];
         }
         public async Task<List<Recipe>> GetValidRecipesAsync()
         {
@@ -73,7 +77,6 @@ namespace DockerGen.Container
             }
 
             ContainerService.Recipes = await _recipeLoader.LoadRecipesAsync();
-            _dispatcher.Dispatch(new ContainerRecipesLoadedAction(ContainerService.Recipes));
         }
     }
 }

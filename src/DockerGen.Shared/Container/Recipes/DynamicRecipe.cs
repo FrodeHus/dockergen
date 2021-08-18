@@ -1,5 +1,4 @@
-﻿using DockerGen.Components;
-using DockerGen.Container.Recipes;
+﻿using DockerGen.Container.Recipes;
 using System.Dynamic;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -17,14 +16,13 @@ namespace DockerGen.Container
 
         public readonly List<IDockerInstruction> Instructions = new();
 
-        internal readonly Recipe Recipe;
+        public readonly Recipe Recipe;
         private readonly Dictionary<string, object> _parameters = new();
         public string DisplayName => Recipe.Name;
         public string Description => Recipe.Description;
         public string Id { get; set; } = Guid.NewGuid().ToString("N");
         public List<string> Parameters => Recipe.Parameters.ConvertAll(p => p.Name);
 
-        public Type UIType => typeof(InstructionRecipe);
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {

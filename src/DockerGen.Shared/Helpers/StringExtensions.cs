@@ -1,10 +1,14 @@
 ﻿using DockerGen.Container;
 using System.Text;
 
-namespace DockerGen.Infrastructure
+namespace DockerGen.Helpers
 {
     public static class StringExtensions
     {
+        private static readonly string[] _allowedInstructions = new string[]
+        {
+            "ADD","FROM","CMD","ENV","ARG","EXPOSE","RUN","ENTRYPOINT","HEALTHCHECK","COPY","USER","WORKDIR"
+        };
         public static string[] SplitOnInstructions(this string value)
         {
             var values = value.Split('\n');
@@ -20,7 +24,7 @@ namespace DockerGen.Infrastructure
                 if (line.IndexOf(' ') != -1)
                 {
                     var prefix = line.Substring(0, line.IndexOf(' '));
-                    if (ContainerService.GetValidPrefixes().Contains(prefix))
+                    if (_allowedInstructions.Contains(prefix.ToUpper()))
                     {
                         builder.Append('$');
                         builder.Append(line);

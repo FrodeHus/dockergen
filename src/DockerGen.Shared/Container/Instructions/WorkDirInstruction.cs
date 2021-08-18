@@ -1,5 +1,4 @@
-﻿using DockerGen.Components.Instructions;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -15,7 +14,6 @@ namespace DockerGen.Container
 
 		public override string Prefix => "WORKDIR";
 		public override string DisplayName => "Set current directory";
-		public override Type UIType => typeof(WorkDir);
 
 		[Required]
 		[JsonInclude]

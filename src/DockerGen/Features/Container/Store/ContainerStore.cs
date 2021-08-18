@@ -12,8 +12,6 @@ namespace DockerGen.Features.Container.Store
         public bool IsDragging { get; set; }
         [JsonIgnore]
         public IInstruction CurrentInstruction { get; set; }
-        [JsonIgnore]
-        public List<Recipe> Recipes { get; set; }
         public bool SidePanelOpen { get; set; }
         [JsonIgnore]
         public int ItemIndex { get; internal set; } = -1;
@@ -107,15 +105,6 @@ namespace DockerGen.Features.Container.Store
             return state with
             {
                 CurrentInstruction = action.Instruction
-            };
-        }
-
-        [ReducerMethod]
-        public static ContainerState OnRecipesLoaded(ContainerState state, ContainerRecipesLoadedAction action)
-        {
-            return state with
-            {
-                Recipes = action.Recipes
             };
         }
 

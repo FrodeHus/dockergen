@@ -1,4 +1,3 @@
-using DockerGen.Components.Instructions;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,7 +13,6 @@ namespace DockerGen.Container
 		[Required]
 		public string Argument { get; set; }
 		public string Value { get; set; }
-		public override Type UIType => typeof(Argument);
 		protected override void CompileArguments(StringBuilder builder)
 		{
 			builder.Append(Argument);

@@ -1,4 +1,3 @@
-using DockerGen.Components.Instructions;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -23,7 +22,6 @@ namespace DockerGen.Container
 
 			ShellCommand = shellCommand;
 		}
-		public override Type UIType => typeof(RunCommand);
 		public override string Prefix => "RUN";
 		public override string DisplayName => "Install software and/or run a command";
 		[Required]

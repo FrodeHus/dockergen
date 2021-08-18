@@ -1,5 +1,4 @@
-﻿using DockerGen.Components.Instructions;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -18,7 +17,6 @@ namespace DockerGen.Container
 			Protocol = proto;
 		}
 		public override string Description => throw new System.NotImplementedException();
-		public override Type UIType => typeof(Expose);
 
 		public override string Prefix => "EXPOSE";
 		public override string DisplayName => "Expose ports to the outside";

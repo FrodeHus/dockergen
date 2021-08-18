@@ -1,5 +1,4 @@
-﻿using DockerGen.Components.Instructions;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json.Serialization;
 
 namespace DockerGen.Container
@@ -8,12 +7,11 @@ namespace DockerGen.Container
 	{
 		public override string Description => "Copes files, directories or remote files URLs from `Source` and adds it to the filesystem of the image at the path `Destination`";
 		public override string Prefix => "ADD";
-		public override Type UIType => typeof(Add);
 
 		[JsonInclude]
-		public string LocalOrRemoteSource { get; set; }
+		public string LocalOrRemoteSource { get; set; } = "/src";
 		[JsonInclude]
-		public string Destination { get; set; }
+		public string Destination { get; set; } = "/app";
 		protected override void CompileArguments(StringBuilder builder)
 		{
 			builder.Append(LocalOrRemoteSource);

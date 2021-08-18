@@ -1,4 +1,3 @@
-using DockerGen.Components.Instructions;
 using System.Text;
 
 namespace DockerGen.Container
@@ -13,7 +12,6 @@ namespace DockerGen.Container
 
 		public override string Prefix => "HEALTHCHECK";
 		public override string DisplayName => "Configure health check";
-		public override Type UIType => typeof(HealthCheck);
 
 		public int Interval { get; set; } = 30;
 

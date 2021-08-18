@@ -1,4 +1,3 @@
-using DockerGen.Components.Instructions;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -20,7 +19,6 @@ namespace DockerGen.Container
 			}
 			User = user;
 		}
-		public override Type UIType => typeof(User);
 
 		[Required]
 		[JsonInclude]

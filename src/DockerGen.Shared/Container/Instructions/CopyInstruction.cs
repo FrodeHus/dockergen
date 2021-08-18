@@ -1,4 +1,3 @@
-using DockerGen.Components.Instructions;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -27,8 +26,6 @@ namespace DockerGen.Container
 			Source = source;
 			Destination = destination;
 		}
-		public override Type UIType => typeof(CopyFiles);
-
 		[Required]
 		[JsonInclude]
 		public string Source { get; set; }

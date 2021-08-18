@@ -1,4 +1,3 @@
-using DockerGen.Components.Instructions;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -16,7 +15,6 @@ namespace DockerGen.Container
 			Executable = values[0];
 			Arguments = cmd[(cmd.IndexOf(Executable) + Executable.Length)..];
 		}
-		public override Type UIType => typeof(EntryPoint);
 
 		[JsonInclude]
 		public string Executable { get; set; }
