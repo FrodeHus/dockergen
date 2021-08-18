@@ -5,7 +5,7 @@
 @inject IState<ContainerState> State
 @inject ApiService ApiClient
 @inject ClipboardService Clipboard
-
+@inject IToastService ToastService
 <header class="header">
     <LoginDisplay />
     <AuthorizeView>
@@ -48,6 +48,7 @@
         var url = await ApiClient.CreateQuickShareLinkAsync(State.Value.Container);
         if(url != null)
         {
+            ToastService.ShowSuccess("Successfully created a quick link for you to share with your friends: " + url);
             await Clipboard.WriteTextAsync(url);
         }
     }

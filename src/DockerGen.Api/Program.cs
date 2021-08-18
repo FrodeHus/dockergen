@@ -1,15 +1,43 @@
 using DockerGen.Container;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDistributedMemoryCache();
+}
+else
+{
+    var redis = ConnectionMultiplexer.Connect("redis-cluster:6379");
+    builder.Services.AddDataProtection()
+        .PersistKeysToStackExchangeRedis(redis, "DataProtectionKeys");
+
+    builder.Services.AddStackExchangeRedisCache(o =>
+    {
+        o.Configuration = "redis-cluster:6379";
+        o.InstanceName = "dockergen";
+    });
+}
+builder.Services.AddCors(o =>
+{
+    o.AddPolicy("allowOrigins", builder =>
+    {
+        builder
+            .WithOrigins("https://dockergen.frodehus.dev", "https://localhost:5001")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
+    });
+});
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
-builder.Services.AddDistributedMemoryCache();
 builder.Services.AddContainerService();
 builder.Services.AddHealthChecks();
 builder.Services.AddControllers().AddJsonOptions(o =>
@@ -43,12 +71,7 @@ if (builder.Environment.IsDevelopment())
 }
 
 
-app.UseCors(c =>
-{
-    c.AllowAnyMethod()
-    .AllowAnyOrigin()
-    .AllowAnyHeader();
-});
+app.UseCors("allowOrigins");
 
 app.UseAuthentication();
 app.UseAuthorization();
