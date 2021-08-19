@@ -31,5 +31,7 @@ namespace DockerGen.Container
         {
             UIComponentMappings.Add(typeof(TInstruction), typeof(TUIComponent));
         }
+
+        public string RecipePath { get; set; }
     }
 }

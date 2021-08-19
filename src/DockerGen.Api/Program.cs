@@ -1,6 +1,8 @@
+using DockerGen.Api;
 using DockerGen.Container;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -25,6 +27,7 @@ else
         o.InstanceName = "dockergen";
     });
 }
+builder.Services.Configure<Config>(builder.Configuration.GetSection("DockerGen"));
 builder.Services.AddCors(o =>
 {
     o.AddPolicy("allowOrigins", builder =>
@@ -39,7 +42,10 @@ builder.Services.AddCors(o =>
 });
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
-builder.Services.AddContainerService();
+builder.Services.AddContainerService(o =>
+{
+    o.RecipePath = builder.Configuration.GetValue<string>("DockerGen:RecipePath");
+});
 builder.Services.AddHealthChecks();
 builder.Services.AddControllers().AddJsonOptions(o =>
 {

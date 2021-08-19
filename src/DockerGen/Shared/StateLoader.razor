@@ -1,8 +1,10 @@
 ﻿@using DockerGen.Container
 @using DockerGen.Features.Container.Store
+@using DockerGen.Infrastructure
 @inherits FluxorComponent
-@inject IDispatcher Dispatcher
 @inject ContainerService ContainerService
+@inject IDispatcher Dispatcher
+@inject ApiService ApiClient
 @inject IState<ContainerState> State
 @code {
 
@@ -16,7 +18,9 @@
 		base.OnAfterRender(firstRender);
 		if (firstRender)
 		{
-			await ContainerService.GetValidRecipesAsync();
+			var recipes = await ApiClient.LoadRecipesAsync();
+			ContainerService.Recipes = recipes;
+			Dispatcher.Dispatch(new SetRecipesAction(recipes));
 			Dispatcher.Dispatch(new ContainerLoadStateAction());
 		}
 	}

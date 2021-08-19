@@ -2,6 +2,7 @@
 @using System.Reflection
 @using DockerGen.Container.Recipes
 @using DockerGen.Features.Container.Store
+@inherits FluxorComponent
 @inject ContainerService _containerService
 @inject IState<ContainerState> State
 @inject IDispatcher Dispatcher
@@ -26,11 +27,17 @@
 
             <div class="accordion__item-content">
                 <ul class="component-list">
-                    @foreach (var recipe in AvailableRecipes)
+                    @if (State.Value.Recipes == null)
                     {
-                        <RecipeComponent Recipe="recipe" OnDrag="StartDrag"></RecipeComponent>
+                        <li>Loading recipes...</li>
                     }
-
+                    else
+                    {
+                        @foreach (var recipe in State.Value.Recipes)
+                        {
+                            <RecipeComponent Recipe="recipe" OnDrag="StartDrag"></RecipeComponent>
+                        }
+                    }
                 </ul>
             </div>
         </div>
@@ -46,12 +53,11 @@
 </div>
 @code {
     private List<IDockerInstruction> AvailableComponents { get; set; } = new();
-    private List<Recipe> AvailableRecipes { get; set; } = new();
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
+        base.OnInitialized();
         AvailableComponents = _containerService.GetValidInstructions();
-        AvailableRecipes = await _containerService.GetValidRecipesAsync();
     }
     private void StartDrag(object component)
     {

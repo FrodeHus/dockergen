@@ -1,4 +1,5 @@
 ﻿using DockerGen.Container;
+using DockerGen.Container.Recipes;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Json;
@@ -48,5 +49,11 @@ namespace DockerGen.Infrastructure
             var result = await _httpClient.GetFromJsonAsync<ContainerImage>(_config.ApiEndpoint + id);
             return result;
         }
+
+        public async Task<IEnumerable<Recipe>> LoadRecipesAsync()
+		{
+            var result = await _httpClient.GetFromJsonAsync<IEnumerable<Recipe>>($"{_config.ApiEndpoint}recipe");
+            return result;
+		}
     }
 }

@@ -77,5 +77,18 @@ namespace DockerGen.Features.Container.Store
                 dispatcher.Dispatch(new ContainerLoadQuickLinkFailed("Something went wrong when opening quick link"));
             }
         }
+        [EffectMethod(typeof(LoadRecipesAction))]
+        public async Task LoadRecipes(IDispatcher dispatcher)
+		{
+			try
+			{
+                var recipes = await _apiClient.LoadRecipesAsync();
+                dispatcher.Dispatch(new SetRecipesAction(recipes));
+			}
+			catch
+			{
+
+			}
+		}
     }
 }

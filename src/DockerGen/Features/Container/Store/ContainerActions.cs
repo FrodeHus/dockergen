@@ -33,4 +33,6 @@ namespace DockerGen.Features.Container.Store
     public record ContainerLoadQuickLinkAction(string QuickLinkId);
     public record ContainerLoadQuickLinkSuccess();
     public record ContainerLoadQuickLinkFailed(string ErrorMessage);
+    public record LoadRecipesAction();
+    public record SetRecipesAction(IEnumerable<Recipe> Recipes);
 }

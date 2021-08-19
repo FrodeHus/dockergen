@@ -25,6 +25,7 @@ FROM base AS final
 ARG CERTPASS=thisisnotit
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY --from=build /src/DockerGen.Api/recipes recipes/
 COPY --from=build /src/certificate.pfx .
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/app/certificate.pfx
 ENV ASPNETCORE_Kestrel__Certificates__Default__Password=$CERTPASS

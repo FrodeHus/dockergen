@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using System.Net.Http;
-using System.Threading.Tasks;
-using YamlDotNet.Serialization;
+﻿using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
 namespace DockerGen.Container.Recipes
@@ -18,22 +13,14 @@ namespace DockerGen.Container.Recipes
             _client = client;
         }
 
-        public async Task<List<Recipe>> LoadRecipesAsync()
+        public async Task<List<Recipe>> LoadRecipesFromDirectoryAsync(string directory)
         {
             var recipes = new List<Recipe>();
-
-            var result = await _client.GetAsync(_zipFilePath);
-            if (!result.IsSuccessStatusCode)
+            var files = Directory.GetFiles(directory, "*.yaml");
+            foreach (var file in files)
             {
-                return null;
-            }
-            using var zipStream = await result.Content.ReadAsStreamAsync();
-            using var zip = new ZipArchive(zipStream, ZipArchiveMode.Read);
-            foreach (var entry in zip.Entries)
-            {
-                using var stream = new StreamReader(entry.Open());
-                var fileData = await stream.ReadToEndAsync();
-                recipes.Add(Parse(fileData));
+                var content = await File.ReadAllTextAsync(file);
+                recipes.Add(Parse(content));
             }
             return recipes;
         }

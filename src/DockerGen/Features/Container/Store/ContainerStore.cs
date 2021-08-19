@@ -17,6 +17,7 @@ namespace DockerGen.Features.Container.Store
         public int ItemIndex { get; internal set; } = -1;
         [JsonIgnore]
         public BuildStage ActiveStage { get; set; }
+        public IEnumerable<Recipe> Recipes { get; set; }
     }
 
     public class ContainerFeature : Feature<ContainerState>
@@ -28,7 +29,8 @@ namespace DockerGen.Features.Container.Store
         {
             return new ContainerState
             {
-                Container = new ContainerImage()
+                Container = new ContainerImage(),
+                Recipes = new List<Recipe>()
             };
         }
     }
@@ -152,6 +154,15 @@ namespace DockerGen.Features.Container.Store
                 CurrentInstruction = null
             };
         }
+
+        [ReducerMethod]
+        public static ContainerState OnRecipesLoaded(ContainerState state, SetRecipesAction action)
+		{
+            return state with
+            {
+                Recipes = action.Recipes
+            };
+		}
 
     }
 }

@@ -6,7 +6,7 @@ namespace DockerGen.Container
 {
     public class ContainerService
     {
-        public static List<Recipe> Recipes;
+        public static IEnumerable<Recipe> Recipes;
 
         private List<IDockerInstruction> _validInstructions;
         private readonly RecipeLoader _recipeLoader;
@@ -47,7 +47,7 @@ namespace DockerGen.Container
         {
             return _options.UIComponentMappings[instruction.GetType()];
         }
-        public async Task<List<Recipe>> GetValidRecipesAsync()
+        public async Task<IEnumerable<Recipe>> GetValidRecipesAsync()
         {
             await EnsureRecipesLoaded();
             return ContainerService.Recipes;
@@ -69,14 +69,21 @@ namespace DockerGen.Container
             _validInstructions = instructions.Select(i => i).ToList();
         }
 
-        private async Task EnsureRecipesLoaded()
+        public async Task EnsureRecipesLoaded()
         {
             if (ContainerService.Recipes != null)
             {
                 return;
             }
 
-            ContainerService.Recipes = await _recipeLoader.LoadRecipesAsync();
+            if (!string.IsNullOrEmpty(_options.RecipePath))
+            {
+                ContainerService.Recipes = await _recipeLoader.LoadRecipesFromDirectoryAsync(_options.RecipePath); 
+            }
+            else
+            {
+                throw new InvalidOperationException("Recipe path has not been set");
+            }
         }
     }
 }

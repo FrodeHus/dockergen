@@ -13,13 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deploy", "Deploy", "{09303D
 		..\nginx.conf = ..\nginx.conf
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Recipes", "Recipes", "{E2B0BED7-E523-46DF-83D8-7C17085848CB}"
-	ProjectSection(SolutionItems) = preProject
-		..\recipes\CreateSelfSignedCertificate.yml = ..\recipes\CreateSelfSignedCertificate.yml
-		..\recipes\DotNetBuild.yml = ..\recipes\DotNetBuild.yml
-		..\recipes\RunAsUser.yml = ..\recipes\RunAsUser.yml
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DockerGen.Api", "DockerGen.Api\DockerGen.Api.csproj", "{8775CB48-E1A4-4E37-8CC7-1E4BA87ACB15}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DockerGen.Shared", "DockerGen.Shared\DockerGen.Shared.csproj", "{AA383444-7C0C-45D0-B068-0C516FDF7109}"

@@ -192,7 +192,7 @@ namespace DockerGen.Container
         {
             if (!ContainerService.Recipes?.Any() ?? true)
             {
-                return null;
+                throw new NullReferenceException("No recipes loaded yet a recipe is referenced");
             }
 
             var recipe = ContainerService.Recipes.SingleOrDefault(r => r.Name == parameters["Name"]);

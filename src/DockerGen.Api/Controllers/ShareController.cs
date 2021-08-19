@@ -11,11 +11,13 @@ namespace DockerGen.Api.Controllers
     {
         private readonly IDistributedCache _cache;
         private readonly ILogger<ShareController> _log;
+        private readonly ContainerService _containerService;
 
-        public ShareController(IDistributedCache cache, ILogger<ShareController> log)
+        public ShareController(IDistributedCache cache, ILogger<ShareController> log, ContainerService containerService)
         {
             _cache = cache;
             _log = log;
+            _containerService = containerService;
         }
 
         [HttpGet("/{id}", Name = "GetDockerfile")]
@@ -25,6 +27,7 @@ namespace DockerGen.Api.Controllers
             try
             {
                 var actualId = GuidEncoder.Decode(id);
+                await _containerService.EnsureRecipesLoaded();
                 var dockerfile = await _cache.GetStringAsync(actualId.ToString());
                 if (dockerfile == null)
                 {
@@ -45,6 +48,7 @@ namespace DockerGen.Api.Controllers
             try
             {
                 var id = Guid.NewGuid();
+                await _containerService.EnsureRecipesLoaded();
                 var serialized = JsonSerializer.Serialize(dockerfile);
                 await _cache.SetStringAsync(id.ToString(), serialized);
                 return Created("/" + GuidEncoder.Encode(id), null);
