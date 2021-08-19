@@ -227,6 +227,8 @@ namespace DockerGen.Container
         private void SetValue(object instance, string property, object value)
         {
             try{
+                var convertTo = instance.GetType().GetProperty(property).PropertyType;
+                value = Convert.ChangeType(value, convertTo);
                 instance.GetType().GetProperty(property).SetValue(instance, value, null);
             }catch{
                 Console.WriteLine($"Failed to set {property}");
