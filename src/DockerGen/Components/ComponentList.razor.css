@@ -11,7 +11,12 @@ input:checked ~ .accordion__item-content {
     max-height: 100vh;
     padding: 0;
 }
+.componentlist {
+    height: 90vh;
+    overflow: auto;
+}
 .accordion {
+
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.5);

@@ -4,31 +4,30 @@
 @using DockerGen.Features.Container.Store
 @inject IDispatcher Dispatcher
 <CascadingValue Value="this">
-	<div class="container-editor" @ondragstart="@(e => Dispatcher.Dispatch(new DragAction(true)))" @ondragend="@(e => Dispatcher.Dispatch(new DragAction(false)))">
-		<div class="instruction-toolbox">
-			<ComponentList></ComponentList>
-		</div>
-		<div class="container-stages">
-			<BuildStageOverview></BuildStageOverview>
-			<div class="container-instructions">
-				<ImageContainer></ImageContainer>
-			</div>
-		</div>
-		<div class="dockerfile">
-			<Preview></Preview>
-		</div>
-	</div>
+    <aside class="editorcontainer__left">
+        <ComponentList></ComponentList>
+    </aside>
+    <article class="editorcontainer__middle">
+        <BuildStageOverview></BuildStageOverview>
+        <div class="editorcontainer__stages">
+            <ImageContainer></ImageContainer>
+        </div>
+    </article>
+    <div class="editorcontainer__right">
+        <Preview></Preview>
+    </div>
 </CascadingValue>
 
-@code{
-	[Parameter]
-	public string QuickLink{get;set;}
+@code {
+    [Parameter]
+    public string QuickLink { get; set; }
 
-	protected override void OnInitialized()
-	{
-		base.OnInitialized();
-		if(!string.IsNullOrEmpty(QuickLink)){
-			Dispatcher.Dispatch(new ContainerLoadQuickLinkAction(QuickLink));
-		}
-	}
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (!string.IsNullOrEmpty(QuickLink))
+        {
+            Dispatcher.Dispatch(new ContainerLoadQuickLinkAction(QuickLink));
+        }
+    }
 }

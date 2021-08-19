@@ -1,11 +1,11 @@
 ﻿::deep .monaco-editor-container {
-    height: 90vh;
+    height: calc(100vh - 100px);
 }
 
-.preview{
-    min-width: 50px;
-    padding: 10px;
+.preview {
+    padding: 4px;
     transition: width 125ms;
+    overflow: hidden;
 }
 
 .toolbar{
@@ -14,11 +14,11 @@
 }
 
 .open{
-    width: 33vw;
+    width: 35vw;
 }
 
 .closed{
-    width: 0px;
+    width: 30px;
 }
 
 .editor .open{

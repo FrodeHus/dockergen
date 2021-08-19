@@ -3,8 +3,7 @@
 @using DockerGen.Features.Container.Store
 @inject IState<ContainerState> State
 @inject IDispatcher Dispatcher
-<div class="instruction-list @GetDropzoneClass()"
-     ondragstart="event.dataTransfer.setData('text', event.target.id);"
+<div class="instruction-list @GetDropzoneClass()" ondragover="event.preventDefault()"
      @ondragover:preventDefault
      @ondrop:preventDefault
      @ondragenter:preventDefault

@@ -49,12 +49,12 @@
 
         if(url != null)
         {
-            ToastService.ShowSuccess("Successfully created a quick link for you to share with your friends: " + url);
+            ToastService.ShowSuccess("Quickshare link has been added to your clipboard: " + url);
             await Clipboard.WriteTextAsync(url);
         }
         else
         {
-            ToastService.ShowError("Something went wrong when trying to create a quick link");
+            ToastService.ShowError("Something went wrong when trying to create a quickshare link");
         }
     }
     private async Task TriggerButtonState()

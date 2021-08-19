@@ -2,6 +2,7 @@
     display: flex;
     justify-content: space-between;
     margin: 10px;
+    height: 40px;
 }
 
 .add-build-stage {
@@ -30,12 +31,10 @@
 }
 
 .wizard__step {
-    /* Make all steps have the same width */
     flex: 1;
 }
 
 .wizard__dot {
-    /* Center the content */
     align-items: center;
     display: flex;
     justify-content: center;
@@ -52,16 +51,13 @@
 }*/
 
 .wizard__number {
-    /* Center the content */
     align-items: center;
     display: flex;
     justify-content: center;
-    /* Rounded border */
     background-color: var(--category-active-bg-color);
     border-radius: 9999px;
     height: 32px;
     width: 32px;
-    /* OPTIONAL: Spacing between it and connectors */
     margin-right: 4px;
     margin-left: 4px;
 }

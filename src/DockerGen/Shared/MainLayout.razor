@@ -1,12 +1,12 @@
 @inherits LayoutComponentBase
-<div>
-	<Header></Header>
+<div class="mainpage">
+    <Header></Header>
+    <main class="editorcontainer__main">
+        @Body
+    </main>
+    <footer>
+        &copy;frodehus.dev
+    </footer>
 </div>
-<div>
-	<main>
-	@Body
-	</main>
-</div>
-
-<StateLoader/>
+<StateLoader />
 <BlazoredToasts />

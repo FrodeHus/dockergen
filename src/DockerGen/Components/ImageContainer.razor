@@ -2,7 +2,7 @@
 @using DockerGen.Features.Container.Store
 @inherits FluxorComponent
 @inject IState<ContainerState> State
-<div class="image-container" ondragover="event.preventDefault();">
+<div class="stages">
     <CascadingValue Value="this">
         @foreach (var stage in State.Value.Container.Stages)
         {
