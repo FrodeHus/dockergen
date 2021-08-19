@@ -61,7 +61,11 @@ namespace DockerGen.Features.Container.Store
         [ReducerMethod]
         public static ContainerState OnSetState(ContainerState state, ContainerSetStateAction action)
         {
-            return action.State;
+            return state with
+            {
+                Container = action.State.Container,
+                SidePanelOpen = action.State.SidePanelOpen,
+            };
         }
 
         [ReducerMethod]
@@ -110,16 +114,16 @@ namespace DockerGen.Features.Container.Store
             };
         }
 
-        [ReducerMethod]
-        public static ContainerState OnSidePanelOpen(ContainerState state, ContainerPanelOpenAction action)
+        [ReducerMethod(typeof(ContainerPanelOpenAction))]
+        public static ContainerState OnSidePanelOpen(ContainerState state)
         {
             return state with
             {
                 SidePanelOpen = true
             };
         }
-        [ReducerMethod]
-        public static ContainerState OnSidePanelClose(ContainerState state, ContainerPanelCloseAction action)
+        [ReducerMethod(typeof(ContainerPanelCloseAction))]
+        public static ContainerState OnSidePanelClose(ContainerState state)
         {
             return state with
             {
