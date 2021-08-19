@@ -13,7 +13,7 @@ namespace DockerGen.Tests
         [Fact]
         public async Task It_Can_Load_Recipes_From_YAML()
         {
-            var value = await File.ReadAllTextAsync(Path.Combine("..", "..", "..", "..", "..", "recipes", "RunAsUser.yml"));
+            var value = await File.ReadAllTextAsync(Path.Combine("..", "..","..","..", "DockerGen.Api", "recipes", "RunAsUser.yaml"));
             var recipe = RecipeLoader.Parse(value);
             recipe.Should().NotBeNull();
             recipe.Kind.Should().Be("Recipe");
