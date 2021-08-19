@@ -20,7 +20,9 @@
 		{
 			var recipes = await ApiClient.LoadRecipesAsync();
 			ContainerService.Recipes = recipes;
+			State.Value.Recipes = recipes;
 			Dispatcher.Dispatch(new SetRecipesAction(recipes));
+			Dispatcher.Dispatch(new ContainerPersistStateAction(State.Value));
 			Dispatcher.Dispatch(new ContainerLoadStateAction());
 		}
 	}
