@@ -38,7 +38,7 @@ input:checked ~ .accordion__item-content {
     display: flex;
     justify-content: space-between;
     padding: 1em;
-    background-color: var(--category-bg-color);
+    background-color: var(--primary-bg-color);
     color: var(--category-color);
     font-weight: bold;
     cursor: pointer;
@@ -46,7 +46,7 @@ input:checked ~ .accordion__item-content {
 }
 
     .accordion__item-label:hover {
-        background-color: var(--category-active-bg-color);
+        background-color: var(--primary-bg-color-active);
     }
 
     .accordion__item-label::after {
@@ -70,10 +70,10 @@ input:checked ~ .accordion__item-content {
     justify-content: flex-end;
     padding: 1em;
     font-size: 0.75em;
-    background-color: var(--category-active-bg-color);
+    background-color: var(--primary-bg-color-active);
     cursor: pointer;
 }
 
     .accordion__item-close:hover {
-        background-color: var(--category-active-bg-color);
+        background-color: var(--primary-bg-color-active);
     }

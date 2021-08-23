@@ -1,5 +1,5 @@
 ﻿.image-container-build-stage {
-    background-color: var(--category-bg-color);
+    background-color: var(--primary-bg-color);
     border: 1px solid var(--component-color);
     border-radius: 4px;
     padding: 4px;
@@ -38,7 +38,7 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        background-color: var(--category-active-bg-color);
+        background-color: var(--primary-bg-color-active);
         border-radius: 999px;
         padding: 4px 8px;
     }

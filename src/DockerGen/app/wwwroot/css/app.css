@@ -4,9 +4,9 @@
     --primary-font-family: 'Roboto';
     --recipe-bg-color: hsl(300 100% 90%);
     --recipe-color: hsl(300 100% 30%);
-    --category-active-bg-color: hsl(200 100% 65%);
+    --primary-bg-color: hsl(200 100% 75%);
+    --primary-bg-color-active: hsl(200 100% 65%);
     --category-active-color: hsl(190 100% 100%);
-    --category-bg-color: hsl(200 100% 75%);
     --category-color: hsl(156 80% 30%);
     --component-bg-color: hsl(156 100% 90%);
     --component-color: hsl(156 80% 30%);
@@ -48,7 +48,7 @@ html {
 }
 
 footer{
-    background-color: var(--category-bg-color);
+    background-color: var(--primary-bg-color);
     height: 20px;
     position: relative;
 }
@@ -154,12 +154,12 @@ footer{
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: var(--category-bg-color);
+    background-color: var(--primary-bg-color);
     border-radius: 20px;
     border: 6px solid transparent;
     background-clip: content-box;
 }
 
     ::-webkit-scrollbar-thumb:hover {
-        background-color: var(--category-active-bg-color);
+        background-color: var(--primary-bg-color-active);
     }

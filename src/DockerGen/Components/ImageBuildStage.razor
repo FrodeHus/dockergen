@@ -23,8 +23,11 @@
         <div class="stage-name">
             <span class="name">@Stage.StageName</span>
             <div class="baseimage">
-                <span class="baseimage image">@Stage.BaseImage.Image</span>                
-                <span class="baseimage tag">@Stage.BaseImage.Tag</span>
+                <span class="baseimage image">@Stage.BaseImage.Image</span>
+                @if (!string.IsNullOrEmpty(Stage.BaseImage.Tag))
+                {
+                    <span class="baseimage tag">@Stage.BaseImage.Tag</span>
+                }
             </div>
             <a href="#" aria-label="Edit stage name" class="button" @onclick="(() => IsConfigureDialogOpen = true)">
                 <i class="fa fa-edit" />
@@ -40,7 +43,7 @@
     }
     else
     {
-        
+
     }
     @if (Stage.Instructions.Count == 0)
     {
