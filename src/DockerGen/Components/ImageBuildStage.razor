@@ -12,7 +12,13 @@
         <div class="dgform">
             <div class="dgform-group">
                 <label for="stageName"><span>Stage name</span></label>
-                <input name="stageName" type="text" @bind="_editImage.StageName" />
+                <input name="stageName" type="text" @bind="_editImage.StageName" list="stages" />
+                <datalist id="stages">
+                    @foreach (var stage in State.Value.Container.Stages)
+                    {
+                        <option value="@stage.StageName">@stage.StageName</option>
+                    }
+                </datalist>
             </div>
             <div class="dgform-group">
                 <label for="imageName"><span>Image</span></label>
@@ -28,20 +34,22 @@
     <div class="build-stage__title">
         <div class="stage-name">
             <span class="name">@Stage.StageName</span>
-            <div class="baseimage">
-                <span class="baseimage image">@Stage.BaseImage.Image</span>
-                @if (!string.IsNullOrEmpty(Stage.BaseImage.Tag))
-                {
-                    <span class="baseimage tag">@Stage.BaseImage.Tag</span>
-                }
-            </div>
+        </div>
+        <div class="baseimage">
+            <span class="baseimage image">@Stage.BaseImage.Image</span>
+            @if (!string.IsNullOrEmpty(Stage.BaseImage.Tag))
+            {
+                <span class="baseimage tag">@Stage.BaseImage.Tag</span>
+            }
+        </div>
+        <div>
             <a href="#" aria-label="Edit stage name" class="button" @onclick="OpenConfigureDialog">
                 <i class="fa fa-edit" />
             </a>
+            <a href="#" aria-label="Close" @onclick="RemoveStage" class="button close">
+                <i class="fa fa-window-close" />
+            </a>
         </div>
-        <a href="#" aria-label="Close" @onclick="RemoveStage" class="button close">
-            <i class="fa fa-window-close" />
-        </a>
     </div>
     @if (Stage.BaseImage == null)
     {
