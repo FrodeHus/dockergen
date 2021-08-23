@@ -7,6 +7,7 @@
     --primary-bg-color-active: hsl(200 100% 65%);
     --alert-bg-color: hsl(0 68% 90%);
     --alert-bg-color-active: hsl(0 68% 92%);
+    --success-bg-color: hsl(102 67% 71%);
     --recipe-color: hsl(300 100% 30%);
     --recipe-bg-color: hsl(300 100% 90%);
     --category-active-color: hsl(190 100% 100%);
@@ -149,14 +150,17 @@ footer {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin: 0 0.3em 0.3em 0;
+    margin: 0 0.3rem 0.3rem 0;
+    padding: 2px 4px;
     border-radius: 4px;
     border: 1px solid var(--primary-bg-color-active);
     box-sizing: border-box;
     text-align: center;
     transition: all 0.2s;
-    font-size: 1.3rem;
+    font-size: 1rem;
     height: 1.7rem;
+    text-decoration: none;
+    background-color: white;
 }
 
     .dgbutton.main {
@@ -167,6 +171,11 @@ footer {
         .dgbutton.main:hover {
             background-color: var(--primary-bg-color-active);
         }
+
+    .dgbutton.success {
+        background-color: var(--success-bg-color);
+        color: var(--primary-color);
+    }
 
     .dgbutton.cancel {
         background-color: var(--alert-bg-color);
