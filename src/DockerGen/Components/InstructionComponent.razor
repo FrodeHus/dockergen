@@ -3,7 +3,7 @@
 @inherits FluxorComponent
 @inject IDispatcher Dispatcher
 @inject IState<ContainerState> State
-<li class="@CssClass" draggable="true" @ondragstart="@(() => OnDrag(Instruction))" @key="Instruction.Id">
+<li class="@CssClass" @key="Instruction.Id">
     <div class="instruction-title image-item">
         @Title
     </div>
@@ -12,8 +12,6 @@
 </li>
 
 @code {
-    [CascadingParameter]
-    public Features.Container.Pages.Index ContainerEditor { get; set; }
     [Parameter]
     public RenderFragment ChildContent { get; set; }
     [Parameter]
@@ -22,10 +20,6 @@
     public string Title { get; set; }
     [Parameter]
     public string CssClass { get; set; } = "instruction";
-    [Parameter]
-    public Action<IInstruction> OnDrag { get; set; }
-    [Parameter]
-    public Action<IInstruction> OnDrop { get; set; }
 
     private void RemoveInstruction()
     {

@@ -16,7 +16,9 @@
                 <ul class="component-list">
                     @foreach (var component in AvailableComponents)
                     {
-                        <InstructionComponent Title="@component.DisplayName" OnDrag="StartDrag" CssClass="component" Instruction="component"></InstructionComponent>
+                        <div draggable="true" class="draggable" @ondragstart="(() => StartDragHandler(component))" @ondragend="(() => StartDragHandler(null))">
+                            <InstructionComponent Title="@component.DisplayName" CssClass="component" Instruction="component"></InstructionComponent>
+                        </div>
                     }
                 </ul>
             </div>
@@ -35,7 +37,9 @@
                     {
                         @foreach (var recipe in State.Value.Recipes)
                         {
-                            <RecipeComponent Recipe="recipe" OnDrag="StartDrag"></RecipeComponent>
+                            <div draggable="true" class="draggable" @ondragstart="(() => StartDragHandler(recipe))" @ondragend="(() => StartDragHandler(null))">
+                                <RecipeComponent Recipe="recipe"></RecipeComponent>
+                            </div>
                         }
                     }
                 </ul>
@@ -53,7 +57,10 @@
 </div>
 @code {
     [CascadingParameter]
-    public Features.Container.Pages.Index Editor{get;set;}
+    public Features.Container.Pages.Index Editor { get; set; }
+    [Parameter]
+    public EventCallback<IInstruction> OnStartDrag { get; set; }
+
     private List<IDockerInstruction> AvailableComponents { get; set; } = new();
 
     protected override void OnInitialized()
@@ -61,17 +68,19 @@
         base.OnInitialized();
         AvailableComponents = _containerService.GetValidInstructions();
     }
-    private void StartDrag(object component)
+    private void StartDragHandler(object component)
     {
-        Editor.IsDragging = true;
+        IInstruction currentInstruction = null;
         if (component is Recipe recipe)
         {
-            Editor.CurrentInstruction = new DynamicRecipe(recipe);
+            currentInstruction = new DynamicRecipe(recipe);
         }
         else if (component is IInstruction instruction)
         {
-            var instance = (Instruction)Activator.CreateInstance(instruction.GetType());
-            Editor.CurrentInstruction = instance;
+            currentInstruction = (Instruction)Activator.CreateInstance(instruction.GetType());
         }
+
+        OnStartDrag.InvokeAsync(currentInstruction);
     }
+
    }

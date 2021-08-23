@@ -6,11 +6,13 @@
     <CascadingValue Value="this">
         @foreach (var stage in State.Value.Container.Stages)
         {
-            <ImageBuildStage Stage="stage"></ImageBuildStage>
+            <ImageBuildStage Stage="stage" OnStartDrag="OnStartDrag"></ImageBuildStage>
         }
     </CascadingValue>
 </div>
 
-@code{
-    public IInstruction CurrentInstruction{ get; set; }
+@code {
+    [Parameter]
+    public EventCallback<IInstruction> OnStartDrag { get; set; }
+
 }

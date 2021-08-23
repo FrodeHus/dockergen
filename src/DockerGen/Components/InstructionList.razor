@@ -4,12 +4,12 @@
 @inject IState<ContainerState> State
 @inject IDispatcher Dispatcher
 <div class="instruction-list @GetDropzoneClass()" ondragover="event.preventDefault();">
-    <div class="@GetDropzoneClasses(0)" @ondrop="() => OnDrop(0)" @ondragenter="(() => DropDragEnter(0))" @ondragleave="DropDragLeave" @ondragover:preventDefault></div>
+    <div class="@GetDropzoneClasses(0)" @ondrop="() => DropHandler(0)" @ondragenter="(() => DropDragEnter(0))" @ondragleave="DropDragLeave" @ondragover:preventDefault></div>
     <CascadingValue Value="this">
         @foreach (var instruction in Stage.Instructions)
         {
             <DraggableComponent Instruction="instruction" OnStartDrag="OnStartDrag"></DraggableComponent>
-            <div class="@GetDropzoneClasses(GetIndex(instruction) + 1)" @ondrop="() => OnDrop(GetIndex(instruction)+1)" @ondragenter="(() => DropDragEnter(GetIndex(instruction)+1))" @ondragleave="DropDragLeave" @ondragover:preventDefault></div>
+            <div class="@GetDropzoneClasses(GetIndex(instruction) + 1)" @ondrop="() => DropHandler(GetIndex(instruction)+1)" @ondragenter="(() => DropDragEnter(GetIndex(instruction)+1))" @ondragleave="DropDragLeave" @ondragover:preventDefault></div>
         }
     </CascadingValue>
 </div>
@@ -20,6 +20,9 @@
 
     [Parameter]
     public BuildStage Stage { get; set; }
+
+    [Parameter]
+    public EventCallback<IInstruction> OnStartDrag { get; set; }
     public void AddInstruction(IInstruction instruction, int index = -1)
     {
         Dispatcher.Dispatch(new ContainerAddInstructionToStageAction(Stage, instruction, index));
@@ -32,16 +35,11 @@
         Dispatcher.Dispatch(new ContainerUpdatedAction());
     }
 
-    private void OnStartDrag(IInstruction instruction)
-    {
-        Editor.IsDragging = true;
-        Editor.CurrentInstruction = instruction;
-    }
-
     private string GetDropzoneClasses(int index)
     {
         var builder = new StringBuilder();
-        if (Editor.IsDragging)
+        var indexOfDraggedItem = GetIndex(Editor.CurrentInstruction);
+        if (Editor.IsDragging && (indexOfDraggedItem == -1 || ((indexOfDraggedItem) != index) && (indexOfDraggedItem + 1) != index))
             builder.Append("drag-spacing");
 
         if (State.Value.ItemIndex == index && Stage.StageName == State.Value.ActiveStage.StageName)
@@ -89,7 +87,7 @@
     }
 
 
-    private void OnDrop(int dropIndex = -1)
+    private void DropHandler(int dropIndex = -1)
     {
         Console.WriteLine("Dropped!");
         Editor.IsDragging = false;
@@ -144,7 +142,11 @@
 
     private int GetIndex(IInstruction instruction)
     {
-        return Stage.Instructions.FindIndex(i => i.Id == instruction.Id);
+        if (instruction == null)
+        {
+            return -1;
+        }
+        return Stage?.Instructions?.FindIndex(i => i.Id == instruction.Id) ?? -1;
     }
 
     private List<string> GetBuildStageNames()

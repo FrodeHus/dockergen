@@ -3,6 +3,8 @@
   "short_name": "DockerGen",
   "start_url": "./",
   "display": "standalone",
+  "description": "Visual editor for generating Dockerfiles",
+  "author": "Frode Hus",
   "background_color": "#ffffff",
   "theme_color": "#03173d",
   "icons": [

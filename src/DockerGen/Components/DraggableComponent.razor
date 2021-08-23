@@ -3,7 +3,7 @@
 @inherits FluxorComponent
 @inject ContainerService ContainerService
 @inject IDispatcher Dispatcher
-<div class="draggable-component" draggable="true" @ondragstart="@(() => OnDragStartHandler(Instruction))">
+<div class="draggable-component" draggable="true" @ondragstart="@(() => OnDragStartHandler(Instruction))" @ondragend="@(() => OnDragStartHandler(null))">
     <i class="drag-handle fa fa-grip-lines"></i>
     <div class="instruction-card">
         <input type="checkbox" checked class="toggle" id="@Instruction.Id">
@@ -24,9 +24,10 @@
     [CascadingParameter]
     public InstructionList ParentList { get; set; }
     [Parameter]
-    public IInstruction Instruction{ get; set; }
+    public IInstruction Instruction { get; set; }
     [Parameter]
     public EventCallback<IInstruction> OnStartDrag { get; set; }
+
 
     private Dictionary<string, object> GetParametersForInstruction(IInstruction instruction)
     {
@@ -45,6 +46,5 @@
     {
         OnStartDrag.InvokeAsync(instruction);
     }
-
 
 }
