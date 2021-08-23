@@ -52,11 +52,7 @@ namespace DockerGen.Container
             {
                 return null;
             }
-            var value = _parameters[parameterName];
-            var valueType = GetValueType(parameterName);
-            if (valueType == null) return value;
-            var converted = Convert.ChangeType(value, valueType);
-            return converted;
+            return _parameters[parameterName];
         }
 
         private Type GetValueType(string parameterName)

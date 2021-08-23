@@ -1,7 +1,7 @@
 ﻿@using DockerGen.Container
 @using DockerGen.Container.Recipes
 
-<li class="component recipe" draggable="true" @ondragstart="@(() => OnDrag(Recipe))">
+<li class="component recipe">
     <div class="instruction-title image-item">
         @Recipe.Name
     </div>
@@ -14,8 +14,4 @@
 @code {
     [Parameter]
     public Recipe Recipe { get; set; }
-    [Parameter]
-    public Action<Recipe> OnDrag { get; set; }
-    [Parameter]
-    public Action<Recipe> OnDrop { get; set; }
 }
