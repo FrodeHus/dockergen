@@ -21,7 +21,20 @@
 @code {
     [Parameter]
     public string QuickLink { get; set; }
-
+    public IInstruction CurrentInstruction { get; set; }
+    private bool _isDragging;
+    public bool IsDragging
+    {
+        get
+        {
+            return _isDragging;
+        }
+        set
+        {
+            _isDragging = value;
+            StateHasChanged();
+        }
+    }
     protected override void OnInitialized()
     {
         base.OnInitialized();

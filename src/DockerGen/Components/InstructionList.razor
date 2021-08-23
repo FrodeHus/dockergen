@@ -3,30 +3,23 @@
 @using DockerGen.Features.Container.Store
 @inject IState<ContainerState> State
 @inject IDispatcher Dispatcher
-<div class="instruction-list @GetDropzoneClass()" ondragover="event.preventDefault()"
-     @ondragover:preventDefault
-     @ondrop:preventDefault
-     @ondragenter:preventDefault
-     @ondrop:stopPropagation
-     @ondragenter:stopPropagation
-     @ondragover:stopPropagation
-     @ondragstart:stopPropagation
-     @ondragleave:stopPropagation
-     @ondragend:stopPropagation>
-    <div class="@GetDropzoneClasses(0)" @ondrop="() => OnDrop(0)" @ondrop:stopPropagation @ondragenter="(() => DropDragEnter(0))" @ondragleave="DropDragLeave"></div>
+<div class="instruction-list @GetDropzoneClass()" ondragover="event.preventDefault();">
+    <div class="@GetDropzoneClasses(0)" @ondrop="() => OnDrop(0)" @ondragenter="(() => DropDragEnter(0))" @ondragleave="DropDragLeave" @ondragover:preventDefault></div>
     <CascadingValue Value="this">
         @foreach (var instruction in Stage.Instructions)
         {
-            <DraggableComponent Instruction="instruction"></DraggableComponent>
-            <div class="@GetDropzoneClasses(GetIndex(instruction) + 1)" @ondrop="() => OnDrop(GetIndex(instruction)+1)" @ondrop:stopPropagation @ondragenter="(() => DropDragEnter(GetIndex(instruction)+1))" @ondragleave="DropDragLeave"></div>
+            <DraggableComponent Instruction="instruction" OnStartDrag="OnStartDrag"></DraggableComponent>
+            <div class="@GetDropzoneClasses(GetIndex(instruction) + 1)" @ondrop="() => OnDrop(GetIndex(instruction)+1)" @ondragenter="(() => DropDragEnter(GetIndex(instruction)+1))" @ondragleave="DropDragLeave" @ondragover:preventDefault></div>
         }
     </CascadingValue>
 </div>
 
 @code {
+    [CascadingParameter]
+    public Features.Container.Pages.Index Editor { get; set; }
+
     [Parameter]
     public BuildStage Stage { get; set; }
-    private bool IsDragging;
     public void AddInstruction(IInstruction instruction, int index = -1)
     {
         Dispatcher.Dispatch(new ContainerAddInstructionToStageAction(Stage, instruction, index));
@@ -39,10 +32,16 @@
         Dispatcher.Dispatch(new ContainerUpdatedAction());
     }
 
+    private void OnStartDrag(IInstruction instruction)
+    {
+        Editor.IsDragging = true;
+        Editor.CurrentInstruction = instruction;
+    }
+
     private string GetDropzoneClasses(int index)
     {
         var builder = new StringBuilder();
-        if (State.Value.IsDragging || IsDragging)
+        if (Editor.IsDragging)
             builder.Append("drag-spacing");
 
         if (State.Value.ItemIndex == index && Stage.StageName == State.Value.ActiveStage.StageName)
@@ -92,7 +91,10 @@
 
     private void OnDrop(int dropIndex = -1)
     {
-        var instruction = State.Value.CurrentInstruction;
+        Console.WriteLine("Dropped!");
+        Editor.IsDragging = false;
+        var instruction = Editor.CurrentInstruction;
+        Editor.CurrentInstruction = null;
         if (instruction == null)
         {
             return;
@@ -115,9 +117,9 @@
         {
             AddInstruction(instruction, dropIndex);
         }
+
         Dispatcher.Dispatch(new DragAction(false));
         Dispatcher.Dispatch(new DragSetIndexAction(-1));
-        Dispatcher.Dispatch(new ContainerSetCurrentInstructionAction(null));
         Dispatcher.Dispatch(new ContainerUpdatedAction());
     }
 

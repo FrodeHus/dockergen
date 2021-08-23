@@ -52,6 +52,8 @@
     </div>
 </div>
 @code {
+    [CascadingParameter]
+    public Features.Container.Pages.Index Editor{get;set;}
     private List<IDockerInstruction> AvailableComponents { get; set; } = new();
 
     protected override void OnInitialized()
@@ -61,14 +63,15 @@
     }
     private void StartDrag(object component)
     {
+        Editor.IsDragging = true;
         if (component is Recipe recipe)
         {
-            Dispatcher.Dispatch(new StartDragAction(new DynamicRecipe(recipe)));
+            Editor.CurrentInstruction = new DynamicRecipe(recipe);
         }
         else if (component is IInstruction instruction)
         {
             var instance = (Instruction)Activator.CreateInstance(instruction.GetType());
-            Dispatcher.Dispatch(new StartDragAction(instance));
+            Editor.CurrentInstruction = instance;
         }
     }
    }

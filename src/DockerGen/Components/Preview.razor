@@ -47,6 +47,7 @@
 		SubscribeToAction<ContainerLoadStateSuccessAction>(_ => UpdateEditor());
 		SubscribeToAction<ContainerClearStateSuccessAction>(_ => UpdateEditor());
 	}
+
 	private async Task UpdateContainer(KeyboardEvent _)
 	{
 		var dockerfile = await _editor.GetValue();
