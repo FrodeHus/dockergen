@@ -3,24 +3,34 @@
 @inherits FluxorComponent
 @inject IState<ContainerState> State
 @inject IDispatcher Dispatcher
-<div class="image-container-build-stage">
 
+<DGDialog Show="IsConfigureDialogOpen" OnOk="OnOk" OnCancel="CloseConfigureDialog">
+    <Title>
+        Configure build stage
+    </Title>
+    <Body>
+        <div>
+            <input type="text" @bind="Stage.StageName" />
+        </div>
+        <div>
+            <FromImage Instruction="@Stage.BaseImage"></FromImage>
+        </div>
+    </Body>
+</DGDialog>
+
+<div class="image-container-build-stage">
     <div class="build-stage__title">
-        <label class="label">BUILD STAGE</label>
         <div class="stage-name">
-            @if (IsEditing)
-            {
-                <input type="text" @bind="Stage.StageName" @onfocusout="ToggleEdit" />
-            }
-            else
-            {
-                <span class="name">@Stage.StageName</span>
-            }
-            <a href="#" aria-label="Edit stage name" class="button" @onclick="ToggleEdit">
-                <i class="fa @GetButtonIcon()" />
+            <span class="name">@Stage.StageName</span>
+            <div class="baseimage">
+                <span class="baseimage image">@Stage.BaseImage.Image</span>                
+                <span class="baseimage tag">@Stage.BaseImage.Tag</span>
+            </div>
+            <a href="#" aria-label="Edit stage name" class="button" @onclick="(() => IsConfigureDialogOpen = true)">
+                <i class="fa fa-edit" />
             </a>
         </div>
-        <a href="#" aria-label="Close" @onclick="RemoveStage" class="button">
+        <a href="#" aria-label="Close" @onclick="RemoveStage" class="button close">
             <i class="fa fa-window-close" />
         </a>
     </div>
@@ -30,7 +40,7 @@
     }
     else
     {
-        <FromImage Instruction="@Stage.BaseImage"></FromImage>
+        
     }
     @if (Stage.Instructions.Count == 0)
     {
@@ -47,7 +57,7 @@
     [Parameter]
     public EventCallback<IInstruction> OnStartDrag { get; set; }
 
-    private bool IsEditing { get; set; }
+    private bool IsConfigureDialogOpen { get; set; }
 
     private void RemoveStage()
     {
@@ -55,19 +65,15 @@
         Dispatcher.Dispatch(new ContainerUpdatedAction());
     }
 
-    private void ToggleEdit()
+    private void CloseConfigureDialog()
     {
-        IsEditing = !IsEditing;
-        Dispatcher.Dispatch(new ContainerSetStateAction(State.Value));
-        Dispatcher.Dispatch(new ContainerUpdatedAction());
+        IsConfigureDialogOpen = false;
     }
 
-    private string GetButtonIcon()
+    private void OnOk()
     {
-        if (IsEditing)
-        {
-            return "fa-save";
-        }
-        return "fa-edit";
+        CloseConfigureDialog();
+        Dispatcher.Dispatch(new ContainerSetStateAction(State.Value));
+        Dispatcher.Dispatch(new ContainerUpdatedAction());
     }
 }

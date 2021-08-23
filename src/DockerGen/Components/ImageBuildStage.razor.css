@@ -18,20 +18,15 @@
 .build-stage__title {
     display: flex;
     align-content: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    margin: 0 0 4px 0;
     width: 100%;
 }
+
     .build-stage__title input[type=checkbox] {
         position: absolute;
         opacity: 0;
         z-index: -1;
-    }
-
-    .build-stage__title .label {
-        text-transform: uppercase;
-        font-weight: 100;
-        font-size: 1.2rem;
-        margin-right: auto;
     }
 
     .build-stage__title .stage-name {
@@ -39,8 +34,18 @@
         align-self: center;
     }
 
+    .build-stage__title .baseimage {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--category-active-bg-color);
+        border-radius: 999px;
+        padding: 4px 8px;
+    }
+
     .build-stage__title .name {
-        font-weight: 600;
+        text-transform: uppercase;
+        font-weight: 100;
         font-size: 1.2rem;
     }
 
@@ -50,5 +55,22 @@
     }
 
     .build-stage__title input {
-       border-radius: 4px;
+        border-radius: 4px;
+    }
+
+    .build-stage__title .close {
+        margin-left: auto;
+    }
+
+    .build-stage__title .baseimage.image {
+        text-transform: lowercase;
+        font-weight: 400;
+        font-family: var(--primary-font-family);
+    }
+
+    .build-stage__title .baseimage.tag {
+        text-transform: lowercase;
+        font-weight: 100;
+        font-family: Consolas;
+        background-color: var(--instruction-bg-color);
     }
