@@ -195,6 +195,31 @@ footer {
         cursor: grabbing;
     }
 
+.dgform {
+    display: block;
+}
+
+.dgform-group {
+    display: flex;
+    flex-direction: row;
+}
+
+    .dgform-group label{
+        text-align: right;
+        padding-right: 8px;
+        padding-left: 10px;
+        width: auto;
+    }
+
+    .dgform-group input {
+        flex: 1 1 auto;
+        display: block;
+        margin-bottom: 10px;
+        margin-right: 8px;
+        padding: 4px;
+        margin-top: -4px;
+    }
+
 .monaco-aria-container {
     height: 0 !important;
 }

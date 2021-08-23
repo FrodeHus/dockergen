@@ -9,11 +9,17 @@
         Configure build stage
     </Title>
     <Body>
-        <div>
-            <input type="text" @bind="Stage.StageName" />
-        </div>
-        <div>
-            <FromImage Instruction="@Stage.BaseImage"></FromImage>
+        <div class="dgform">
+            <div class="dgform-group">
+                <label for="stageName"><span>Stage name</span></label>
+                <input name="stageName" type="text" @bind="_editImage.StageName" />
+            </div>
+            <div class="dgform-group">
+                <label for="imageName"><span>Image</span></label>
+                <input name="imageName" type="text" @bind="_editImage.ImageName" />
+                <label for="imageTag"><span>Tag</span></label>
+                <input name="imageTag" type="text" @bind="_editImage.Tag" />
+            </div>
         </div>
     </Body>
 </DGDialog>
@@ -29,7 +35,7 @@
                     <span class="baseimage tag">@Stage.BaseImage.Tag</span>
                 }
             </div>
-            <a href="#" aria-label="Edit stage name" class="button" @onclick="(() => IsConfigureDialogOpen = true)">
+            <a href="#" aria-label="Edit stage name" class="button" @onclick="OpenConfigureDialog">
                 <i class="fa fa-edit" />
             </a>
         </div>
@@ -60,12 +66,24 @@
     [Parameter]
     public EventCallback<IInstruction> OnStartDrag { get; set; }
 
+    private EditImage _editImage { get; set; }
     private bool IsConfigureDialogOpen { get; set; }
 
     private void RemoveStage()
     {
         Dispatcher.Dispatch(new ContainerRemoveBuildStageAction(Stage));
         Dispatcher.Dispatch(new ContainerUpdatedAction());
+    }
+
+    private void OpenConfigureDialog()
+    {
+        _editImage = new EditImage
+        {
+            StageName = Stage.BaseImage.StageName,
+            ImageName = Stage.BaseImage.Image,
+            Tag = Stage.BaseImage.Tag
+        };
+        IsConfigureDialogOpen = true;
     }
 
     private void CloseConfigureDialog()
@@ -76,7 +94,18 @@
     private void OnOk()
     {
         CloseConfigureDialog();
+        Stage.BaseImage.StageName = _editImage.StageName;
+        Stage.BaseImage.Image = _editImage.ImageName;
+        Stage.BaseImage.Tag = _editImage.Tag;
+
         Dispatcher.Dispatch(new ContainerSetStateAction(State.Value));
         Dispatcher.Dispatch(new ContainerUpdatedAction());
+    }
+
+    private class EditImage
+    {
+        public string StageName { get; set; }
+        public string ImageName { get; set; }
+        public string Tag { get; set; }
     }
 }
