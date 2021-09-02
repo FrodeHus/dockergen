@@ -4,7 +4,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: hsl(0 0% 10% / 0.20);
+    background-color: hsl(0 0% 10% / 0.50);
     z-index: 2000;
 }
 
@@ -14,7 +14,7 @@
     width: max-content;
     border-radius: 6px;
     border: 1px solid var(--primary-bg-color);
-    box-shadow: 0 0 10px hsl(0 0% 50%);
+    box-shadow: 0 0 10px var(--primary-bg-color);
 }
 
 .dialog-title {

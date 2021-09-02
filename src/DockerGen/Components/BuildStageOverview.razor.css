@@ -20,7 +20,7 @@
 }
 
     .add-build-stage:hover {
-        color: black;
+        color: var(--highlight-color-active);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
 
@@ -60,11 +60,13 @@
     width: 32px;
     margin-right: 4px;
     margin-left: 4px;
+    color: white;
 }
 
     .wizard__number:hover {
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         cursor: pointer;
+        color: var(--highlight-color-active);
     }
 
 .wizard__step-title {

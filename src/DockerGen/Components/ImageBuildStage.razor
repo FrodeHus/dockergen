@@ -10,22 +10,22 @@
     </Title>
     <Body>
         <div class="dgform">
-            <div class="dgform-group">
-                <label for="stageName"><span>Stage name</span></label>
-                <input name="stageName" type="text" @bind="_editImage.StageName" />
+            <div class="input-group mb-3">
+                <span class="input-group-text">Stage name</span>
+                <input name="stageName" class="form-control" type="text" @bind="_editImage.StageName" />
 
             </div>
-            <div class="dgform-group">
-                <label for="imageName"><span>Image</span></label>
-                <input name="imageName" type="text" @bind="_editImage.ImageName" list="stages" />
+            <div class="input-group mb-3">
+                <span class="input-group-text">Image</span>
+                <input name="imageName" class="form-control" type="text" @bind="_editImage.ImageName" list="stages" />
                 <datalist id="stages">
                     @foreach (var stage in State.Value.Container.Stages)
                     {
                         <option value="@stage.BaseImage.StageName">@stage.StageName</option>
                     }
                 </datalist>
-                <label for="imageTag"><span>Tag</span></label>
-                <input name="imageTag" type="text" @bind="_editImage.Tag" />
+                <span class="input-group-text">Tag</span>
+                <input name="imageTag" class="form-control" type="text" @bind="_editImage.Tag" />
             </div>
         </div>
     </Body>

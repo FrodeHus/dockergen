@@ -6,9 +6,9 @@
 <div class="instruction-values">
     @foreach (var parameter in Recipe.Parameters)
     {
-        <div class="form-group">
-            <label for="@parameter">@parameter</label>
-            <input type="text" id="@parameter" value="@Recipe[parameter]" @onchange="@((e) => {
+        <div class="input-group mb-3">
+            <span class="input-group-text">@parameter</span>
+            <input type="text" class="form-control" id="@parameter" value="@Recipe[parameter]" @onchange="@((e) => {
 								Recipe[parameter] = e.Value.ToString();
 								Dispatcher.Dispatch(new ContainerSetStateAction(State.Value));
 								Dispatcher.Dispatch(new ContainerUpdatedAction());

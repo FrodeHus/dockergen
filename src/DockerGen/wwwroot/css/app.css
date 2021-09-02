@@ -2,17 +2,18 @@
     --primary-font-size: 14px;
     --background: hsl(0 0% 9%);
     --primary-color: hsl(0 0% 100%);
-    --highlight-color: hsl(205 100% 63%);
-    --highlight-color-active: hsl(180 75% 57%);
+    --highlight-color: hsl(206 91% 40%);
+    --highlight-color-active: hsl(201 79% 60%);
+    --highlight-bg-color: hsl(206 35% 31%);
     --primary-font-family: 'Roboto';
     --primary-bg-color: hsl(0 0% 13%);
     --primary-bg-color-active: hsl(0 0% 17%);
     --secondary-color: hsl(0 0% 67%);
     --secondary-bg-color: hsl(0 0% 19%);
     --secondary-bg-color-active: hsl(0 0% 23%);
-    --alert-bg-color: hsl(0 68% 90%);
-    --alert-bg-color-active: hsl(0 68% 92%);
-    --success-bg-color: hsl(102 67% 71%);
+    --alert-bg-color: hsl(5 75% 44%);
+    --alert-bg-color-active: hsl(5 100% 57%);
+    --success-bg-color: hsl(120 78% 44%);
     --instruction-bg-color: hsl(156 100% 90%);
     --instruction-color: hsl(156 80% 30%);
     --instruction-border-color: hsl(156 80% 30%);
@@ -157,7 +158,7 @@ footer {
     justify-content: center;
     margin: 0 0.3rem 0.3rem 0;
     padding: 2px 4px;
-    border-radius: 2px;
+    border-radius: 4px;
     border: 1px solid var(--primary-bg-color);
     box-sizing: border-box;
     text-align: center;
@@ -176,12 +177,12 @@ footer {
 }
 
     .dgbutton.main {
-        background-color: var(--primary-bg-color);
+        background-color: var(--highlight-color);
         color: var(--primary-color);
     }
 
         .dgbutton.main:hover {
-            background-color: var(--primary-bg-color-active);
+            background-color: var(--highlight-color-active);
         }
 
     .dgbutton.success {
@@ -232,9 +233,9 @@ footer {
     padding: .2rem .6rem;
     font-size: 1rem;
     line-height: 1.5;
-    color: var(--secondary-color);
+    color: var(--primary-color);
     text-align: center;
-    background-color: var(--primary-bg-color);
+    background-color: var(--highlight-bg-color);
     border: 1px solid var(--primary-bg-color);
     border-radius: 4px;
 }
