@@ -1,19 +1,18 @@
 ﻿:root {
     --primary-font-size: 14px;
-    --main-bg-color: #ffffff;
-    --primary-color: hsl(0 0% 0%);
+    --background: hsl(0 0% 9%);
+    --primary-color: hsl(0 0% 100%);
+    --highlight-color: hsl(205 100% 63%);
+    --highlight-color-active: hsl(205 100% 70%);
     --primary-font-family: 'Roboto';
-    --primary-bg-color: hsl(200 100% 75%);
-    --primary-bg-color-active: hsl(200 100% 65%);
+    --primary-bg-color: hsl(0 0% 13%);
+    --primary-bg-color-active: hsl(0 0% 17%);
+    --secondary-color: hsl(0 0% 67%);
+    --secondary-bg-color: hsl(0 0% 19%);
+    --secondary-bg-color-active: hsl(0 0% 23%);
     --alert-bg-color: hsl(0 68% 90%);
     --alert-bg-color-active: hsl(0 68% 92%);
     --success-bg-color: hsl(102 67% 71%);
-    --recipe-color: hsl(300 100% 30%);
-    --recipe-bg-color: hsl(300 100% 90%);
-    --category-active-color: hsl(190 100% 100%);
-    --category-color: hsl(156 80% 30%);
-    --component-bg-color: hsl(156 100% 90%);
-    --component-color: hsl(156 80% 30%);
     --instruction-bg-color: hsl(156 100% 90%);
     --instruction-color: hsl(156 80% 30%);
     --instruction-border-color: hsl(156 80% 30%);
@@ -44,8 +43,10 @@ body,
 html {
     margin: 0;
     padding: 0;
+    background-color: var(--background);
     font-family: var(--primary-font-family);
     font-size: var(--primary-font-size);
+    color: var(--primary-color);
 }
 
 * {
@@ -138,10 +139,10 @@ footer {
 .component {
     padding: 10px;
     list-style-type: none;
-    background-color: var(--component-bg-color);
-    color: var(--component-color);
+    background-color: var(--secondary-bg-color);
+    color: var(--secondary-color);
     margin: 2px;
-    border: 1px solid var(--component-color);
+    border: 1px solid var(--primary-bg-color);
     border-radius: 4px;
 }
 

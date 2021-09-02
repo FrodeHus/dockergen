@@ -1,13 +1,12 @@
 ﻿.image-container-build-stage {
     background-color: var(--primary-bg-color);
-    border: 1px solid var(--component-color);
+    border: 1px solid var(--secondary-bg-color);
     border-radius: 4px;
     padding: 4px;
     margin: 0 0 10px 8px;
 }
 
     .image-container-build-stage .title {
-        color: var(--component-color);
         font-size: 14px;
         font-weight: bold;
         display: flex;
@@ -47,19 +46,23 @@
         text-transform: uppercase;
         font-weight: 100;
         font-size: 1.2rem;
+        color: var(--highlight-color);
     }
 
     .build-stage__title .button {
         font-size: 1.2rem;
         padding: 4px;
+        color: var(--highlight-color);
     }
-
+    .build-stage__title .button:hover {
+        color: var(--highlight-color-active);
+    }
     .build-stage__title input {
         border-radius: 4px;
     }
 
     .build-stage__title .close {
-        
+        color: var(--secondary-color);
     }
 
     .build-stage__title .baseimage.image {
@@ -72,5 +75,6 @@
         text-transform: lowercase;
         font-weight: 100;
         font-family: Consolas;
-        background-color: var(--instruction-bg-color);
+        background-color: var(--secondary-bg-color);
+        color: var(--highlight-color);
     }

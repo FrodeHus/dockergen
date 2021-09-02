@@ -1,6 +1,6 @@
 ﻿/* Accordion styles */
 input:checked + .accordion__item-label {
-    color: var(--category-active-color);
+    color: var(--highlight-active-color);
 }
 
     input:checked + .accordion__item-label::after {
@@ -39,7 +39,7 @@ input:checked ~ .accordion__item-content {
     justify-content: space-between;
     padding: 1em;
     background-color: var(--primary-bg-color);
-    color: var(--category-color);
+    color: var(--highlight-color);
     font-weight: bold;
     cursor: pointer;
     /* Icon */
@@ -61,7 +61,7 @@ input:checked ~ .accordion__item-content {
     max-height: 0;
     padding: 0 1em;
     color: #2c3e50;
-    background: white;
+    background: var(--primary-bg-color);
     transition: all 0.35s;
 }
 

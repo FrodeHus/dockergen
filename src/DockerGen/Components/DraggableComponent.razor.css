@@ -2,19 +2,17 @@
     display: flex;
     align-items: center;
     flex-direction: row;
-    background-color: var(--instruction-bg-color);
+    background-color: var(--secondary-bg-color);
     margin: 0 0 5px 0;
     padding: 5px 5px 5px 2px;
     border-style: none none solid;
-    color: var(--instruction-color);
-    border-color: var(--instruction-border-color);
+    color: var(--secondary-color);
+    border-color: var(--primary-bg-color);
     cursor: grab;
 }
 
     .draggable-component:hover {
-        -moz-box-shadow: #830f94 0 1px 3px;
-        -webkit-box-shadow: #830f94 0 1px 3px;
-        box-shadow: #830f94 0 1px 3px;
+        box-shadow: 0 1px 3px hsl(0 0% 0% / 0.5);
     }
 
     .draggable-component:active {

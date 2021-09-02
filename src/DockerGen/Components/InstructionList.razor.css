@@ -14,7 +14,7 @@
     height: 20px;
     transition: padding .125s ease-in-out;
     border-radius: 4px;
-    border: 1px dashed var(--category-color);
+    border: 1px dashed var(--highlight-color);
 }
 
 .drag-dragover {

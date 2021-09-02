@@ -74,7 +74,7 @@
 /* /Components/ComponentList.razor.rz.scp.css */
 /* Accordion styles */
 input:checked + .accordion__item-label[b-au457x0te8] {
-    color: var(--category-active-color);
+    color: var(--highlight-active-color);
 }
 
     input:checked + .accordion__item-label[b-au457x0te8]::after {
@@ -113,7 +113,7 @@ input:checked ~ .accordion__item-content[b-au457x0te8] {
     justify-content: space-between;
     padding: 1em;
     background-color: var(--category-bg-color);
-    color: var(--category-color);
+    color: var(--highlight-color);
     font-weight: bold;
     cursor: pointer;
     /* Icon */
@@ -290,7 +290,7 @@ input:checked ~ .accordion__item-content[b-au457x0te8] {
     height: 20px;
     transition: padding .125s ease-in-out;
     border-radius: 4px;
-    border: 1px dashed var(--category-color);
+    border: 1px dashed var(--highlight-color);
 }
 
 .drag-dragover[b-d452cid6h8] {

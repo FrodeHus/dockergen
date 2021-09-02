@@ -15,7 +15,7 @@
     border-radius: 9999px;
     height: 48px;
     width: 48px;
-    color: white;
+    color: var(--highlight-color);
     font-size: 1em;
 }
 
@@ -43,7 +43,7 @@
 .wizard__connector {
     flex: 1;
     height: 1px;
-    background-color: var(--instruction-color);
+    background-color: var(--highlight-color);
 }
 
 /*.wizard__step:first-child .wizard__connector, .wizard__step:last-child .wizard__connector {
@@ -69,4 +69,5 @@
 
 .wizard__step-title {
     text-align: center;
+    color: var(--highlight-color);
 }
