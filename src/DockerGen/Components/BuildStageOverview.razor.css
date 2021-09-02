@@ -69,5 +69,5 @@
 
 .wizard__step-title {
     text-align: center;
-    color: var(--highlight-color);
+    color: var(--highlight-color-active);
 }

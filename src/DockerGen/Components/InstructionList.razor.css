@@ -15,12 +15,14 @@
     transition: padding .125s ease-in-out;
     border-radius: 4px;
     border: 1px dashed var(--highlight-color);
+    background-color: var(--highlight-color);
 }
 
 .drag-dragover {
-    background: repeating-linear-gradient( 45deg, var(--primary-bg-color-active), var(--primary-bg-color-active) 10px, var(--primary-bg-color) 10px, var(--primary-bg-color) 20px );
+    background: repeating-linear-gradient( 45deg, var(--highlight-color), var(--highlight-color) 10px, var(--primary-bg-color) 10px, var(--primary-bg-color) 20px );
     opacity: 0.6;
     animation: blinker 1s linear infinite;
+    border: none;
 }
 
 .blink-me {

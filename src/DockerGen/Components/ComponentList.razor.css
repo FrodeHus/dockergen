@@ -1,6 +1,6 @@
 ﻿/* Accordion styles */
 input:checked + .accordion__item-label {
-    color: var(--highlight-active-color);
+    color: var(--highlight-color-active);
 }
 
     input:checked + .accordion__item-label::after {
@@ -47,6 +47,7 @@ input:checked ~ .accordion__item-content {
 
     .accordion__item-label:hover {
         background-color: var(--primary-bg-color-active);
+        color: var(--highlight-color-active);
     }
 
     .accordion__item-label::after {

@@ -3,7 +3,7 @@
     --background: hsl(0 0% 9%);
     --primary-color: hsl(0 0% 100%);
     --highlight-color: hsl(205 100% 63%);
-    --highlight-color-active: hsl(205 100% 70%);
+    --highlight-color-active: hsl(180 75% 57%);
     --primary-font-family: 'Roboto';
     --primary-bg-color: hsl(0 0% 13%);
     --primary-bg-color-active: hsl(0 0% 17%);
@@ -146,6 +146,10 @@ footer {
     border-radius: 4px;
 }
 
+.component:hover{
+    color: var(--highlight-color-active);
+}
+
 .dgbutton {
     align-items: center;
     display: flex;
@@ -153,15 +157,22 @@ footer {
     justify-content: center;
     margin: 0 0.3rem 0.3rem 0;
     padding: 2px 4px;
-    border-radius: 4px;
-    border: 1px solid var(--primary-bg-color-active);
+    border-radius: 2px;
+    border: 1px solid var(--primary-bg-color);
     box-sizing: border-box;
     text-align: center;
     transition: all 0.2s;
     font-size: 1rem;
     height: 1.7rem;
     text-decoration: none;
-    background-color: white;
+    background-color: var(--secondary-bg-color);
+    color: var(--highlight-color);
+    box-shadow: var(--primary-bg-color) 0 0 5px;
+}
+
+.dgbutton:hover{
+    background-color: var(--secondary-bg-color-active);
+    color: var(--highlight-color-active);
 }
 
     .dgbutton.main {
@@ -205,6 +216,47 @@ footer {
     flex-direction: row;
 }
 
+.input-group{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+    margin-left: -1px;
+    border-bottom-left-radius: 0;
+}
+
+.input-group-text{
+    display: flex;
+    align-items: center;
+    padding: .2rem .6rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--secondary-color);
+    text-align: center;
+    background-color: var(--primary-bg-color);
+    border: 1px solid var(--primary-bg-color);
+    border-radius: 4px;
+}
+
+.form-control{
+    display: block;
+    padding: .2rem .6rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--primary-color);
+    background-color: var(--secondary-bg-color);
+    border: 1px solid var(--primary-bg-color);
+    appearance: none;
+    border-radius: 4px;
+}
+
+.input-group >.form-control{
+    position: relative;
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
+}
     .dgform-group label{
         text-align: right;
         padding-right: 8px;
