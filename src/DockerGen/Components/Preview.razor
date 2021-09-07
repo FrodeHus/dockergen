@@ -5,17 +5,12 @@
 @inject ClipboardService Clipboard
 @inject IDispatcher Dispatcher
 @inject IState<ContainerState> State
-<div class="preview @toggleClass">
-	<div class="toolbar">
-		<a href="#" class="panel-button" @onclick="Toggle">
-			<i class="fa fa-bars" />
-		</a>
-	</div>
+<div class="preview">
 	<div class="panel">
 		<div class="preview-label">
 			dockerfile
 		</div>
-		<div class="editor @toggleClass">
+		<div class="editor">
 			<MonacoEditor @ref="_editor" ConstructionOptions=EditorConstructionOptions OnKeyUp="UpdateContainer" />
 		</div>
 	</div>
@@ -23,26 +18,10 @@
 
 @code {
 	private MonacoEditor _editor;
-	private string toggleClass = "open";
-	private void Toggle()
-	{		
-		if (!State.Value.SidePanelOpen)
-		{
-			toggleClass = "open";
-			Dispatcher.Dispatch(new ContainerPanelOpenAction());
-		}
-		else
-		{
-			toggleClass = "closed";
-			Dispatcher.Dispatch(new ContainerPanelCloseAction());
-		}
-		StateHasChanged();
-	}
 
 	protected override void OnInitialized()
 	{
 		base.OnInitialized();
-		toggleClass = State.Value.SidePanelOpen ? "open":"closed";
 		SubscribeToAction<ContainerUpdatedAction>(_ => UpdateEditor());
 		SubscribeToAction<ContainerLoadStateSuccessAction>(_ => UpdateEditor());
 		SubscribeToAction<ContainerClearStateSuccessAction>(_ => UpdateEditor());
@@ -87,8 +66,7 @@
 			FormatOnPaste = true,
 			Language = "dockerfile",
 			Value = GetCompiledDockerfile(),
-			Minimap = new EditorMinimapOptions { Enabled = false },
-			Theme = "vs-dark"
+			Minimap = new EditorMinimapOptions { Enabled = false }
 		};
 	}
 }

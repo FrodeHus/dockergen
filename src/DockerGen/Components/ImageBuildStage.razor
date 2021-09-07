@@ -4,11 +4,9 @@
 @inject IState<ContainerState> State
 @inject IDispatcher Dispatcher
 
-<DGDialog Show="IsConfigureDialogOpen" OnOk="OnOk" OnCancel="CloseConfigureDialog">
-    <Title>
-        Configure build stage
-    </Title>
-    <Body>
+<MatDialog @bind-IsOpen="@IsConfigureDialogOpen">
+    <MatDialogTitle>Configure build stage</MatDialogTitle>
+    <MatDialogContent>
         <div class="dgform">
             <div class="input-group mb-3">
                 <span class="input-group-text">Stage name</span>
@@ -28,8 +26,12 @@
                 <input name="imageTag" class="form-control" type="text" @bind="_editImage.Tag" />
             </div>
         </div>
-    </Body>
-</DGDialog>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="CloseConfigureDialog">Cancel</MatButton>
+        <MatButton OnClick="OnOk">Save</MatButton>
+    </MatDialogActions>
+</MatDialog>
 
 
 <div class="image-container-build-stage">

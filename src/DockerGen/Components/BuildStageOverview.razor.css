@@ -1,4 +1,9 @@
-﻿.build-stage-overview {
+﻿.add-build-stage--btn{
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+}
+.build-stage-overview {
     display: flex;
     justify-content: space-between;
     margin: 10px;

@@ -8,38 +8,19 @@
     overflow: hidden;
 }
 
-.toolbar{
-    display: flex;
-    justify-content: space-between;
-}
 
-.open{
-    width: 35vw;
-}
-
-.closed{
-    width: 30px;
-}
-
-.editor .open{
+.editor {
     display: block;
+    width: 100%;
 }
 
-.editor .closed{
-    display: none;
-}
 
-.panel-button{
-    text-decoration: none;
-    user-select: none;
-}
-
-.panel{
+.panel {
     display: flex;
     margin-top: 10px;
 }
 
-.preview-label{
+.preview-label {
     margin-right: 10px;
     width: 1.5rem;
     padding-top: 10px;

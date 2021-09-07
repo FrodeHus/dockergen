@@ -22,10 +22,8 @@
             </div>
         }
     </div>
-    <a class="add-build-stage" @onclick="AddStage" href="#">
-        <i class="fab fa-docker"></i>&nbsp;
-        <i class="fa fa-plus"></i>
-    </a>
+    <MatFAB @onclick="AddStage" Class="add-build-stage--btn" Label="Add stage" Icon="add">
+    </MatFAB>  
 </div>
 
 @code {

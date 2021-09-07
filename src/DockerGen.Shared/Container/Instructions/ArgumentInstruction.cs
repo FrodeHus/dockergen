@@ -6,7 +6,7 @@ namespace DockerGen.Container
 {
 	public class ArgumentInstruction : Instruction
 	{
-		public override string Description => throw new System.NotImplementedException();
+		public override string Description => "The ARG instruction defines a variable that users can pass at build-time to the builder with the docker build command using the --build-arg <varname>=<value> flag. If a user specifies a build argument that was not defined in the Dockerfile, the build outputs a warning.";
 
 		public override string Prefix => "ARG";
 		public override string DisplayName => "Define build argument";

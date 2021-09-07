@@ -1,24 +1,10 @@
 ﻿:root {
     --primary-font-size: 14px;
-    --background: hsl(0 0% 9%);
-    --primary-color: hsl(0 0% 100%);
+    --primary-font-family: 'Roboto';
+    --background: hsl(0 0% 100%);
     --highlight-color: hsl(206 91% 40%);
     --highlight-color-active: hsl(201 79% 60%);
     --highlight-bg-color: hsl(206 35% 31%);
-    --primary-font-family: 'Roboto';
-    --primary-bg-color: hsl(0 0% 13%);
-    --primary-bg-color-active: hsl(0 0% 17%);
-    --secondary-color: hsl(0 0% 67%);
-    --secondary-bg-color: hsl(0 0% 19%);
-    --secondary-bg-color-active: hsl(0 0% 23%);
-    --alert-bg-color: hsl(5 75% 44%);
-    --alert-bg-color-active: hsl(5 100% 57%);
-    --success-bg-color: hsl(120 78% 44%);
-    --instruction-bg-color: hsl(156 100% 90%);
-    --instruction-color: hsl(156 80% 30%);
-    --instruction-border-color: hsl(156 80% 30%);
-    --instruction-value-bg-color: #fff;
-    --instruction-value-color: #424242;
 }
 
 #blazor-error-ui {
@@ -54,15 +40,7 @@ html {
     box-sizing: border-box;
 }
 
-footer {
-    background-color: var(--primary-bg-color);
-    height: 20px;
-    position: relative;
-}
-
 .mainpage {
-    display: flex;
-    flex-direction: column;
     height: 100vh;
 }
 
@@ -103,12 +81,18 @@ footer {
 }
 
 
-.component-list {
-    list-style-type: none;
-    margin: 0px;
-    padding: 0px;
+.componentlist {
+    height: 90vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
+.component-card {
+    margin: 1rem;
+    padding: 1rem;
+    width: 100%;
+    max-height: 200px;
+}
 
 .instruction-values {
     display: grid;

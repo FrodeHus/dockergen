@@ -3,8 +3,7 @@
 @inherits FluxorComponent
 @inject ContainerService ContainerService
 @inject IDispatcher Dispatcher
-<div class="draggable-component" draggable="true" @ondragstart="@(() => OnDragStartHandler(Instruction))" @ondragend="@(() => OnDragStartHandler(null))">
-    <i class="drag-handle fa fa-grip-lines"></i>
+<MatPaper Outlined="true" draggable="true" @ondragstart="@(() => OnDragStartHandler(Instruction))" @ondragend="@(() => OnDragStartHandler(null))">
     <div class="instruction-card">
         <input type="checkbox" checked class="toggle" id="@Instruction.Id">
         <div class="instruction-card__header">
@@ -17,7 +16,7 @@
             <DynamicComponent Type="@ContainerService.GetMappedUIComponent(Instruction)" Parameters="GetParametersForInstruction(Instruction)"></DynamicComponent>
         </div>
     </div>
-</div>
+</MatPaper>
 
 
 @code {
