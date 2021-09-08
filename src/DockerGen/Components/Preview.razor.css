@@ -1,8 +1,4 @@
-﻿::deep .monaco-editor-container {
-    height: calc(100vh - 100px);
-}
-
-.preview {
+﻿.preview {
     padding: 4px;
     transition: width 125ms;
     overflow: hidden;

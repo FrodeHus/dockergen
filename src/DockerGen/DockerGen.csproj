@@ -19,7 +19,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="4.1.2" />
-    <PackageReference Include="BlazorMonaco" Version="2.1.0" />
     <PackageReference Include="Fluxor.Blazor.Web" Version="4.1.0" />
     <PackageReference Include="Fluxor.Blazor.Web.ReduxDevTools" Version="4.1.0" />
     <PackageReference Include="MatBlazor" Version="2.9.0-develop-042" />

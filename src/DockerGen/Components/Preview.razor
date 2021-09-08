@@ -1,73 +1,52 @@
-﻿@using BlazorMonaco
-@using DockerGen.Features.Container.Store
+﻿@using DockerGen.Features.Container.Store
 @using DockerGen.Infrastructure
 @inherits FluxorComponent
-@inject ClipboardService Clipboard
 @inject IDispatcher Dispatcher
 @inject IState<ContainerState> State
+@inject IJSRuntime JS
+
 <div class="preview">
-	<div class="panel">
-		<div class="preview-label">
-			dockerfile
-		</div>
-		<div class="editor">
-			<MonacoEditor @ref="_editor" ConstructionOptions=EditorConstructionOptions OnKeyUp="UpdateContainer" />
-		</div>
-	</div>
+    <div class="panel">
+        <div class="preview-label">
+            dockerfile
+        </div>
+        <div class="editor">
+            <pre class="code">
+                <code class="language-dockerfile">
+                    @Dockerfile
+                </code>
+            </pre>
+        </div>
+    </div>
 </div>
 
 @code {
-	private MonacoEditor _editor;
+    private string Dockerfile { get; set; }
 
-	protected override void OnInitialized()
-	{
-		base.OnInitialized();
-		SubscribeToAction<ContainerUpdatedAction>(_ => UpdateEditor());
-		SubscribeToAction<ContainerLoadStateSuccessAction>(_ => UpdateEditor());
-		SubscribeToAction<ContainerLoadDockerfileFromStringSuccessAction>(_ => UpdateEditor());
-		SubscribeToAction<ContainerClearStateSuccessAction>(_ => UpdateEditor());
-	}
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        SubscribeToAction<ContainerUpdatedAction>(_ => UpdateEditor());
+        SubscribeToAction<ContainerLoadStateSuccessAction>(_ => UpdateEditor());
+        SubscribeToAction<ContainerLoadDockerfileFromStringSuccessAction>(_ => UpdateEditor());
+        SubscribeToAction<ContainerClearStateSuccessAction>(_ => UpdateEditor());
+    }
 
-	private async Task UpdateContainer(KeyboardEvent _)
-	{
-		var dockerfile = await _editor.GetValue();
-		try
-		{
-			Dispatcher.Dispatch(new ContainerLoadDockerfileFromStringAction(dockerfile));
-			Dispatcher.Dispatch(new ContainerLoadDockerfileFromStringSuccessAction());
-		}
-		catch (Exception ex)
-		{
-			Dispatcher.Dispatch(new ContainerLoadDockerfileFromStringFailureAction(ex.Message));
-		}
-	}
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        //await JS.InvokeVoidAsync("hljs.highlightAll");
+    }
 
-	private void UpdateEditor()
-	{
-		_editor.SetValue(GetCompiledDockerfile());
-	}
+    private void UpdateEditor()
+    {
+        Dockerfile = GetCompiledDockerfile();
+    }
 
-	private string GetCompiledDockerfile()
-	{
-		var dockerFile = State.Value.Container.Compile();
-		if (string.IsNullOrEmpty(dockerFile))
-		{
-			return "# No instructions found - try adding one now or copy/paste an existing Dockerfile!";
-		}
+    private string GetCompiledDockerfile()
+    {
+        var dockerFile = State.Value.Container.Compile();
 
-		return dockerFile;
-	}
-
-	private StandaloneEditorConstructionOptions EditorConstructionOptions(MonacoEditor _)
-	{
-		return new StandaloneEditorConstructionOptions
-		{
-			AutomaticLayout = true,
-			FormatOnType = true,
-			FormatOnPaste = true,
-			Language = "dockerfile",
-			Value = GetCompiledDockerfile(),
-			Minimap = new EditorMinimapOptions { Enabled = false }
-		};
-	}
+        return dockerFile ?? "";
+    }
 }
