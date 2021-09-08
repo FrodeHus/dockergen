@@ -24,6 +24,7 @@
 		base.OnInitialized();
 		SubscribeToAction<ContainerUpdatedAction>(_ => UpdateEditor());
 		SubscribeToAction<ContainerLoadStateSuccessAction>(_ => UpdateEditor());
+		SubscribeToAction<ContainerLoadDockerfileFromStringSuccessAction>(_ => UpdateEditor());
 		SubscribeToAction<ContainerClearStateSuccessAction>(_ => UpdateEditor());
 	}
 

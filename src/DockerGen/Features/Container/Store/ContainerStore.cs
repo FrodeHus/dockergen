@@ -167,6 +167,5 @@ namespace DockerGen.Features.Container.Store
                 Recipes = action.Recipes
             };
 		}
-
     }
 }

@@ -1,4 +1,5 @@
-﻿@using DockerGen.Features.Container.Store
+﻿@using DockerGen.Container
+@using DockerGen.Features.Container.Store
 @using DockerGen.Infrastructure
 @inherits FluxorComponent
 @inject IDispatcher Dispatcher
@@ -6,6 +7,23 @@
 @inject ApiService ApiClient
 @inject ClipboardService Clipboard
 @inject IMatToaster ToastService
+
+<MatDialog @bind-IsOpen="@IsImportDialogOpen">
+    <MatDialogTitle>Import Dockerfile</MatDialogTitle>
+    <MatDialogContent>
+        <div class="mat-layout-grid">
+            <div class="mat-layout-grid-inner">
+                <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+                    <MatTextField Class="large-textarea" PlaceHolder="Paste in your Dockerfile here" TextArea="true" FullWidth="true" @bind-Value="@ImportedDockerfile"></MatTextField>
+                </div>
+            </div>
+        </div>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="CloseImportDialog">Cancel</MatButton>
+        <MatButton OnClick="ImportDockerfile">Import</MatButton>
+    </MatDialogActions>
+</MatDialog>
 
 <MatAppBar Fixed="true">
     <MatAppBarRow>
@@ -21,6 +39,9 @@
             <MatTooltip Tooltip="Copies the content of the Dockerfile to your clipboard">
                 <MatIconButton RefBack="@context" Icon="file_copy" OnClick="CopyDockerfileToClipboard"></MatIconButton>
             </MatTooltip>
+            <MatTooltip Tooltip="Import using existing Dockerfile">
+                <MatIconButton RefBack="@context" Icon="save_alt" OnClick="OpenImportDialog"></MatIconButton>
+            </MatTooltip>
             <MatTooltip Tooltip="Clears our the current Dockerfile and starts fresh">
                 <MatIconButton RefBack="@context" Icon="clear" OnClick="(() => Dispatcher.Dispatch(new ContainerClearStateAction()))"></MatIconButton>
             </MatTooltip>
@@ -33,6 +54,25 @@
 
 
 @code {
+    private string ImportedDockerfile { get; set; }
+    private bool IsImportDialogOpen { get; set; }
+    private void OpenImportDialog()
+    {
+        IsImportDialogOpen = true;
+
+    }
+
+    private void ImportDockerfile()
+    {
+        CloseImportDialog();
+        Dispatcher.Dispatch(new ContainerLoadDockerfileFromStringAction(ImportedDockerfile));
+        ImportedDockerfile = "";
+    }
+
+    private void CloseImportDialog()
+    {
+        IsImportDialogOpen = false;
+    }
     private async Task CopyDockerfileToClipboard()
     {
         try

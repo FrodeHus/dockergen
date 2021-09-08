@@ -3,6 +3,7 @@
 @using DockerGen.Container
 @using DockerGen.Features.Container.Store
 @inject IDispatcher Dispatcher
+@inject IMatToaster Toaster
 <CascadingValue Value="this">
     <div class="mat-layout-grid remove-padding">
         <div class="mat-layout-grid-inner">
@@ -35,6 +36,9 @@
         {
             Dispatcher.Dispatch(new ContainerLoadQuickLinkAction(QuickLink));
         }
+		SubscribeToAction<ContainerLoadDockerfileFromStringSuccessAction>(_ => Toaster.Add("Dockerfile successfully imported!", MatToastType.Success));
+		SubscribeToAction<ContainerLoadDockerfileFromStringFailureAction>(e => Toaster.Add(e.ErrorMessage, MatToastType.Danger));
+
     }
 
     private void OnDragStart(IInstruction instruction)

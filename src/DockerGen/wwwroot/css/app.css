@@ -44,6 +44,11 @@ html {
     padding: 0;
 }
 
+.large-textarea{
+    min-height: 20rem;
+    font-size: 0.7rem;
+}
+
 .mainpage {
     height: 100vh;
 }

@@ -1,4 +1,5 @@
 ﻿using Blazored.LocalStorage;
+using DockerGen.Container;
 using DockerGen.Infrastructure;
 using Fluxor;
 
@@ -90,5 +91,26 @@ namespace DockerGen.Features.Container.Store
 
 			}
 		}
+
+        [EffectMethod]
+        public Task LoadFromDockerfile(ContainerLoadDockerfileFromStringAction action, IDispatcher dispatcher)
+        {
+            try
+            {
+                var image = ContainerImage.ParseFromString(action.dockerfile);
+                
+                dispatcher.Dispatch(new ContainerSetStateAction(new ContainerState { Container = image }));
+                dispatcher.Dispatch(new ContainerLoadDockerfileFromStringSuccessAction());
+            }
+            catch(ArgumentException ex)
+            {
+                dispatcher.Dispatch(new ContainerLoadDockerfileFromStringFailureAction(ex.Message));
+            }
+            catch 
+            {
+                dispatcher.Dispatch(new ContainerLoadDockerfileFromStringFailureAction("Unknown error while importing Dockerfile"));
+            }
+            return Task.CompletedTask;
+        }
     }
 }

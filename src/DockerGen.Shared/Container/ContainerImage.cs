@@ -42,7 +42,7 @@ namespace DockerGen.Container
 			}
 			return builder.ToString().Trim();
 		}
-		public static implicit operator ContainerImage(string dockerinstructions)
+		public static ContainerImage ParseFromString(string dockerinstructions)
 		{
 			var image = new ContainerImage();
 			var lines = dockerinstructions.SplitOnInstructions();
@@ -77,7 +77,7 @@ namespace DockerGen.Container
 				}
 				if (instruction == null)
 				{
-					continue;
+					throw new ArgumentException("Unknown instruction - " + instructionType);
 				}
 
 				if (instruction is ArgumentInstruction argumentInstruction && (image.Stages.Count == 0 || image.Stages[0].BaseImage == null))
@@ -102,7 +102,6 @@ namespace DockerGen.Container
 						stage = new BuildStage(fromInstruction, "stage" + stageCount);
 						image.AddStage(stage);
 					}
-					continue;
 				}
 				else if (stage != null && instruction != null)
 				{

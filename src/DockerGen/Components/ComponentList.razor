@@ -53,7 +53,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        AvailableComponents = _containerService.GetValidInstructions();
+        AvailableComponents = _containerService.GetValidInstructions().Where(c => c.Prefix != "FROM").ToList();
     }
     private void StartDragHandler(object component)
     {
