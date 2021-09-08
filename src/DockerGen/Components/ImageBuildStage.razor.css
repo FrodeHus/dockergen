@@ -1,6 +1,6 @@
 ﻿.build-stage__container {
     padding: 4px;
-    margin: 4px;
+    margin: 0 0 20px 0;
 }
 
     .build-stage__container:last-of-type {

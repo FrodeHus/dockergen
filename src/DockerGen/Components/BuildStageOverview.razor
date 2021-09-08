@@ -3,6 +3,7 @@
 @inherits FluxorComponent
 @inject IDispatcher Dispatcher
 @inject IState<ContainerState> State
+@inject IJSRuntime JS
 <div class="build-stage-overview">
     <div class="wizard">
         @foreach (var stage in State.Value.Container.Stages)
@@ -11,7 +12,7 @@
             <div class="wizard__step">
                 <div class="wizard__dot">
                     <div class="wizard__connector"></div>
-                    <div class="wizard__number">
+                    <div class="wizard__number" @onclick="(() => ScrollToStage(stage.StageName))">
                         <i class="fab fa-docker"></i>
                     </div>
                     <div class="wizard__connector"></div>
@@ -40,5 +41,9 @@
     private int GetIndex(BuildStage stage)
     {
         return State.Value.Container.Stages.IndexOf(stage) + 1;
+    }
+
+    private async Task ScrollToStage(string stageName){
+        await JS.InvokeVoidAsync("scrollToStage", stageName);
     }
 }

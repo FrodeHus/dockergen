@@ -34,6 +34,11 @@
     <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
     <script src="_content/Fluxor.Blazor.Web/scripts/index.js"></script>
+    <script>
+        window.scrollToStage = (stageName) => {
+            document.getElementById(stageName).scrollIntoView({ behavior: 'smooth' });
+        };
+    </script>
 </body>
 
 </html>
