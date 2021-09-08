@@ -1,19 +1,7 @@
-﻿.image-container-build-stage {
-    background-color: var(--primary-bg-color);
-    border: 1px solid var(--secondary-bg-color);
-    border-radius: 4px;
+﻿.build-stage__container{
     padding: 4px;
-    margin: 0 0 10px 8px;
+    margin: 4px;
 }
-
-    .image-container-build-stage .title {
-        font-size: 14px;
-        font-weight: bold;
-        display: flex;
-        justify-content: space-between;
-    }
-
-
 .build-stage__title {
     display: flex;
     align-content: center;
@@ -37,8 +25,6 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        background-color: var(--primary-bg-color-active);
-        border-radius: 999px;
         padding: 4px 8px;
     }
 
@@ -46,7 +32,6 @@
         text-transform: uppercase;
         font-weight: 100;
         font-size: 1.2rem;
-        color: var(--highlight-color);
     }
 
     .build-stage__title .button {
@@ -75,6 +60,9 @@
         text-transform: lowercase;
         font-weight: 100;
         font-family: Consolas;
-        background-color: var(--secondary-bg-color);
-        color: var(--highlight-color);
+        border-radius: 1000px;
+        padding: 2px 4px;
+        font-size: 0.8rem;
+        background-color: var(--mdc-theme-secondary);
+        color: var(--mdc-theme-on-secondary);
     }

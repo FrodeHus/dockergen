@@ -1,24 +1,10 @@
 ﻿:root {
     --primary-font-size: 14px;
-    --background: hsl(0 0% 9%);
-    --primary-color: hsl(0 0% 100%);
+    --primary-font-family: 'Roboto';
+    --background: hsl(0 0% 100%);
     --highlight-color: hsl(206 91% 40%);
     --highlight-color-active: hsl(201 79% 60%);
     --highlight-bg-color: hsl(206 35% 31%);
-    --primary-font-family: 'Roboto';
-    --primary-bg-color: hsl(0 0% 13%);
-    --primary-bg-color-active: hsl(0 0% 17%);
-    --secondary-color: hsl(0 0% 67%);
-    --secondary-bg-color: hsl(0 0% 19%);
-    --secondary-bg-color-active: hsl(0 0% 23%);
-    --alert-bg-color: hsl(5 75% 44%);
-    --alert-bg-color-active: hsl(5 100% 57%);
-    --success-bg-color: hsl(120 78% 44%);
-    --instruction-bg-color: hsl(156 100% 90%);
-    --instruction-color: hsl(156 80% 30%);
-    --instruction-border-color: hsl(156 80% 30%);
-    --instruction-value-bg-color: #fff;
-    --instruction-value-color: #424242;
 }
 
 #blazor-error-ui {
@@ -54,15 +40,7 @@ html {
     box-sizing: border-box;
 }
 
-footer {
-    background-color: var(--primary-bg-color);
-    height: 20px;
-    position: relative;
-}
-
 .mainpage {
-    display: flex;
-    flex-direction: column;
     height: 100vh;
 }
 
@@ -103,18 +81,25 @@ footer {
 }
 
 
-.component-list {
-    list-style-type: none;
-    margin: 0px;
-    padding: 0px;
+.componentlist {
+    height: 90vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
-
-.instruction-values {
-    display: grid;
-    grid-template-columns: auto auto;
-    column-gap: 14px;
+.component-card {
+    margin: 4px 0;
+    padding: 1rem;
+    width: 100%;
+    font-size: 0.9rem;
+    cursor: grab;
+    background-color: var(--mdc-theme-secondary);
+    color: var(--mdc-theme-on-secondary);
 }
+
+    .component-card:active {
+        cursor: grabbing;
+    }
 
 .form-group {
     padding: 0 8px;
@@ -147,9 +132,9 @@ footer {
     border-radius: 4px;
 }
 
-.component:hover{
-    color: var(--highlight-color-active);
-}
+    .component:hover {
+        color: var(--highlight-color-active);
+    }
 
 .dgbutton {
     align-items: center;
@@ -171,10 +156,10 @@ footer {
     box-shadow: var(--primary-bg-color) 0 0 5px;
 }
 
-.dgbutton:hover{
-    background-color: var(--secondary-bg-color-active);
-    color: var(--highlight-color-active);
-}
+    .dgbutton:hover {
+        background-color: var(--secondary-bg-color-active);
+        color: var(--highlight-color-active);
+    }
 
     .dgbutton.main {
         background-color: var(--highlight-color);
@@ -217,7 +202,7 @@ footer {
     flex-direction: row;
 }
 
-.input-group{
+.input-group {
     position: relative;
     display: flex;
     flex-wrap: wrap;
@@ -227,7 +212,7 @@ footer {
     border-bottom-left-radius: 0;
 }
 
-.input-group-text{
+.input-group-text {
     display: flex;
     align-items: center;
     padding: .2rem .6rem;
@@ -240,7 +225,7 @@ footer {
     border-radius: 4px;
 }
 
-.form-control{
+.form-control {
     display: block;
     padding: .2rem .6rem;
     font-size: 1rem;
@@ -252,27 +237,28 @@ footer {
     border-radius: 4px;
 }
 
-.input-group >.form-control{
+.input-group > .form-control {
     position: relative;
     flex: 1 1 auto;
     width: 1%;
     min-width: 0;
 }
-    .dgform-group label{
-        text-align: right;
-        padding-right: 8px;
-        padding-left: 10px;
-        width: auto;
-    }
 
-    .dgform-group input {
-        flex: 1 1 auto;
-        display: block;
-        margin-bottom: 10px;
-        margin-right: 8px;
-        padding: 4px;
-        margin-top: -4px;
-    }
+.dgform-group label {
+    text-align: right;
+    padding-right: 8px;
+    padding-left: 10px;
+    width: auto;
+}
+
+.dgform-group input {
+    flex: 1 1 auto;
+    display: block;
+    margin-bottom: 10px;
+    margin-right: 8px;
+    padding: 4px;
+    margin-top: -4px;
+}
 
 .monaco-aria-container {
     height: 0 !important;

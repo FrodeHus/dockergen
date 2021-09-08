@@ -1,9 +1,12 @@
 ﻿@using DockerGen.Container
 
 <InstructionElement Instruction="@Instruction" Title="@Instruction.DisplayName">
-    <div class="input-group mb-3">
-        <span class="input-group-text fa fa-folder"></span>
-        <InputText class="form-control" @bind-Value="Instruction.Directory"></InputText>
+    <div class="mat-layout-grid">
+        <div class="mat-layout-grid-inner">
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+                <MatTextField Label="Directory name (will be created if missing)" @bind-Value="@Instruction.Directory" FullWidth="true" Required="true"></MatTextField>
+            </div>
+        </div>
     </div>
 </InstructionElement>
 

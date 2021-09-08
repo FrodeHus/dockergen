@@ -3,19 +3,21 @@
 @using DockerGen.Features.Container.Store
 @inject IDispatcher Dispatcher
 @inject IState<ContainerState> State
-<div class="instruction-values">
-    @foreach (var parameter in Recipe.Parameters)
-    {
-        <div class="input-group mb-3">
-            <span class="input-group-text">@parameter</span>
-            <input type="text" class="form-control" id="@parameter" value="@Recipe[parameter]" @onchange="@((e) => {
+<div class="mat-layout-grid">
+    <div class="mat-layout-grid-inner">
+        @foreach (var parameter in Recipe.Parameters)
+        {
+            <div class="mat-layout-grid-cell">
+                <MatTextField Label="@parameter" Value="@Recipe[parameter]" OnInput="@((e) => {
 								Recipe[parameter] = e.Value.ToString();
 								Dispatcher.Dispatch(new ContainerSetStateAction(State.Value));
 								Dispatcher.Dispatch(new ContainerUpdatedAction());
-							})" />
-        </div>
-    }
+							})"></MatTextField>
+            </div>
+        }
+    </div>
 </div>
+
 
 @code {
     [Parameter]

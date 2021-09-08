@@ -1,12 +1,20 @@
 @inherits LayoutComponentBase
 <div class="mainpage">
-    <Header></Header>
-    <main class="editorcontainer__main">
-        @Body
-    </main>
-    <footer>
-        &copy;frodehus.dev
-    </footer>
+    <MatThemeProvider Theme="theme">
+        <MatAppBarContainer>
+            <Header></Header>
+            <MatAppBarContent>
+                @Body
+            </MatAppBarContent>
+        </MatAppBarContainer>
+    </MatThemeProvider>
 </div>
 <StateLoader />
-<BlazoredToasts />
+<MatToastContainer />
+
+@code{ private MatTheme theme = new MatTheme()
+    {
+        Primary = "#ab47bc",
+        Secondary = "#b388ff",
+    };
+}

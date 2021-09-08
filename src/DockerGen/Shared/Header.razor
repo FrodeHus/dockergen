@@ -5,42 +5,45 @@
 @inject IState<ContainerState> State
 @inject ApiService ApiClient
 @inject ClipboardService Clipboard
-@inject IToastService ToastService
-<header class="header">
-    <LoginDisplay />
-    <AuthorizeView>
-        <Authorized>
-        </Authorized>
-    </AuthorizeView>
-    <a href="#" class="@buttonState.ButtonClass" @onclick="CreateQuickShareLink">
-        <i class="fa fa-share-square" />
-    </a>
-    <a href="#" class="@buttonState.ButtonClass" @onclick="CopyDockerfileToClipboard">
-        <i class="@buttonState.IconClass" />&nbsp;Copy Dockerfile
-    </a>
-    <a href="#" class="dgbutton" @onclick="(() => Dispatcher.Dispatch(new ContainerClearStateAction()))">Clear</a>
-    <a href="https://github.com/frodehus/dockergen"><i class="fa fa-code-branch"></i>Github</a>
-    <li class="fa fa-dev"></li>
-</header>
+@inject IMatToaster ToastService
+
+<MatAppBar Fixed="true">
+    <MatAppBarRow>
+        <MatAppBarSection>
+            <MatIconButton Icon="menu"></MatIconButton>
+            <MatAppBarTitle>DockerGen - Visual editor for Dockerfiles</MatAppBarTitle>
+        </MatAppBarSection>
+        <MatAppBarSection Align="@MatAppBarSectionAlign.End">
+            <LoginDisplay />
+            <MatTooltip Tooltip="Creates a link that can be used to share this Dockerfile with anyone">
+                <MatIconButton RefBack="@context" Icon="share" OnClick="CreateQuickShareLink"></MatIconButton>
+            </MatTooltip>
+            <MatTooltip Tooltip="Copies the content of the Dockerfile to your clipboard">
+                <MatIconButton RefBack="@context" Icon="file_copy" OnClick="CopyDockerfileToClipboard"></MatIconButton>
+            </MatTooltip>
+            <MatTooltip Tooltip="Clears our the current Dockerfile and starts fresh">
+                <MatIconButton RefBack="@context" Icon="clear" OnClick="(() => Dispatcher.Dispatch(new ContainerClearStateAction()))"></MatIconButton>
+            </MatTooltip>
+            <MatIconButton Link="https://github.com/frodehus/dockergen">
+                <i class="fa fa-github" aria-hidden="true"></i>
+            </MatIconButton>
+        </MatAppBarSection>
+    </MatAppBarRow>
+</MatAppBar>
+
 
 @code {
-    private ButtonState buttonState = new(false, "dgbutton", "fa fa-clipboard");
     private async Task CopyDockerfileToClipboard()
     {
-        var originalState = buttonState;
         try
         {
             var dockerfile = State.Value.Container.Compile();
             await Clipboard.WriteTextAsync(dockerfile);
-            buttonState = new(true, "dgbutton success", "fa fa-check");
-            await TriggerButtonState();
-            buttonState = originalState;
+            ToastService.Add("Dockerfile was copied to your clipboard!", MatToastType.Success);
         }
         catch
         {
-            buttonState = new ButtonState(true, "dgbutton cancel", "fa fa-exclamation-circle");
-            await TriggerButtonState();
-            buttonState = originalState;
+            ToastService.Add("Something went wrong when trying to access clipboard", MatToastType.Danger);
         }
     }
 
@@ -48,22 +51,15 @@
     {
         var url = await ApiClient.CreateQuickShareLinkAsync(State.Value.Container);
 
-        if(url != null)
+        if (url != null)
         {
-            ToastService.ShowSuccess("Quickshare link has been added to your clipboard: " + url);
+            ToastService.Add("Quickshare link has been added to your clipboard: " + url, MatToastType.Success);
             await Clipboard.WriteTextAsync(url);
         }
         else
         {
-            ToastService.ShowError("Something went wrong when trying to create a quickshare link");
+            ToastService.Add("Something went wrong when trying to create a quickshare link", MatToastType.Danger);
         }
     }
-    private async Task TriggerButtonState()
-    {
-        StateHasChanged();
-        await Task.Delay(TimeSpan.FromMilliseconds(1500));
-    }
-
-    record ButtonState(bool IsDisabled, string ButtonClass, string IconClass);
 
 }

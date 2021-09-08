@@ -1,10 +1,10 @@
 using Blazored.LocalStorage;
-using Blazored.Toast;
 using DockerGen.Components;
 using DockerGen.Components.Instructions;
 using DockerGen.Container;
 using DockerGen.Infrastructure;
 using Fluxor;
+using MatBlazor;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -22,7 +22,15 @@ namespace DockerGen
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("DockerGen.Api"));
             builder.Services.AddScoped<ApiService>();
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            builder.Services.AddBlazoredToast();
+            builder.Services.AddMatBlazor();
+            builder.Services.AddMatToaster(config =>
+            {
+                config.Position = MatToastPosition.TopRight;
+                config.PreventDuplicates = true;
+                config.NewestOnTop = true;
+                config.ShowCloseButton = true;
+                config.VisibleStateDuration = 3000;
+            });
             builder.Services.AddContainerService(o =>
             {
                 o.MapUIComponent<FromInstruction, FromImage>();

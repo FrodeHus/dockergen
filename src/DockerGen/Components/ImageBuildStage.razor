@@ -4,53 +4,59 @@
 @inject IState<ContainerState> State
 @inject IDispatcher Dispatcher
 
-<DGDialog Show="IsConfigureDialogOpen" OnOk="OnOk" OnCancel="CloseConfigureDialog">
-    <Title>
-        Configure build stage
-    </Title>
-    <Body>
-        <div class="dgform">
-            <div class="input-group mb-3">
-                <span class="input-group-text">Stage name</span>
-                <input name="stageName" class="form-control" type="text" @bind="_editImage.StageName" />
+<MatDialog @bind-IsOpen="@IsConfigureDialogOpen">
+    <MatDialogTitle>Configure build stage</MatDialogTitle>
+    <MatDialogContent>
+        <div class="mat-layout-grid">
+            <div class="mat-layout-grid-inner">
+                <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+                    <MatTextField Label="Stage name" FullWidth="true" @bind-Value="_editImage.StageName"></MatTextField>
+                </div>
+                <div class="mat-layout-grid-cell mat-layout-grid-cell-span-8">
+                    <MatTextField Label="Image" FullWidth="true" @bind-Value="_editImage.ImageName" list="stages"></MatTextField>
+                    <datalist id="stages">
+                        @foreach (var stage in State.Value.Container?.Stages)
+                        {
+                            <option value="@stage.BaseImage.StageName">@stage.StageName</option>
+                        }
+                    </datalist>
 
-            </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text">Image</span>
-                <input name="imageName" class="form-control" type="text" @bind="_editImage.ImageName" list="stages" />
-                <datalist id="stages">
-                    @foreach (var stage in State.Value.Container.Stages)
-                    {
-                        <option value="@stage.BaseImage.StageName">@stage.StageName</option>
-                    }
-                </datalist>
-                <span class="input-group-text">Tag</span>
-                <input name="imageTag" class="form-control" type="text" @bind="_editImage.Tag" />
+                </div>
+                <div class="mat-layout-grid-cell mat-layout-grid-cell-span-4">
+                    <MatTextField Label="Tag" @bind-Value="_editImage.Tag"></MatTextField>
+                </div>
             </div>
         </div>
-    </Body>
-</DGDialog>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="CloseConfigureDialog">Cancel</MatButton>
+        <MatButton OnClick="OnOk">Save</MatButton>
+    </MatDialogActions>
+</MatDialog>
 
 
-<div class="image-container-build-stage">
+<div class="mat-elevation-z3 build-stage__container">
     <div class="build-stage__title">
         <div class="stage-name">
             <span class="name">@Stage.StageName</span>
         </div>
         <div class="baseimage">
-            <span class="baseimage image">@Stage.BaseImage.Image</span>
+            @if (!string.IsNullOrEmpty(@Stage.BaseImage.Image))
+            {
+                <span class="baseimage image">@Stage.BaseImage.Image</span>
+            }
+            else
+            {
+                <MatButton Label="Configure base image" OnClick="OpenConfigureDialog"></MatButton>
+            }
             @if (!string.IsNullOrEmpty(Stage.BaseImage.Tag))
             {
                 <span class="baseimage tag">@Stage.BaseImage.Tag</span>
             }
         </div>
         <div>
-            <a href="#" aria-label="Edit stage name" class="button" @onclick="OpenConfigureDialog">
-                <i class="fa fa-edit" />
-            </a>
-            <a href="#" aria-label="Close" @onclick="RemoveStage" class="button close">
-                <i class="fa fa-window-close" />
-            </a>
+            <MatIconButton Icon="settings" OnClick="OpenConfigureDialog"></MatIconButton>
+            <MatIconButton Icon="close" OnClick="RemoveStage"></MatIconButton>
         </div>
     </div>
     @if (Stage.Instructions.Count == 0)
@@ -68,7 +74,7 @@
     [Parameter]
     public EventCallback<IInstruction> OnStartDrag { get; set; }
 
-    private EditImage _editImage { get; set; }
+    private EditImage _editImage { get; set; } = new EditImage();
     private bool IsConfigureDialogOpen { get; set; }
 
     private void RemoveStage()
