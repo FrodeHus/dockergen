@@ -52,7 +52,7 @@ RUN dotnet build stuff
 
 FROM dotnet-sdk:v1
 RUN echo hello!";
-			ContainerImage image = dockerfile;
+			var image = ContainerImage.ParseFromString(dockerfile);
 			image.Should().NotBeNull();
 			image.Compile().Should().Be(dockerfile);
 		}
@@ -66,7 +66,7 @@ RUN dotnet build stuff
 
 FROM dotnet-sdk:v1
 RUN echo hello!";
-			ContainerImage image = dockerfile;
+			var image = ContainerImage.ParseFromString(dockerfile);
 			image.Should().NotBeNull();
 			image.Compile().Should().Be(dockerfile);
 		}
