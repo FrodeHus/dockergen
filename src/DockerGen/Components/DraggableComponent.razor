@@ -8,9 +8,7 @@
         <input type="checkbox" checked class="toggle" id="@Instruction.Id">
         <div class="instruction-card__header">
             <label for="@Instruction.Id" class="lbl-toggle">@Instruction.DisplayName</label>
-            <a class="btn-close-instruction" href="#" aria-label="Close" @onclick="() => ParentList.RemoveInstruction(Instruction)">
-                <i class="fa fa-window-close" />
-            </a>
+            <MatIconButton Icon="delete" OnClick="() => ParentList.RemoveInstruction(Instruction)"></MatIconButton>
         </div>
         <div class="instruction-card__content">
             <DynamicComponent Type="@ContainerService.GetMappedUIComponent(Instruction)" Parameters="GetParametersForInstruction(Instruction)"></DynamicComponent>

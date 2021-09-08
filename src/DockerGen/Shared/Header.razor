@@ -15,9 +15,15 @@
         </MatAppBarSection>
         <MatAppBarSection Align="@MatAppBarSectionAlign.End">
             <LoginDisplay />
-            <MatIconButton Icon="share" OnClick="CreateQuickShareLink"></MatIconButton>
-            <MatIconButton Icon="file_copy" OnClick="CopyDockerfileToClipboard"></MatIconButton>
-            <MatIconButton Icon="clear" OnClick="(() => Dispatcher.Dispatch(new ContainerClearStateAction()))"></MatIconButton>
+            <MatTooltip Tooltip="Creates a link that can be used to share this Dockerfile with anyone">
+                <MatIconButton RefBack="@context" Icon="share" OnClick="CreateQuickShareLink"></MatIconButton>
+            </MatTooltip>
+            <MatTooltip Tooltip="Copies the content of the Dockerfile to your clipboard">
+                <MatIconButton RefBack="@context" Icon="file_copy" OnClick="CopyDockerfileToClipboard"></MatIconButton>
+            </MatTooltip>
+            <MatTooltip Tooltip="Clears our the current Dockerfile and starts fresh">
+                <MatIconButton RefBack="@context" Icon="clear" OnClick="(() => Dispatcher.Dispatch(new ContainerClearStateAction()))"></MatIconButton>
+            </MatTooltip>
             <MatIconButton Link="https://github.com/frodehus/dockergen">
                 <i class="fa fa-github" aria-hidden="true"></i>
             </MatIconButton>
