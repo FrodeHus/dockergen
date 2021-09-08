@@ -1,24 +1,27 @@
 ﻿@using DockerGen.Container
 
 <InstructionElement Instruction="@Instruction" Title="@Instruction.DisplayName">
-	<div class="input-group mb-3">
-		<span class="input-group-text">Command</span>
-		<InputTextArea class="form-control" @bind-Value="Instruction.Command" rows=3 placeholder="echo 'Hello, World!'"></InputTextArea>
-	</div>
-	<div class="input-group mb-3">
-		<span class="input-group-text">Start time</span>
-		<InputNumber class="form-control" @bind-Value="Instruction.StartPeriod" rows=3 placeholder="echo 'Hello, World!'"></InputNumber>
-	</div>
-	<div class="input-group mb-3">
-		<span class="input-group-text">Interval</span>
-		<InputNumber class="form-control" @bind-Value="Instruction.Interval" rows=3 placeholder="echo 'Hello, World!'"></InputNumber>
-	</div>
-	<div class="input-group mb-3">
-		<span class="input-group-text">Retries</span>
-		<InputNumber class="form-control" @bind-Value="Instruction.Retries" rows=3 placeholder="echo 'Hello, World!'"></InputNumber>
-	</div>
+    <div class="mat-layout-grid">
+        <div class="mat-layout-grid-inner">
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+                <MatTextField Label="Health check command" @bind-Value="@Instruction.Command" FullWidth="true" Required="true" PlaceHolder="curl -f http://localhost/ || exit 1"></MatTextField>
+            </div>
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-3">
+                <MatNumericUpDownField Label="Interval" Minimum="1" HelperText="The health check will first run interval seconds after the container is started, and then again interval seconds after each previous check completes." PlaceHolder="30" @bind-Value="@Instruction.Interval"></MatNumericUpDownField>
+            </div>
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-3">
+                <MatNumericUpDownField Label="Timeout" Minimum="1" HelperText="If a single run of the check takes longer than timeout seconds then the check is considered to have failed." PlaceHolder="30" @bind-Value="@Instruction.Timeout"></MatNumericUpDownField>
+            </div>
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-3">
+                <MatNumericUpDownField Label="Start time" Minimum="0" HelperText="start period provides initialization time for containers that need time to bootstrap. Probe failure during that period will not be counted towards the maximum number of retries." PlaceHolder="0" @bind-Value="@Instruction.StartPeriod"></MatNumericUpDownField>
+            </div>
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-3">
+                <MatNumericUpDownField Label="Retries" Minimum="0" HelperText="It takes retries consecutive failures of the health check for the container to be considered unhealthy." PlaceHolder="3" @bind-Value="@Instruction.Retries"></MatNumericUpDownField>
+            </div>
+        </div>
+    </div>
 </InstructionElement>
 @code {
-	[Parameter]
-	public HealthCheckInstruction Instruction { get; set; }
+    [Parameter]
+    public HealthCheckInstruction Instruction { get; set; }
 }

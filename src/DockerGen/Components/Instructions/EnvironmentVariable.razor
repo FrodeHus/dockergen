@@ -1,11 +1,15 @@
 ﻿@using DockerGen.Container
 
 <InstructionElement Instruction="@Instruction" Title="@Instruction.DisplayName">
-    <div class="input-group mb-3">
-        <span class="input-group-text">Name</span>
-        <InputText class="form-control" @bind-Value="Instruction.Variable"></InputText>
-        <span class="input-group-text">Default Value</span>
-        <InputText class="form-control" @bind-Value="Instruction.DefaultValue"></InputText>
+    <div class="mat-layout-grid">
+        <div class="mat-layout-grid-inner">
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6">
+                <MatTextField Label="Environment variable name" FullWidth="true" @bind-Value="@Instruction.Variable" Required="true"></MatTextField>
+            </div>
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6">
+                <MatTextField Label="Default value" FullWidth="true" @bind-Value="@Instruction.DefaultValue"></MatTextField>
+            </div>
+        </div>
     </div>
 </InstructionElement>
 

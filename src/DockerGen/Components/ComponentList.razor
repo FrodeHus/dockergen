@@ -15,14 +15,11 @@
             <MatExpansionPanelDetails>
                 @foreach (var component in AvailableComponents)
                 {
-                    <MatCard Class="component-card" draggable="true" @ondrag:preventDefault @ondragstart="(() => StartDragHandler(component))" @ondragend="(() => StartDragHandler(null))">
-                        <MatCardContent>
-                            <MatHeadline6>@component.DisplayName</MatHeadline6>
-                            <MatBody2>
-                                @component.Description
-                            </MatBody2>
-                        </MatCardContent>
-                    </MatCard>
+                    <MatPaper Class="component-card" Elevation="2" draggable="true" @ondrag:preventDefault @ondragstart="(() => StartDragHandler(component))" @ondragend="(() => StartDragHandler(null))">
+                        <MatTooltip Tooltip="@component.Description" Position="@MatTooltipPosition.Right">
+                            <div @ref="context.Current" class="mat-overline">@component.DisplayName</div>
+                        </MatTooltip>
+                    </MatPaper>
                 }
             </MatExpansionPanelDetails>
         </MatExpansionPanel>
@@ -40,14 +37,11 @@
                     {
                         @foreach (var recipe in State.Value.Recipes)
                         {
-                            <MatCard Class="component-card" draggable="true" @ondrag:preventDefault @ondragstart="(() => StartDragHandler(recipe))" @ondragend="(() => StartDragHandler(null))">
-                                <MatCardContent>
-                                    <MatHeadline6>@recipe.Name</MatHeadline6>
-                                    <MatBody2>
-                                        @recipe.Description
-                                    </MatBody2>
-                                </MatCardContent>
-                            </MatCard>
+                            <MatPaper Class="component-card" Elevation="2" draggable="true" @ondrag:preventDefault @ondragstart="(() => StartDragHandler(recipe))" @ondragend="(() => StartDragHandler(null))">
+                                <MatTooltip Tooltip="@recipe.Description" Position="@MatTooltipPosition.Right">
+                                    <div @ref="context.Current" class="mat-overline">@recipe.Name</div>
+                                </MatTooltip>
+                            </MatPaper>
 
                         }
                     }

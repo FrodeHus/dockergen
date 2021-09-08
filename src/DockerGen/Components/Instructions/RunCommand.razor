@@ -1,10 +1,13 @@
 @using DockerGen.Container
 
 <InstructionElement Instruction="@Instruction" Title="@Instruction.DisplayName">
-	<div class="input-group mb-3">
-		<span class="input-group-text">Command</span>
-		<InputTextArea class="form-control" @bind-Value="Instruction.ShellCommand" rows=1></InputTextArea>
-	</div>
+	    <div class="mat-layout-grid">
+        <div class="mat-layout-grid-inner">
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+                <MatTextField FullWidth="true" Label="Command(s)" TextArea="true" @bind-Value="@Instruction.ShellCommand" Required="true"></MatTextField>
+            </div>            
+        </div>
+    </div>
 </InstructionElement>
 @code {
 	[Parameter]

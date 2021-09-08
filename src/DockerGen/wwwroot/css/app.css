@@ -88,11 +88,15 @@ html {
 }
 
 .component-card {
-    margin: 1rem;
+    margin: 4px 0;
     padding: 1rem;
     width: 100%;
-    max-height: 200px;
+    cursor: grab;
 }
+
+    .component-card:active {
+        cursor: grabbing;
+    }
 
 .instruction-values {
     display: grid;
@@ -131,9 +135,9 @@ html {
     border-radius: 4px;
 }
 
-.component:hover{
-    color: var(--highlight-color-active);
-}
+    .component:hover {
+        color: var(--highlight-color-active);
+    }
 
 .dgbutton {
     align-items: center;
@@ -155,10 +159,10 @@ html {
     box-shadow: var(--primary-bg-color) 0 0 5px;
 }
 
-.dgbutton:hover{
-    background-color: var(--secondary-bg-color-active);
-    color: var(--highlight-color-active);
-}
+    .dgbutton:hover {
+        background-color: var(--secondary-bg-color-active);
+        color: var(--highlight-color-active);
+    }
 
     .dgbutton.main {
         background-color: var(--highlight-color);
@@ -201,7 +205,7 @@ html {
     flex-direction: row;
 }
 
-.input-group{
+.input-group {
     position: relative;
     display: flex;
     flex-wrap: wrap;
@@ -211,7 +215,7 @@ html {
     border-bottom-left-radius: 0;
 }
 
-.input-group-text{
+.input-group-text {
     display: flex;
     align-items: center;
     padding: .2rem .6rem;
@@ -224,7 +228,7 @@ html {
     border-radius: 4px;
 }
 
-.form-control{
+.form-control {
     display: block;
     padding: .2rem .6rem;
     font-size: 1rem;
@@ -236,30 +240,35 @@ html {
     border-radius: 4px;
 }
 
-.input-group >.form-control{
+.input-group > .form-control {
     position: relative;
     flex: 1 1 auto;
     width: 1%;
     min-width: 0;
 }
-    .dgform-group label{
-        text-align: right;
-        padding-right: 8px;
-        padding-left: 10px;
-        width: auto;
-    }
 
-    .dgform-group input {
-        flex: 1 1 auto;
-        display: block;
-        margin-bottom: 10px;
-        margin-right: 8px;
-        padding: 4px;
-        margin-top: -4px;
-    }
+.dgform-group label {
+    text-align: right;
+    padding-right: 8px;
+    padding-left: 10px;
+    width: auto;
+}
+
+.dgform-group input {
+    flex: 1 1 auto;
+    display: block;
+    margin-bottom: 10px;
+    margin-right: 8px;
+    padding: 4px;
+    margin-top: -4px;
+}
 
 .monaco-aria-container {
     height: 0 !important;
+}
+
+.baseimage .mdc-button__label {
+    color: var(--mdc-theme-on-primary);
 }
 
 ::-webkit-scrollbar {

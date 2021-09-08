@@ -3,23 +3,27 @@
 @inherits FluxorComponent
 @inject IState<ContainerState> State
 <InstructionElement Instruction="@Instruction" Title="@Instruction.DisplayName">
-    @if (State.Value.Container.Stages?.Count > 1)
-    {
-        <div class="input-group mb-3">
-            <span class="input-group-text">Stage</span>
-            <InputSelect class="form-select form-select-sm" @bind-Value="Instruction.Stage">
-                <option value="">current</option>
-                @foreach (var stage in State.Value.Container.Stages)
-                {
-                    <option value="@stage.StageName">@stage.StageName</option>
-                }
-            </InputSelect>
+    <div class="mat-layout-grid">
+        <div class="mat-layout-grid-inner">
+            @if (State.Value.Container.Stages?.Count > 1)
+            {
+                <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+                    <MatSelect Label="Source stage" @bind-Value="@Instruction.Stage" FullWidth="true">
+                        <MatOptionString Value="@(null)">This stage</MatOptionString>
+                        @foreach (var stage in State.Value.Container.Stages)
+                        {
+                         <MatOptionString Value="@stage.StageName">@stage.StageName</MatOptionString>
+                        }
+                    </MatSelect>
+                </div>
+            }
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6">
+                <MatTextField Label="Source directory/file" FullWidth="true" PlaceHolder="src/project/" @bind-Value="@Instruction.Source"></MatTextField>
+            </div>
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6">
+                <MatTextField Label="Destination directory/file" FullWidth="true" PlaceHolder="/app" @bind-Value="@Instruction.Destination"></MatTextField>
+            </div>
         </div>
-    }
-    <div class="input-group mb-3">
-        <InputText class="form-control" @bind-Value="Instruction.Source" placeholder="src/project/"></InputText>
-        <span class="input-group-text fa fa-arrow-right"></span>
-        <InputText class="form-control" @bind-Value="Instruction.Destination" placeholder="/app"></InputText>
     </div>
 </InstructionElement>
 

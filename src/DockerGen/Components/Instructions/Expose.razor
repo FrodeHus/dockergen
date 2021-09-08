@@ -1,14 +1,18 @@
 ﻿@using DockerGen.Container
 
 <InstructionElement Instruction="@Instruction" Title="@Instruction.DisplayName">
-    <div class="input-group mb-3">
-        <span class="input-group-text">Port</span>
-        <InputNumber class="form-control" @bind-Value="Instruction.Port" placeholder="80"></InputNumber>
-        <span class="input-group-text">Protocol</span>
-        <InputSelect class="form-control" @bind-Value="Instruction.Protocol" placeholder="tcp">
-            <option>tcp</option>
-            <option>udp</option>
-		</InputSelect>
+    <div class="mat-layout-grid">
+        <div class="mat-layout-grid-inner">
+            <div class="mat-layout-grid-cell">
+                <MatNumericUpDownField Label="Port" @bind-Value="@Instruction.Port" PlaceHolder="80" Minimum="1"></MatNumericUpDownField>
+            </div>
+            <div class="mat-layout-grid-cell">
+                <MatRadioGroup @bind-Value="@Instruction.Protocol" TValue="string">
+                    <MatRadioButton Value="@("tcp")">TCP</MatRadioButton>
+                    <MatRadioButton Value="@("udp")">UDP</MatRadioButton>
+                </MatRadioGroup>
+            </div>
+        </div>
     </div>
 </InstructionElement>
 

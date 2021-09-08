@@ -10,25 +10,6 @@
     height: 40px;
 }
 
-.add-build-stage {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    user-select: none;
-    background-color: var(--primary-bg-color-active);
-    border-radius: 9999px;
-    height: 48px;
-    width: 48px;
-    color: var(--highlight-color);
-    font-size: 1em;
-}
-
-    .add-build-stage:hover {
-        color: var(--highlight-color-active);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    }
-
 .wizard {
     display: flex;
     flex: 1;
@@ -59,19 +40,20 @@
     align-items: center;
     display: flex;
     justify-content: center;
-    background-color: var(--primary-bg-color-active);
+    background-color: var(--mdc-theme-surface);
     border-radius: 9999px;
+    border: 1px solid var(--mdc-theme-secondary);
     height: 32px;
     width: 32px;
     margin-right: 4px;
     margin-left: 4px;
-    color: white;
+    color: var(--mdc-theme-secondary);
 }
 
     .wizard__number:hover {
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         cursor: pointer;
-        color: var(--highlight-color-active);
+        color: var(--mdc-theme-primary);
     }
 
 .wizard__step-title {

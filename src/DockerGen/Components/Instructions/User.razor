@@ -1,13 +1,16 @@
 ﻿@using DockerGen.Container
 
 <InstructionElement Instruction="@Instruction" Title="@Instruction.DisplayName">
-    <div class="input-group mb-3">
-        <span class="input-group-text fa fa-user"></span>
-        <InputText class="form-control" @bind-Value="Instruction.User"></InputText>
+    <div class="mat-layout-grid">
+        <div class="mat-layout-grid-inner">
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+                <MatTextField Label="User name" @bind-Value="@Instruction.User" FullWidth="true" Required="true"></MatTextField>
+            </div>
+        </div>
     </div>
 </InstructionElement>
 
-@code{
+@code {
     [Parameter]
-    public UserInstruction Instruction{ get; set; }
+    public UserInstruction Instruction { get; set; }
 }
