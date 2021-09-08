@@ -25,7 +25,7 @@ namespace DockerGen.Container
 		public override string Description => "Ensure the container runs the same executable every time";
 
 		public override string Prefix => "ENTRYPOINT";
-		public override string DisplayName => "Set startup command";
+		public override string DisplayName => "Set container to run as executable";
 
 		protected override void CompileArguments(StringBuilder builder)
 		{

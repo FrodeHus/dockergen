@@ -7,7 +7,7 @@
 @inject IState<ContainerState> State
 @inject IDispatcher Dispatcher
 <div class="componentlist">
-    <MatAccordion Multi="true">
+    <MatAccordion>
         <MatExpansionPanel Expanded>
             <MatExpansionPanelSummary>
                 <MatExpansionPanelHeader>Docker instructions</MatExpansionPanelHeader>
@@ -17,7 +17,7 @@
                 {
                     <MatPaper Class="component-card" Elevation="2" draggable="true" @ondrag:preventDefault @ondragstart="(() => StartDragHandler(component))" @ondragend="(() => StartDragHandler(null))">
                         <MatTooltip Tooltip="@component.Description" Position="@MatTooltipPosition.Right">
-                            <div @ref="context.Current" class="mat-overline">@component.DisplayName</div>
+                            <div @ref="context.Current" class="componentlist__item">@component.DisplayName</div>
                         </MatTooltip>
                     </MatPaper>
                 }
@@ -28,24 +28,15 @@
                 <MatExpansionPanelHeader>Compound recipes</MatExpansionPanelHeader>
             </MatExpansionPanelSummary>
             <MatExpansionPanelDetails>
-                <ul class="componentlist">
-                    @if (State.Value.Recipes == null)
-                    {
-                        <li>Loading recipes...</li>
-                    }
-                    else
-                    {
-                        @foreach (var recipe in State.Value.Recipes)
-                        {
-                            <MatPaper Class="component-card" Elevation="2" draggable="true" @ondrag:preventDefault @ondragstart="(() => StartDragHandler(recipe))" @ondragend="(() => StartDragHandler(null))">
-                                <MatTooltip Tooltip="@recipe.Description" Position="@MatTooltipPosition.Right">
-                                    <div @ref="context.Current" class="mat-overline">@recipe.Name</div>
-                                </MatTooltip>
-                            </MatPaper>
+                @foreach (var recipe in State.Value.Recipes)
+                {
+                    <MatPaper Class="component-card" Elevation="2" draggable="true" @ondrag:preventDefault @ondragstart="(() => StartDragHandler(recipe))" @ondragend="(() => StartDragHandler(null))">
+                        <MatTooltip Tooltip="@recipe.Description" Position="@MatTooltipPosition.Right">
+                            <div @ref="context.Current" class="componentlist__item">@recipe.Name</div>
+                        </MatTooltip>
+                    </MatPaper>
 
-                        }
-                    }
-                </ul>
+                }
             </MatExpansionPanelDetails>
         </MatExpansionPanel>
 

@@ -1,7 +1,12 @@
-﻿.build-stage__container{
+﻿.build-stage__container {
     padding: 4px;
     margin: 4px;
 }
+
+    .build-stage__container:last-of-type {
+        margin-bottom: 200px;
+    }
+
 .build-stage__title {
     display: flex;
     align-content: center;
@@ -39,9 +44,11 @@
         padding: 4px;
         color: var(--highlight-color);
     }
-    .build-stage__title .button:hover {
-        color: var(--highlight-color-active);
-    }
+
+        .build-stage__title .button:hover {
+            color: var(--highlight-color-active);
+        }
+
     .build-stage__title input {
         border-radius: 4px;
     }

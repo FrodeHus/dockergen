@@ -40,6 +40,10 @@ html {
     box-sizing: border-box;
 }
 
+.remove-padding {
+    padding: 0;
+}
+
 .mainpage {
     height: 100vh;
 }
@@ -85,6 +89,7 @@ html {
     height: 90vh;
     overflow-y: scroll;
     overflow-x: hidden;
+    padding: 2px;
 }
 
 .component-card {
@@ -273,12 +278,12 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: var(--primary-bg-color);
+    background-color: var(--mdc-theme-secondary);
     border-radius: 20px;
     border: 6px solid transparent;
     background-clip: content-box;
 }
 
     ::-webkit-scrollbar-thumb:hover {
-        background-color: var(--primary-bg-color-active);
+        background-color: var(--mdc-theme-primary);
     }

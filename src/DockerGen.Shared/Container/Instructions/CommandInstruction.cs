@@ -20,7 +20,7 @@ namespace DockerGen.Container
 		public override string Description => "The main purpose of a CMD is to provide defaults for an executing container. These defaults can include an executable, or they can omit the executable, in which case you must specify an ENTRYPOINT instruction as well.";
 
 		public override string Prefix => "CMD";
-		public override string DisplayName => "Set default command to run if nothing is already specified";
+		public override string DisplayName => "Set container default command";
 
 		protected override void CompileArguments(StringBuilder builder)
 		{

@@ -1,10 +1,15 @@
 ﻿@using DockerGen.Container
 
 <InstructionElement Instruction="@Instruction" Title="@Instruction.DisplayName">
-    <div class="input-group mb-3">
-        <InputText class="form-control" @bind-Value="Instruction.LocalOrRemoteSource"></InputText>
-        <span class="input-group-text fa fa-arrow-right"></span>
-        <InputText class="form-control" @bind-Value="Instruction.Destination" placeholder="/app"></InputText>
+    <div class="mat-layer-grid">
+        <div class="mat-layer-grid-inner">
+            <div class="mat-layer-grid-cell mat-layer-grid-cell-span-6">
+                <MatTextField Label="Local path/URL" FullWidth="true" @bind-Value="@Instruction.LocalOrRemoteSource"></MatTextField>
+            </div>
+            <div class="mat-layer-grid-cell mat-layer-grid-cell-span-6">
+                <MatTextField Label="Destination" FullWidth="true" @bind-Value="@Instruction.Destination"></MatTextField>
+            </div>
+        </div>
     </div>
 </InstructionElement>
 @code {

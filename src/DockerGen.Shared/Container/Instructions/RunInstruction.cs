@@ -23,7 +23,7 @@ namespace DockerGen.Container
 			ShellCommand = shellCommand;
 		}
 		public override string Prefix => "RUN";
-		public override string DisplayName => "Install software and/or run a command";
+		public override string DisplayName => "Run a command";
 		[Required]
 		[JsonInclude]
 		public virtual string ShellCommand
