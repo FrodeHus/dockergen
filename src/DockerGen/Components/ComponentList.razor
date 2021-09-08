@@ -17,7 +17,9 @@
                 {
                     <MatPaper Class="component-card" Elevation="2" draggable="true" @ondrag:preventDefault @ondragstart="(() => StartDragHandler(component))" @ondragend="(() => StartDragHandler(null))">
                         <MatTooltip Tooltip="@component.Description" Position="@MatTooltipPosition.Right">
-                            <div @ref="context.Current" class="componentlist__item">@component.DisplayName</div>
+                            <div @ref="context.Current" class="componentlist__item" data-prefix="@component.Prefix">                               
+                                @component.DisplayName
+                            </div>
                         </MatTooltip>
                     </MatPaper>
                 }
@@ -53,7 +55,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        AvailableComponents = _containerService.GetValidInstructions().Where(c => c.Prefix != "FROM").ToList();
+        AvailableComponents = _containerService.GetValidInstructions().Where(c => c.Prefix != "FROM").OrderBy(c => c.Prefix).ToList();
     }
     private void StartDragHandler(object component)
     {

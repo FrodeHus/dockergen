@@ -1,4 +1,16 @@
-﻿.componentlist__item{
+﻿.componentlist__item {
     font-size: 0.7rem;
     text-transform: uppercase;
+    position: relative;
+}
+
+.componentlist__item[data-prefix]::before{
+    content: attr(data-prefix);
+    position: absolute;
+    top: -1rem;
+    opacity: 0.4;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: var(--mdc-theme-on-secondary);
 }
