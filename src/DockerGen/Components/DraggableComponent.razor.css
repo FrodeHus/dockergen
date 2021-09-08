@@ -33,7 +33,13 @@
 .instruction-card {
     flex: 1;
     display: block;
+    padding: 4px;
+    cursor: grab;
 }
+
+    .instruction-card:active {
+        cursor: grabbing;
+    }
 
 .instruction-card__header {
     display: flex;
@@ -41,29 +47,11 @@
     text-transform: uppercase;
     font-weight: 600;
     font-size: 1rem;
+    height: 1rem;
 }
 
 .instruction-card__content {
-    display: none;
-    transition: display .125s ease-in-out;
 }
-
-.lbl-toggle {
-    cursor: pointer;
-}
-
-    .lbl-toggle:hover {
-        text-decoration: underline;
-    }
-
-.instruction-card > input[type=checkbox] {
-    display: none;
-}
-
-.toggle:checked ~ .instruction-card__content {
-    display: block;
-}
-
 
 .instruction-card__footer {
     display: flex;

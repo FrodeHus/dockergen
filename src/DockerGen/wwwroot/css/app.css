@@ -101,12 +101,6 @@ html {
         cursor: grabbing;
     }
 
-.instruction-values {
-    display: grid;
-    grid-template-columns: auto auto;
-    column-gap: 14px;
-}
-
 .form-group {
     padding: 0 8px;
     margin: 2px;
@@ -268,10 +262,6 @@ html {
 
 .monaco-aria-container {
     height: 0 !important;
-}
-
-.baseimage .mdc-button__label {
-    color: var(--mdc-theme-on-primary);
 }
 
 ::-webkit-scrollbar {

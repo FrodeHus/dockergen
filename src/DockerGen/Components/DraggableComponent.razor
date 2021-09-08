@@ -3,18 +3,15 @@
 @inherits FluxorComponent
 @inject ContainerService ContainerService
 @inject IDispatcher Dispatcher
-<MatPaper Outlined="true" draggable="true" @ondragstart="@(() => OnDragStartHandler(Instruction))" @ondragend="@(() => OnDragStartHandler(null))">
-    <div class="instruction-card">
-        <input type="checkbox" checked class="toggle" id="@Instruction.Id">
-        <div class="instruction-card__header">
-            <label for="@Instruction.Id" class="lbl-toggle">@Instruction.DisplayName</label>
-            <MatIconButton Icon="delete" OnClick="() => ParentList.RemoveInstruction(Instruction)"></MatIconButton>
-        </div>
-        <div class="instruction-card__content">
-            <DynamicComponent Type="@ContainerService.GetMappedUIComponent(Instruction)" Parameters="GetParametersForInstruction(Instruction)"></DynamicComponent>
-        </div>
+<div class="mat-elevation-z2 instruction-card" Outlined="true" draggable="true" @ondragstart="@(() => OnDragStartHandler(Instruction))" @ondragend="@(() => OnDragStartHandler(null))">
+    <div class="instruction-card__header">
+        <span>@Instruction.DisplayName</span>
+        <MatIconButton Icon="delete" OnClick="() => ParentList.RemoveInstruction(Instruction)"></MatIconButton>
     </div>
-</MatPaper>
+    <div class="instruction-card__content">
+        <DynamicComponent Type="@ContainerService.GetMappedUIComponent(Instruction)" Parameters="GetParametersForInstruction(Instruction)"></DynamicComponent>
+    </div>
+</div>
 
 
 @code {

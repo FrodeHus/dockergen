@@ -3,11 +3,11 @@
 <InstructionElement Instruction="@Instruction" Title="@Instruction.DisplayName">
     <div class="mat-layout-grid">
         <div class="mat-layout-grid-inner">
-            <div class="mat-layout-grid-cell">
-                <MatTextField @bind-Value="@Instruction.Argument" Label="Argument name" Required="true"></MatTextField>
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6">
+                <MatTextField @bind-Value="@Instruction.Argument" FullWidth="true" Label="Argument name" Required="true"></MatTextField>
             </div>
-            <div class="mat-layout-grid-cell">
-                <MatTextField @bind-Value="@Instruction.Value" Label="Argument default value"></MatTextField>
+            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6">
+                <MatTextField @bind-Value="@Instruction.Value" FullWidth="true" Label="Argument default value"></MatTextField>
             </div>
         </div>
     </div>
