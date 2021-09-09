@@ -16,7 +16,7 @@ namespace DockerGen.Helpers
             var builder = new StringBuilder();
             foreach (var line in values)
             {
-                if (string.IsNullOrEmpty(line))
+                if (string.IsNullOrEmpty(line) || line.StartsWith("#"))
                 {
                     continue;
                 }
