@@ -14,9 +14,9 @@ RUN apt install dummy
 ENTRYPOINT [""dummy""]";
 			var image = new ContainerImage();
 			var defaultStage = new BuildStage();
-			defaultStage.BaseImage = "busybox";
+			defaultStage.BaseImage = FromInstruction.ParseFromString("busybox");
 			defaultStage.Instructions.Add(new RunInstruction("apt install dummy"));
-			defaultStage.Instructions.Add(new EntryPointInstruction("dummy"));
+			defaultStage.Instructions.Add(new EntryPointInstruction(@"[""dummy""]"));
 			image.Stages.Add(defaultStage);
 			var compiled = image.Compile();
 			compiled.Should().Be(expected);
@@ -30,12 +30,12 @@ RUN dotnet build stuff
 
 FROM dotnet-sdk:v1
 COPY --from=build . .
-ENTRYPOINT [""dotnet"", ""stuff.dll""]";
+ENTRYPOINT dotnet stuff.dll";
 			var buildStage = new BuildStage();
-			buildStage.BaseImage = "dotnet:v1 AS build";
+			buildStage.BaseImage = FromInstruction.ParseFromString("dotnet:v1 AS build");
 			buildStage.Instructions.Add(new RunInstruction("dotnet build stuff"));
 			var runtimeStage = new BuildStage();
-			runtimeStage.BaseImage = "dotnet-sdk:v1";
+			runtimeStage.BaseImage = FromInstruction.ParseFromString("dotnet-sdk:v1");
 			runtimeStage.Instructions.Add(new CopyInstruction(".", ".") { Stage = "build" });
 			runtimeStage.Instructions.Add(new EntryPointInstruction("dotnet stuff.dll"));
 			var image = new ContainerImage();

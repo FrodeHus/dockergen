@@ -7,7 +7,7 @@ namespace DockerGen.Helpers
     {
         private static readonly string[] _allowedInstructions = new string[]
         {
-            "ADD","FROM","CMD","ENV","ARG","EXPOSE","RUN","ENTRYPOINT","HEALTHCHECK","COPY","USER","WORKDIR"
+            "ADD","FROM","CMD","ENV","ARG","EXPOSE","RUN","ENTRYPOINT","HEALTHCHECK","COPY","USER","WORKDIR","LABEL","MAINTAINER","VOLUME","ONBUILD","STOPSIGNAL","SHELL"
         };
         public static string[] SplitOnInstructions(this string value)
         {

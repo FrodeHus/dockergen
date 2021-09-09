@@ -73,7 +73,7 @@ namespace DockerGen.Container
 			builder.Append(Destination);
 		}
 
-		public static implicit operator CopyInstruction(string value)
+		public static CopyInstruction ParseFromString(string value)
 		{
 			var values = value.Split(' ');
 			if (!values[0].Equals("COPY", StringComparison.OrdinalIgnoreCase))

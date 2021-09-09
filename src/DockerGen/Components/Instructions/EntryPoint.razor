@@ -3,11 +3,8 @@
 <InstructionElement Instruction="@Instruction" Title="@Instruction.DisplayName">
     <div class="mat-layer-grid">
         <div class="mat-layer-grid-innser">
-            <div class="mat-layer-grid-cell mat-layer-grid-cell-span-6">
-                <MatTextField Label="Command" FullWidth="true" @bind-Value="@Instruction.Executable"></MatTextField>
-            </div>
-            <div class="mat-layer-grid-cell mat-layer-grid-cell-span-6">
-                <MatTextField Label="Arguments" FullWidth="true" @bind-Value="@Instruction.Arguments"></MatTextField>
+            <div class="mat-layer-grid-cell mat-layer-grid-cell-span-12">
+                <MatTextField Label="Command" FullWidth="true" @bind-Value="@Instruction.EntryPoint"></MatTextField>
             </div>
         </div>
     </div>

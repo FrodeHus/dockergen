@@ -23,6 +23,8 @@ namespace DockerGen.Container
 		[Required]
 		[JsonInclude]
 		public string User { get; set; }
+		[JsonInclude]
+		public string Group { get; set; }
 
 		public override string Description => @"The USER instruction sets the user name (or UID) and optionally the user group (or GID) to use when running the image and for any RUN, CMD and ENTRYPOINT instructions that follow it in the Dockerfile.";
 
@@ -32,6 +34,35 @@ namespace DockerGen.Container
 		protected override void CompileArguments(StringBuilder builder)
 		{
 			builder.Append(User);
+			if(Group != null)
+            {
+				builder.Append(':');
+				builder.Append(Group);
+            }
 		}
-	}
+
+        public static UserInstruction ParseFromString(string line)
+        {
+			if (!line.StartsWith("USER", StringComparison.InvariantCultureIgnoreCase))
+			{
+				throw new ParseInstructionException("Not a valid prefix: " + line.Substring(0, line.IndexOf(' ')));
+			}
+
+			var userValues = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+			if(userValues.Length == 1)
+            {
+				throw new ParseInstructionException("Missing USER definition");
+            }
+
+			var userDefinition = userValues[1].Split(':', StringSplitOptions.RemoveEmptyEntries);
+			var instruction = new UserInstruction();
+			instruction.User = userDefinition[0];
+			if(userDefinition.Length == 2)
+            {
+				instruction.Group = userDefinition[1];
+            }
+
+			return instruction;
+		}
+    }
 }

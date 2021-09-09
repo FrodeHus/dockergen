@@ -23,7 +23,7 @@ namespace DockerGen.Container
 			}
 		}
 
-		public static implicit operator ArgumentInstruction(string value)
+		public static ArgumentInstruction ParseFromString(string value)
 		{
 			var values = value.Split(' ');
 			if (values.Length != 2 || !values[0].Equals("ARG", System.StringComparison.OrdinalIgnoreCase)) return null;

@@ -42,7 +42,7 @@ namespace DockerGen.Container
 			}
 		}
 
-		public static implicit operator FromInstruction(string from)
+		public static FromInstruction ParseFromString(string from)
 		{
 			var match = Regex.Match(from, @"(from\s){0,1}(?<image>[\w\.\/\-${}]+)(:(?<tag>[\w\.\-_]+)){0,1}( as ){0,1}(?<stage>[\w]+){0,1}", RegexOptions.IgnoreCase);
 			if (!match.Success)

@@ -1,3 +1,7 @@
 ﻿.stages {
-    
+    padding: 4px;
+}
+
+.stages:first-child{
+    margin-top: 10px;
 }

@@ -28,7 +28,7 @@
 </div>
 
 @code {
-    private void AddStage()
+    private async Task AddStage()
     {
         var stage = new BuildStage();
         stage.BaseImage = new FromInstruction("", "");

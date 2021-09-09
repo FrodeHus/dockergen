@@ -16,13 +16,32 @@ namespace DockerGen.Container
 		public string Variable { get; set; }
 		[Required]
 		[JsonInclude]
-		public string DefaultValue { get; set; }
+		public string Value { get; set; }
 
 		protected override void CompileArguments(StringBuilder builder)
 		{
 			builder.Append(Variable?.ToUpperInvariant());
 			builder.Append('=');
-			builder.Append(DefaultValue);
+			builder.Append(Value);
 		}
-	}
+
+        public static EnvironmentInstruction ParseFromString(string line)
+        {
+			if (!line.StartsWith("ENV", StringComparison.InvariantCultureIgnoreCase))
+			{
+				throw new ParseInstructionException("Not a valid prefix: " + line[..line.IndexOf(' ')]);
+			}
+
+			var envValues = line[line.IndexOf(' ')..].Trim();
+			var values = envValues.Split('=', StringSplitOptions.RemoveEmptyEntries);
+			if(values.Length != 2)
+            {
+				throw new ParseInstructionException("Not a valid ENV instruction");
+            }
+			var instruction = new EnvironmentInstruction();
+			instruction.Variable = values[0].ToUpper();
+			instruction.Value = values[1];
+			return instruction;
+		}
+    }
 }

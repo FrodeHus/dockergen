@@ -42,5 +42,15 @@ namespace DockerGen.Container
 			}
 			builder.Append(']');
 		}
-	}
+
+        public static CommandInstruction ParseFromString(string line)
+        {
+			if (!line.StartsWith("CMD", StringComparison.InvariantCultureIgnoreCase))
+			{
+				throw new ParseInstructionException("Not a valid prefix: " + line.Substring(0, line.IndexOf(' ')));
+			}
+			var cmdValue = line[line.IndexOf(' ')..].Trim();
+			return new CommandInstruction(cmdValue);
+		}
+    }
 }

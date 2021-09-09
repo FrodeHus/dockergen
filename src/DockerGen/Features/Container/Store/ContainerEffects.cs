@@ -2,6 +2,7 @@
 using DockerGen.Container;
 using DockerGen.Infrastructure;
 using Fluxor;
+using Microsoft.JSInterop;
 
 namespace DockerGen.Features.Container.Store
 {
@@ -102,7 +103,7 @@ namespace DockerGen.Features.Container.Store
                 dispatcher.Dispatch(new ContainerSetStateAction(new ContainerState { Container = image }));
                 dispatcher.Dispatch(new ContainerLoadDockerfileFromStringSuccessAction());
             }
-            catch(ArgumentException ex)
+            catch(ParseInstructionException ex)
             {
                 dispatcher.Dispatch(new ContainerLoadDockerfileFromStringFailureAction(ex.Message));
             }
@@ -111,6 +112,6 @@ namespace DockerGen.Features.Container.Store
                 dispatcher.Dispatch(new ContainerLoadDockerfileFromStringFailureAction("Unknown error while importing Dockerfile"));
             }
             return Task.CompletedTask;
-        }
+        }      
     }
 }

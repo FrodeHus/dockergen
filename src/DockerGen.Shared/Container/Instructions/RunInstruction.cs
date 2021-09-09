@@ -67,7 +67,7 @@ namespace DockerGen.Container
 			builder.Append(ShellCommand);
 		}
 
-		public static implicit operator RunInstruction(string v)
+		public static RunInstruction ParseFromString(string v)
 		{
 			var match = Regex.Match(v, @"(run\s){0,1}(?<cmd>[\w\.\n\-\'\s\t""\/\=\:\\\;\&\>\!&]+)", RegexOptions.IgnoreCase);
 			if (!match.Success)

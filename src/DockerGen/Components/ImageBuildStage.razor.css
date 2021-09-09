@@ -24,6 +24,10 @@
     .build-stage__title .stage-name {
         margin: 0,0, 5px,0;
         align-self: center;
+        padding: 0.2rem;
+        border-radius: 4px;
+        background-color: var(--mdc-theme-secondary);
+        color: var(--mdc-theme-on-secondary);
     }
 
     .build-stage__title .baseimage {

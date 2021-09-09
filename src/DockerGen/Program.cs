@@ -46,6 +46,7 @@ namespace DockerGen
                 o.MapUIComponent<EnvironmentInstruction, EnvironmentVariable>();
                 o.MapUIComponent<HealthCheckInstruction, HealthCheck>();
                 o.MapUIComponent<DynamicRecipe, InstructionRecipe>();
+                o.MapUIComponent<NotImplementedInstruction, NotImplemented>();
             });
             builder.Services.AddScoped<ClipboardService>();
             builder.Services.AddBlazoredLocalStorage(config =>

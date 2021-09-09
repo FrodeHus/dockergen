@@ -65,7 +65,7 @@ namespace DockerGen.Container
             {
                 return;
             }
-            var instructions = Assembly.GetExecutingAssembly().GetTypes().Where(type => typeof(IDockerInstruction).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract).Select(t => (IDockerInstruction)Activator.CreateInstance(t));
+            var instructions = Assembly.GetExecutingAssembly().GetTypes().Where(type => typeof(IDockerInstruction).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract && type.GetCustomAttribute<IgnoreInstructionAttribute>() == null ).Select(t => (IDockerInstruction)Activator.CreateInstance(t));
             _validInstructions = instructions.Select(i => i).ToList();
         }
 

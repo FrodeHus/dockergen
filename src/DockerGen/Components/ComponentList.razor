@@ -55,7 +55,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        AvailableComponents = _containerService.GetValidInstructions().Where(c => c.Prefix != "FROM").OrderBy(c => c.Prefix).ToList();
+        AvailableComponents = _containerService.GetValidInstructions().OrderBy(c => c.Prefix).ToList();
     }
     private void StartDragHandler(object component)
     {
@@ -66,7 +66,7 @@
         }
         else if (component is IInstruction instruction)
         {
-            currentInstruction = (Instruction)Activator.CreateInstance(instruction.GetType());
+            currentInstruction = (IInstruction)Activator.CreateInstance(instruction.GetType());
         }
 
         OnStartDrag.InvokeAsync(currentInstruction);
