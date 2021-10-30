@@ -1,4 +1,5 @@
 ﻿using DockerGen.Container;
+using System.Linq;
 using System.Text;
 
 namespace DockerGen.Helpers

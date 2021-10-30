@@ -1,4 +1,8 @@
-﻿using YamlDotNet.Serialization;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
+using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
 namespace DockerGen.Container.Recipes
