@@ -35,7 +35,7 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        //await JS.InvokeVoidAsync("hljs.highlightAll");
+        await JS.InvokeVoidAsync("hljs.highlightAll");
     }
 
     private void UpdateEditor()
