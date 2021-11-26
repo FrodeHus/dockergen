@@ -12,8 +12,11 @@ extensions:
 
     
 services:
-- name: dockergen
+- name: frontend
   project: DockerGen/DockerGen.csproj
-- name: dockergen-api
+- name: api
   executable: dapr
-  args: run --app-id dockergen-api --app-port 5030 --components-path ./components -- dotnet run --project DockerGen.Api/DockerGen.Api.csproj --urls http://+:5030
+  args: run --app-id api --app-port 5030 --components-path ./components -- dotnet run --project DockerGen.Api/DockerGen.Api.csproj --urls http://+:5030
+- name: validation
+  executable: dapr
+  args: run --app-id validation --app-port 5031 --components-path ./components -- dotnet run --project DockerGen.Service.Validation/DockerGen.Service.Validation.csproj --urls http://+:5031
