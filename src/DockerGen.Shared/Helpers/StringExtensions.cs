@@ -1,4 +1,5 @@
 ﻿using DockerGen.Container;
+using System.Linq;
 using System.Text;
 
 namespace DockerGen.Helpers
@@ -23,7 +24,7 @@ namespace DockerGen.Helpers
 
                 if (line.IndexOf(' ') != -1)
                 {
-                    var prefix = line.Substring(0, line.IndexOf(' '));
+                    var prefix = line[..line.IndexOf(' ')];
                     if (_allowedInstructions.Contains(prefix.ToUpper()))
                     {
                         builder.Append('$');

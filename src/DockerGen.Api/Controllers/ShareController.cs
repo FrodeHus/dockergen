@@ -1,7 +1,10 @@
 ﻿using DockerGen.Container;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace DockerGen.Api.Controllers
 {
@@ -23,7 +26,7 @@ namespace DockerGen.Api.Controllers
         [HttpGet("/{id}", Name = "GetDockerfile")]
         public async Task<IActionResult> GetQuickShareDockerfileAsync(string id)
         {
-            _log.LogInformation($"Retrieving quick link: {id}");
+            _log.LogInformation("Retrieving quick link: {id}", id);
             try
             {
                 var actualId = GuidEncoder.Decode(id);
@@ -31,7 +34,7 @@ namespace DockerGen.Api.Controllers
                 var dockerfile = await _cache.GetStringAsync(actualId.ToString());
                 if (dockerfile == null)
                 {
-                    _log.LogInformation($"No value in cache for {id}");
+                    _log.LogInformation("No value in cache for {id}", id);
                     return NotFound();
                 }
                 var containerImage = JsonSerializer.Deserialize<ContainerImage>(dockerfile);

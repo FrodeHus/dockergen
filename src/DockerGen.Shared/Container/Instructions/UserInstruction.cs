@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -55,9 +56,11 @@ namespace DockerGen.Container
             }
 
 			var userDefinition = userValues[1].Split(':', StringSplitOptions.RemoveEmptyEntries);
-			var instruction = new UserInstruction();
-			instruction.User = userDefinition[0];
-			if(userDefinition.Length == 2)
+            var instruction = new UserInstruction
+            {
+                User = userDefinition[0]
+            };
+            if (userDefinition.Length == 2)
             {
 				instruction.Group = userDefinition[1];
             }

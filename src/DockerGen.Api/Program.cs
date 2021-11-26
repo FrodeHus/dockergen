@@ -1,8 +1,11 @@
 using DockerGen.Api;
 using DockerGen.Container;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -42,15 +45,9 @@ builder.Services.AddCors(o =>
 });
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
-builder.Services.AddContainerService(o =>
-{
-    o.RecipePath = builder.Configuration.GetValue<string>("DockerGen:RecipePath");
-});
+builder.Services.AddContainerService(o => o.RecipePath = builder.Configuration.GetValue<string>("DockerGen:RecipePath"));
 builder.Services.AddHealthChecks();
-builder.Services.AddControllers().AddJsonOptions(o =>
-{
-    o.JsonSerializerOptions.Converters.Add(new ContainerConverter());
-});
+builder.Services.AddControllers().AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new ContainerConverter()));
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "DockerGen.Api", Version = "v1" });
@@ -81,12 +78,9 @@ if (builder.Environment.IsDevelopment())
 app.UseCors("allowOrigins");
 
 app.UseAuthentication();
-app.UseAuthorization();
 app.UseRouting();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapHealthChecks("/health");
-});
+app.UseAuthorization();
+app.UseEndpoints(endpoints => endpoints.MapHealthChecks("/health"));
 app.MapControllers();
 
 app.Run();

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -23,7 +24,7 @@ The EXPOSE instruction does not actually publish the port.It functions as a type
         public override string Prefix => "EXPOSE";
         public override string DisplayName => "Define exposed ports";
         [Required]
-        [RegularExpression(@"[0-9]+", ErrorMessage = "Port only allows integers")]
+        [RegularExpression("[0-9]+", ErrorMessage = "Port only allows integers")]
         [JsonInclude]
         public int Port { get; set; }
         [JsonInclude]
@@ -39,7 +40,7 @@ The EXPOSE instruction does not actually publish the port.It functions as a type
         {
             if (!line.StartsWith("EXPOSE", StringComparison.InvariantCultureIgnoreCase))
             {
-                throw new ParseInstructionException("Not a valid prefix: " + line.Substring(0, line.IndexOf(' ')));
+                throw new ParseInstructionException(string.Concat("Not a valid prefix: ", line.AsSpan(0, line.IndexOf(' '))));
             }
             var values = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             if (values.Length != 2)

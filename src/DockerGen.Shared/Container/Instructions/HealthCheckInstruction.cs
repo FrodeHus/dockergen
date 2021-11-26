@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -42,7 +44,7 @@ namespace DockerGen.Container
             }
             var value = line[line.IndexOf(' ')..].Trim();
             var instruction = new HealthCheckInstruction();
-            var optionPattern = @"/(?<option>--(interval|timeout|retries|start-period)=(\d+[m|s]))/gm";
+            const string optionPattern = @"/(?<option>--(interval|timeout|retries|start-period)=(\d+[m|s]))/gm";
             var optionsMatch = Regex.Matches(value, optionPattern, RegexOptions.IgnoreCase);
             var options = optionsMatch.Select(o =>
             {

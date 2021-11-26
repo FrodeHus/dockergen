@@ -1,3 +1,6 @@
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using DockerGen.Components;
 using DockerGen.Components.Instructions;
@@ -7,6 +10,8 @@ using Fluxor;
 using MatBlazor;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DockerGen
 {
@@ -49,10 +54,7 @@ namespace DockerGen
                 o.MapUIComponent<NotImplementedInstruction, NotImplemented>();
             });
             builder.Services.AddScoped<ClipboardService>();
-            builder.Services.AddBlazoredLocalStorage(config =>
-            {
-                config.JsonSerializerOptions.WriteIndented = true;
-            });
+            builder.Services.AddBlazoredLocalStorage(config => config.JsonSerializerOptions.WriteIndented = true);
             builder.Services.AddMsalAuthentication(options =>
             {
                 builder.Configuration.Bind("AzureAdB2C", options.ProviderOptions.Authentication);
@@ -71,7 +73,7 @@ namespace DockerGen
                     };
                 });
             }));
-            
+
             await builder.Build().RunAsync();
         }
     }

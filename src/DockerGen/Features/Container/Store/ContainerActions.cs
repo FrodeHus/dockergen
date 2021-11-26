@@ -1,4 +1,5 @@
-﻿using DockerGen.Container;
+﻿using System.Collections.Generic;
+using DockerGen.Container;
 using DockerGen.Container.Recipes;
 
 namespace DockerGen.Features.Container.Store
@@ -26,7 +27,7 @@ namespace DockerGen.Features.Container.Store
     public record ContainerSetCurrentInstructionAction(IInstruction Instruction);
     public record StartDragAction(IInstruction Instruction);
     public record EndDragAction();
-    public record ContainerUpdatedAction();    
+    public record ContainerUpdatedAction();
     public record ContainerPanelOpenAction();
     public record ContainerPanelCloseAction();
     public record ContainerSetActiveStage(BuildStage Stage);

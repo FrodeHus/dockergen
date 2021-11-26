@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -47,7 +48,7 @@ namespace DockerGen.Container
         {
 			if (!line.StartsWith("CMD", StringComparison.InvariantCultureIgnoreCase))
 			{
-				throw new ParseInstructionException("Not a valid prefix: " + line.Substring(0, line.IndexOf(' ')));
+				throw new ParseInstructionException(string.Concat("Not a valid prefix: ", line.AsSpan(0, line.IndexOf(' '))));
 			}
 			var cmdValue = line[line.IndexOf(' ')..].Trim();
 			return new CommandInstruction(cmdValue);

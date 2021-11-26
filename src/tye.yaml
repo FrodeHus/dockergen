@@ -1,0 +1,19 @@
+# tye application configuration file
+# read all about it at https://github.com/dotnet/tye
+#
+# when you've given us a try, we'd love to know what you think:
+#    https://aka.ms/AA7q20u
+#
+name: dockergen
+extensions:
+  - name: dapr
+    log-level: debug
+    components-path: ./components
+
+    
+services:
+- name: dockergen
+  project: DockerGen/DockerGen.csproj
+- name: dockergen-api
+  executable: dapr
+  args: run --app-id dockergen-api --app-port 5030 --components-path ./components -- dotnet run --project DockerGen.Api/DockerGen.Api.csproj --urls http://+:5030

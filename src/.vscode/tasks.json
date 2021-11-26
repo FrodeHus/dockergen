@@ -37,6 +37,17 @@
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "appId": "dockergen",
+            "appPort": 80,
+            "label": "daprd-debug",
+            "type": "daprd"
+        },
+        {
+            "appId": "dockergen",
+            "label": "daprd-down",
+            "type": "daprd-down"
         }
     ]
 }
