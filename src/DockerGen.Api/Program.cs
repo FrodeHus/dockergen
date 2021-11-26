@@ -23,7 +23,7 @@ else
     var redis = ConnectionMultiplexer.Connect("redis-cluster:6379");
     builder.Services.AddDataProtection()
         .PersistKeysToStackExchangeRedis(redis, "DataProtectionKeys");
-
+    builder.Services.AddDaprClient();
     builder.Services.AddStackExchangeRedisCache(o =>
     {
         o.Configuration = "redis-cluster:6379";
