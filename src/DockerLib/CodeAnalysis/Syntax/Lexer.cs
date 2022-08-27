@@ -25,6 +25,13 @@ public sealed class Lexer
 
     public SyntaxToken NextToken()
     {
+        ReadTrivia(true);
+        var token = ReadToken();
+        ReadTrivia(false);
+        return token;
+    }
+    private SyntaxToken ReadToken()
+    {
         var start = _position;
         var kind = SyntaxKind.BadToken;
         object? value = null;
@@ -63,14 +70,6 @@ public sealed class Lexer
                     kind = SyntaxKind.BackSlashToken;
                 }
                 _position++;
-                break;
-            case '\r':
-            case '\n':
-                kind = ReadLineBreak();
-                break;
-            case ' ':
-            case '\t':
-                kind = ReadWhiteSpace();
                 break;
             case '&':
                 kind = SyntaxKind.AmpersandToken;
@@ -124,14 +123,90 @@ public sealed class Lexer
                 }
                 else
                 {
-                    kind = SyntaxKind.BadToken;
-                    value = Current;
+                    var span = new TextSpan(_position, 1);
+                    var location = new TextLocation(_source, span);
+                    Diagnostics.ReportBadCharacter(location, Current);
                     _position++;
                 }
 
                 break;
         }
-        return new SyntaxToken(_source, kind, start, value?.ToString(), value);
+        return new SyntaxToken(_source, kind, start, _source.ToString(start, _position - start), value);
+    }
+
+    private void ReadTrivia(bool isLeading)
+    {
+        var done = false;
+        while (!done)
+        {
+            var start = _position;
+            var kind = SyntaxKind.BadToken;
+            object? value = null;
+            switch (Current)
+            {
+                case '\0':
+                    done = true;
+                    break;
+                case '/':
+                    if (LookAhead == '/')
+                    {
+                        kind = SyntaxKind.CommentToken;
+                        value = ReadSingleLineComment();
+                    }
+                    else
+                    {
+                        kind = SyntaxKind.ForwardSlash;
+                        _position++;
+                    }
+                    break;
+                case '\r':
+                case '\n':
+                    if (!isLeading)
+                        done = true;
+                    kind = ReadLineBreak();
+                    break;
+                case ' ':
+                case '\t':
+                    kind = ReadWhiteSpace();
+                    break;
+                default:
+                    if (char.IsWhiteSpace(Current))
+                        ReadWhiteSpace();
+                    else
+                        done = true;
+                    break;
+            }
+
+            var length = _position - start;
+            if (length > 0)
+            {
+                var text = _source.ToString(start, length);
+                var trivia = new SyntaxTrivia(_source, kind, start, text);
+            }
+        }
+    }
+    private string ReadSingleLineComment()
+    {
+        _position += 2;
+        var start = _position;
+        var done = false;
+        while (!done)
+        {
+            switch (Current)
+            {
+                case '\0':
+                case '\r':
+                case '\n':
+                    done = true;
+                    break;
+                default:
+                    _position++;
+                    break;
+            }
+        }
+        var length = _position - start;
+        var value = _source.ToString(start, length);
+        return value;
     }
 
     private (SyntaxKind, int) ReadNumber()
@@ -194,15 +269,18 @@ public sealed class Lexer
         var text = _source.ToString(start, length);
         var kind = text.ToLowerInvariant() switch
         {
-            "from" => SyntaxKind.FromToken,
-            "as" => SyntaxKind.AsToken,
-            "run" => SyntaxKind.RunToken,
-            "copy" => SyntaxKind.CopyToken,
-            "env" => SyntaxKind.EnvironmentVariableToken,
-            "arg" => SyntaxKind.BuildArgumentToken,
-            "expose" => SyntaxKind.ExposeToken,
-            "workdir" => SyntaxKind.WorkingDirectoryToken,
-            "user" => SyntaxKind.UserToken,
+            "from" => SyntaxKind.FromKeyword,
+            "as" => SyntaxKind.AsKeyword,
+            "run" => SyntaxKind.RunKeyword,
+            "copy" => SyntaxKind.CopyKeyword,
+            "env" => SyntaxKind.EnvironmentVariableKeyword,
+            "arg" => SyntaxKind.BuildArgumentKeyword,
+            "expose" => SyntaxKind.ExposeKeyword,
+            "workdir" => SyntaxKind.WorkingDirectoryKeyword,
+            "user" => SyntaxKind.UserKeyword,
+            "volume" => SyntaxKind.VolumeKeyword,
+            "healthcheck" => SyntaxKind.HealthCheckKeyword,
+            "onbuild" => SyntaxKind.OnBuildKeyword,
             _ => SyntaxKind.BadToken
         };
         return (kind, text);

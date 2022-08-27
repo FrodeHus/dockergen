@@ -10,17 +10,19 @@ public enum SyntaxKind
     CloseParenthesisToken,
 
     //keywords
-    FromToken,
-    RunToken,
-    CopyToken,
-    AddToken,
-    EntrypointToken,
-    CommandToken,
-    EnvironmentVariableToken,
-    BuildArgumentToken,
-    ExposeToken,
-    UserToken,
-    WorkingDirectoryToken,
+    FromKeyword,
+    RunKeyword,
+    CopyKeyword,
+    AddKeyword,
+    EntrypointKeyword,
+    CommandKeyword,
+    EnvironmentVariableKeyword,
+    BuildArgumentKeyword,
+    ExposeKeyword,
+    UserKeyword,
+    WorkingDirectoryKeyword,
+    AsKeyword,
+    StageNameKeyword,
 
     //instructions
     FromInstructionSyntax,
@@ -31,10 +33,11 @@ public enum SyntaxKind
     AddInstructionSyntax,
     EnvironmentVariableInstructionSyntax,
     BuildArgumentInstructionSyntax,
+    VolumeKeyword,
+    HealthCheckKeyword,
+    OnBuildKeyword,
 
 
-    AsToken,
-    StageNameToken,
     StringToken,
     LineBreakToken,
     CommaToken,
@@ -43,5 +46,12 @@ public enum SyntaxKind
     BackSlashToken,
     MultiLineToken,
     AmpersandToken,
-    PeriodToken
+    PeriodToken,
+    QuoteToken,
+    UnderscoreToken,
+    DashToken,
+    ColonToken,
+    SemicolonToken,
+    CommentToken,
+    ForwardSlash
 }

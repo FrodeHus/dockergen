@@ -36,12 +36,12 @@ public class Parser
         return current;
     }
 
-    private SyntaxToken MatchToken(SyntaxKind kind)
+    private SyntaxToken MatchToken(SyntaxKind kind, bool isOptional = false)
     {
         if (Current.Kind == kind)
             return NextToken();
 
-        _diagnostics.ReportUnExpectedToken(Current.Location, Current.Kind, kind);
+        _diagnostics.ReportUnexpectedToken(Current.Location, Current.Kind, kind, isOptional);
         return new SyntaxToken(Source, kind, Current.Position, null, null);
     }
 
@@ -68,8 +68,8 @@ public class Parser
 
             var instruction = Current.Kind switch
             {
-                SyntaxKind.FromToken => ParseFromInstruction(),
-                SyntaxKind.RunToken => ParseRunInstruction(),
+                SyntaxKind.FromKeyword => ParseFromInstruction(),
+                SyntaxKind.RunKeyword => ParseRunInstruction(),
                 _ => default
             };
             if (instruction is not null)
@@ -84,16 +84,16 @@ public class Parser
 
     private InstructionSyntax ParseFromInstruction()
     {
-        var fromToken = MatchToken(SyntaxKind.FromToken);
+        var fromToken = MatchToken(SyntaxKind.FromKeyword);
         var imageToken = MatchToken(SyntaxKind.StringToken);
-        var asToken = MatchToken(SyntaxKind.AsToken);
-        var stageNameToken = MatchToken(SyntaxKind.StringToken);
+        var asToken = MatchToken(SyntaxKind.AsKeyword, isOptional: true);
+        var stageNameToken = MatchToken(SyntaxKind.StringToken, isOptional: !asToken.IsMissing);
         return new FromInstructionSyntax(Source, fromToken, imageToken, asToken, stageNameToken);
     }
 
     private InstructionSyntax ParseRunInstruction()
     {
-        var runToken = MatchToken(SyntaxKind.RunToken);
+        var runToken = MatchToken(SyntaxKind.RunKeyword);
         var runParams = new List<SyntaxToken>();
         var isMultiline = false;
         while ((Current.Kind != SyntaxKind.LineBreakToken || isMultiline) && Current.Kind != SyntaxKind.EndOfFileToken)

@@ -8,6 +8,7 @@ public sealed class SyntaxToken : SyntaxNode
     {
         Kind = kind;
         Position = position;
+        IsMissing = text == null;
         Text = text;
         Value = value;
     }
@@ -16,6 +17,7 @@ public sealed class SyntaxToken : SyntaxNode
     public int Position { get; }
     public string? Text { get; }
     public object? Value { get; }
+    public bool IsMissing { get; }
 
     public override TextSpan Span => new(Position, Text?.Length ?? 0);
     public override IEnumerable<SyntaxNode> GetChildren()

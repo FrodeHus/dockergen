@@ -27,15 +27,28 @@ public sealed class DiagnosticBag : IEnumerable<Diagnostic>
         var diagnostic = Diagnostic.Warning(location, message);
         _diagnostics.Add(diagnostic);
     }
-    public void ReportUnExpectedToken(TextLocation location, SyntaxKind actualKind, SyntaxKind expectedKind)
+    public void ReportUnexpectedToken(TextLocation location, SyntaxKind actualKind, SyntaxKind expectedKind, bool isOptional = false)
     {
         var message = $"Unexpected token <{actualKind}>, expected <{expectedKind}>";
-        ReportError(location, message);
+        if (isOptional)
+        {
+            ReportWarning(location, message);
+        }
+        else
+        {
+            ReportError(location, message);
+        }
     }
 
     internal void ReportInvalidNumber(TextLocation location, string text)
     {
         var message = $"'{text}' is not a valid number";
+        ReportError(location, message);
+    }
+
+    internal void ReportBadCharacter(TextLocation location, char current)
+    {
+        var message = $"Unexpected character: '{current}'";
         ReportError(location, message);
     }
 }
