@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text;
 using DockerLib.CodeAnalysis.Text;
 
 namespace DockerLib.CodeAnalysis.Syntax;

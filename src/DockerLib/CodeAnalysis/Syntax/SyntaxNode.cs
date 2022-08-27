@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text;
 using DockerLib.CodeAnalysis.Text;
 
 namespace DockerLib.CodeAnalysis.Syntax;
@@ -24,4 +25,30 @@ public abstract class SyntaxNode
     }
 
     public SourceDockerfile Source { get; }
+    public override string ToString()
+    {
+        var sb = new StringBuilder();
+        sb.AppendFormat("[{0}]", Kind.ToString());
+        sb.AppendLine();
+        var lastChild = GetChildren().LastOrDefault();
+        var indent = "  ";
+        foreach (var node in GetChildren())
+        {
+            var token = node as SyntaxToken;
+            var marker = node == lastChild ? "└──" : "├──";
+            sb.Append(indent);
+            sb.Append(marker);
+            if (token?.IsMissing == true)
+            {
+                sb.Append("[Warning - missing] ");
+            }
+            sb.AppendFormat("[{0}]", node.Kind);
+            if (token != null)
+            {
+                sb.AppendFormat("  {0}", token.Text);
+            }
+            sb.AppendLine();
+        }
+        return sb.ToString();
+    }
 }

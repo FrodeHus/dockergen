@@ -21,6 +21,17 @@ while (true)
         var parser = new Parser(SourceDockerfile.From(response.Text));
         var instructions = parser.Parse();
         var instruction = instructions.FirstOrDefault();
+        console.WriteLine("");
         console.WriteLine(instruction?.ToString());
+        if (parser.Diagnostics.Any())
+        {
+            console.WriteLine("");
+            console.WriteLine("Diagnostics:");
+            foreach (var diag in parser.Diagnostics)
+            {
+                var level = diag.IsError ? "ERROR" : "WARN";
+                console.WriteLine($"\t{level}: {diag.Message} - {diag.Location}");
+            }
+        }
     }
 }

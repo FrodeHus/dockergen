@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeAnalysis", "CodeAnalysi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeAnalysis.Tests", "CodeAnalysis.Tests\CodeAnalysis.Tests.csproj", "{BBB2C2E7-BF24-4BFA-BA85-7161C7739BEA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DockerREPL", "DockerREPL\DockerREPL.csproj", "{17264384-CB42-40D8-8578-47650BA42189}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{BBB2C2E7-BF24-4BFA-BA85-7161C7739BEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBB2C2E7-BF24-4BFA-BA85-7161C7739BEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBB2C2E7-BF24-4BFA-BA85-7161C7739BEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17264384-CB42-40D8-8578-47650BA42189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17264384-CB42-40D8-8578-47650BA42189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17264384-CB42-40D8-8578-47650BA42189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17264384-CB42-40D8-8578-47650BA42189}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

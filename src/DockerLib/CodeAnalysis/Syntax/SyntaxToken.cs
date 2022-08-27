@@ -26,5 +26,4 @@ public sealed class SyntaxToken : SyntaxNode
     {
         return Array.Empty<SyntaxNode>();
     }
-    public override string ToString() => $"{Kind} - {Text} [Missing: {IsMissing}]";
 }

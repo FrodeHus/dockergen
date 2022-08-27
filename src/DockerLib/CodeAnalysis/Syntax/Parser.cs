@@ -6,7 +6,6 @@ namespace DockerLib.CodeAnalysis.Syntax;
 public class Parser
 {
     private readonly ImmutableArray<SyntaxToken> _tokens;
-    private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
     private int _position;
     public Parser(SourceDockerfile source)
     {
@@ -25,6 +24,8 @@ public class Parser
         Source = source;
     }
 
+    public DiagnosticBag Diagnostics { get; } = new DiagnosticBag();
+
     private SyntaxToken Current => Peek(0);
 
     public SourceDockerfile Source { get; }
@@ -41,7 +42,7 @@ public class Parser
         if (Current.Kind == kind)
             return NextToken();
 
-        _diagnostics.ReportUnexpectedToken(Current.Location, Current.Kind, kind, isOptional);
+        Diagnostics.ReportUnexpectedToken(Current.Location, Current.Kind, kind, isOptional);
         return new SyntaxToken(Source, kind, Current.Position, null, null);
     }
 
@@ -87,7 +88,7 @@ public class Parser
         var fromToken = MatchToken(SyntaxKind.FromKeyword);
         var imageToken = MatchToken(SyntaxKind.StringToken);
         var asToken = MatchToken(SyntaxKind.AsKeyword, isOptional: true);
-        var stageNameToken = MatchToken(SyntaxKind.StringToken, isOptional: !asToken.IsMissing);
+        var stageNameToken = MatchToken(SyntaxKind.StringToken, isOptional: asToken.IsMissing);
         return new FromInstructionSyntax(Source, fromToken, imageToken, asToken, stageNameToken);
     }
 
