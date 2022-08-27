@@ -29,7 +29,7 @@ public sealed class SourceDockerfile
         var upper = Lines.Length - 1;
         while (lower <= upper)
         {
-            var index = lower + (upper - lower) / 2;
+            var index = lower + ((upper - lower) / 2);
             var start = Lines[index].Start;
             if (position == start)
             {
@@ -47,6 +47,14 @@ public sealed class SourceDockerfile
         }
         return lower - 1;
     }
+
+    public int GetPositionInLine(int position)
+    {
+        var lineIndex = GetLineIndex(position);
+        var line = Lines[lineIndex];
+        var linePosition = position - line.Start;
+        return linePosition;
+    }
     private static ImmutableArray<TextLine> ParseLines(SourceDockerfile source, string text)
     {
         var result = ImmutableArray.CreateBuilder<TextLine>();
@@ -63,6 +71,7 @@ public sealed class SourceDockerfile
             else
             {
                 AddLine(result, source, position, lineStart, lineBreakWidth);
+                position += lineBreakWidth;
                 lineStart = position;
             }
         }
