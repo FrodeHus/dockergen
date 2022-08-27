@@ -88,6 +88,26 @@ public sealed class Lexer
             case '9':
                 (kind, value) = ReadNumber();
                 break;
+            case '"':
+                kind = SyntaxKind.QuoteToken;
+                _position++;
+                break;
+            case '_':
+                kind = SyntaxKind.UnderscoreToken;
+                _position++;
+                break;
+            case '-':
+                kind = SyntaxKind.DashToken;
+                _position++;
+                break;
+            case ':':
+                kind = SyntaxKind.ColonToken;
+                _position++;
+                break;
+            case ';':
+                kind = SyntaxKind.SemicolonToken;
+                _position++;
+                break;
             default:
                 if (char.IsWhiteSpace(Current))
                 {
