@@ -108,18 +108,15 @@ public sealed class Lexer
                 _position++;
                 break;
             default:
-                if (char.IsWhiteSpace(Current))
+
+                if (_source.GetPositionInLine(_position) == 0 && char.IsLetter(Current))
                 {
-                    kind = ReadWhiteSpace();
-                }
-                else if (_source.GetPositionInLine(_position) == 0 && char.IsLetter(Current))
-                {
-                    (kind, value) = ReadIdentifierOrKeyword();
+                    (kind, value) = ReadInstructionKeyword();
                 }
                 else if (char.IsLetterOrDigit(Current))
                 {
-                    kind = SyntaxKind.StringToken;
                     value = ReadString();
+                    kind = ParseKeyword(value?.ToString() ?? string.Empty);
                 }
                 else
                 {
@@ -260,7 +257,7 @@ public sealed class Lexer
         return SyntaxKind.WhitespaceToken;
     }
 
-    private (SyntaxKind, string) ReadIdentifierOrKeyword()
+    private (SyntaxKind, string) ReadInstructionKeyword()
     {
         var start = _position;
         while (char.IsLetter(Current))
@@ -270,7 +267,6 @@ public sealed class Lexer
         var kind = text.ToLowerInvariant() switch
         {
             "from" => SyntaxKind.FromKeyword,
-            "as" => SyntaxKind.AsKeyword,
             "run" => SyntaxKind.RunKeyword,
             "copy" => SyntaxKind.CopyKeyword,
             "env" => SyntaxKind.EnvironmentVariableKeyword,
@@ -286,10 +282,19 @@ public sealed class Lexer
         return (kind, text);
     }
 
+    private SyntaxKind ParseKeyword(string text)
+    {
+        return text.ToLowerInvariant() switch
+        {
+            "as" => SyntaxKind.AsKeyword,
+            _ => SyntaxKind.StringToken
+        };
+    }
+
     private string ReadString()
     {
         var start = _position;
-        while (char.IsLetterOrDigit(Current))
+        while (char.IsLetterOrDigit(Current) || Current == '/' || Current == ':')
             _position++;
 
         var length = _position - start;

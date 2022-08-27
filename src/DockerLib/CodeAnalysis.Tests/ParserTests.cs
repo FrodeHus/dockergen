@@ -10,7 +10,7 @@ public class ParserTests
     [InlineData("RUN apt update && test", 1)]
     [InlineData("RUN apt update && test \\\r\ncp . .", 1)]
     [InlineData("FROM my/repo:test\r\nRUN cp . .", 2)]
-    [InlineData("FROM my/repo:test AS", 1)]
+    [InlineData("FROM my/repo:test AS build\r\nRUN cp . .", 2)]
     public void ParseInstructions(string dockerfile, int expectedInstructions)
     {
         var source = SourceDockerfile.From(dockerfile);

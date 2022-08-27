@@ -1,7 +1,9 @@
+using System.Diagnostics;
 using DockerLib.CodeAnalysis.Text;
 
 namespace DockerLib.CodeAnalysis.Syntax;
 
+[DebuggerDisplay("{Kind} - Text: {Text} [Missing: {IsMissing}]")]
 public sealed class SyntaxToken : SyntaxNode
 {
     public SyntaxToken(SourceDockerfile source, SyntaxKind kind, int position, string? text, object? value) : base(source)
@@ -24,4 +26,5 @@ public sealed class SyntaxToken : SyntaxNode
     {
         return Array.Empty<SyntaxNode>();
     }
+    public override string ToString() => $"{Kind} - {Text} [Missing: {IsMissing}]";
 }
