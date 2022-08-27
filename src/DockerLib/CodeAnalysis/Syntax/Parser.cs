@@ -22,9 +22,13 @@ public class Parser
             }
         } while (token.Kind != SyntaxKind.EndOfFileToken);
         _tokens = tokens.ToImmutableArray();
+        Source = source;
     }
 
     private SyntaxToken Current => Peek(0);
+
+    public SourceDockerfile Source { get; }
+
     private SyntaxToken NextToken()
     {
         var current = Current;
@@ -37,8 +41,8 @@ public class Parser
         if (Current.Kind == kind)
             return NextToken();
 
-        _diagnostics.ReportUnExpectedToken(_position, Current.Kind, kind);
-        return new SyntaxToken(kind, Current.Position, null, null);
+        _diagnostics.ReportUnExpectedToken(Current.Location, Current.Kind, kind);
+        return new SyntaxToken(Source, kind, Current.Position, null, null);
     }
 
     private SyntaxToken Peek(int offset)
@@ -51,19 +55,58 @@ public class Parser
         return _tokens[index];
     }
 
-    private void ParseInstructions()
+    public ImmutableArray<InstructionSyntax> Parse()
     {
+        return ParseInstructions();
+    }
+    private ImmutableArray<InstructionSyntax> ParseInstructions()
+    {
+        var instructions = new List<InstructionSyntax>();
         while (Current.Kind != SyntaxKind.EndOfFileToken)
         {
             var startToken = Current;
-            var instruction = ParseInstruction();
+
+            var instruction = Current.Kind switch
+            {
+                SyntaxKind.FromToken => ParseFromInstruction(),
+                SyntaxKind.RunToken => ParseRunInstruction(),
+                _ => default
+            };
+            if (instruction is not null)
+            {
+                instructions.Add(instruction);
+            }
             if (Current == startToken)
                 NextToken();
         }
+        return instructions.ToImmutableArray();
     }
 
-    private InstructionSyntax ParseInstruction()
+    private InstructionSyntax ParseFromInstruction()
     {
-        return default;
+        var fromToken = MatchToken(SyntaxKind.FromToken);
+        var imageToken = MatchToken(SyntaxKind.StringToken);
+        var asToken = MatchToken(SyntaxKind.AsToken);
+        var stageNameToken = MatchToken(SyntaxKind.StringToken);
+        return new FromInstructionSyntax(Source, fromToken, imageToken, asToken, stageNameToken);
+    }
+
+    private InstructionSyntax ParseRunInstruction()
+    {
+        var runToken = MatchToken(SyntaxKind.RunToken);
+        var runParams = new List<SyntaxToken>();
+        var isMultiline = false;
+        while ((Current.Kind != SyntaxKind.LineBreakToken || isMultiline) && Current.Kind != SyntaxKind.EndOfFileToken)
+        {
+            if (Current.Kind == SyntaxKind.MultiLineToken)
+                isMultiline = true;
+
+            if (Current.Kind == SyntaxKind.LineBreakToken && isMultiline)
+                isMultiline = false;
+
+            var token = NextToken();
+            runParams.Add(token);
+        }
+        return new RunInstructionSyntax(Source, runToken, runParams);
     }
 }

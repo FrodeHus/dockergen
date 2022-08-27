@@ -1,8 +1,12 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
+import { MsalProvider } from "@azure/msal-react";
+import { MsalInstance } from "../modules/auth/keycloak";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  <MsalProvider instance={MsalInstance}>
+    return <Component {...pageProps} />
+  </MsalProvider>;
 }
 
-export default MyApp
+export default MyApp;

@@ -35,5 +35,13 @@ public enum SyntaxKind
 
     AsToken,
     StageNameToken,
-    StringToken
+    StringToken,
+    LineBreakToken,
+    CommaToken,
+    NumberToken,
+    EndOfLineToken,
+    BackSlashToken,
+    MultiLineToken,
+    AmpersandToken,
+    PeriodToken
 }

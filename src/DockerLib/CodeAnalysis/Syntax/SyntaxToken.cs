@@ -1,8 +1,10 @@
+using DockerLib.CodeAnalysis.Text;
+
 namespace DockerLib.CodeAnalysis.Syntax;
 
 public sealed class SyntaxToken : SyntaxNode
 {
-    public SyntaxToken(SyntaxKind kind, int position, string? text, object? value)
+    public SyntaxToken(SourceDockerfile source, SyntaxKind kind, int position, string? text, object? value) : base(source)
     {
         Kind = kind;
         Position = position;
@@ -14,4 +16,10 @@ public sealed class SyntaxToken : SyntaxNode
     public int Position { get; }
     public string? Text { get; }
     public object? Value { get; }
+
+    public override TextSpan Span => new(Position, Text?.Length ?? 0);
+    public override IEnumerable<SyntaxNode> GetChildren()
+    {
+        return Array.Empty<SyntaxNode>();
+    }
 }
