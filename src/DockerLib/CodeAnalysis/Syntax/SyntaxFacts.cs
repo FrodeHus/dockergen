@@ -7,6 +7,19 @@ public static class SyntaxFacts
         return kind.ToString().EndsWith("Keyword");
     }
 
+    public static bool IsPathCompatible(this SyntaxKind kind)
+    {
+        return kind switch
+        {
+            SyntaxKind.StringToken => true,
+            SyntaxKind.NumberToken => true,
+            SyntaxKind.UnderscoreToken => true,
+            SyntaxKind.HyphenToken => true,
+            SyntaxKind.ForwardSlash => true,
+            _ => false
+        };
+    }
+
     public static SyntaxKind GetKeywordKind(string value)
     {
         return value.ToLowerInvariant() switch

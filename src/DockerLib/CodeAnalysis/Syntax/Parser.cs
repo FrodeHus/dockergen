@@ -72,6 +72,7 @@ public class Parser
                 SyntaxKind.FromKeyword => ParseFromInstruction(),
                 SyntaxKind.RunKeyword => ParseRunInstruction(),
                 SyntaxKind.ExposeKeyword => ParseExposeInstruction(),
+                SyntaxKind.WorkingDirectoryKeyword => ParseWorkDirInstruction(),
                 _ => default
             };
             if (instruction is not null)
@@ -127,6 +128,18 @@ public class Parser
             tagExpression = new LiteralExpressionSyntax(Source, tokens.GetRange(colonIndex + 1, tokens.Count - colonIndex - 1).ToArray());
 
         return new ImageLiteralSyntax(Source, expressions[0], expressions[1], tagExpression);
+    }
+
+    private InstructionSyntax ParseWorkDirInstruction()
+    {
+        var workDirToken = MatchToken(SyntaxKind.WorkingDirectoryKeyword);
+        var tokens = ImmutableArray.CreateBuilder<SyntaxToken>();
+        while (Current.Kind.IsPathCompatible())
+        {
+            tokens.Add(NextToken());
+        }
+        var workingDirLiteral = new LiteralExpressionSyntax(Source, tokens.ToArray());
+        return new WorkingDirectoryInstructionSyntax(Source, workDirToken, workingDirLiteral);
     }
 
     private InstructionSyntax ParseRunInstruction()
