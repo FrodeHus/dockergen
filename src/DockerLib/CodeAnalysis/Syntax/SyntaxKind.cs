@@ -21,8 +21,11 @@ public enum SyntaxKind
     ExposeKeyword,
     UserKeyword,
     WorkingDirectoryKeyword,
+    VolumeKeyword,
     AsKeyword,
     StageNameKeyword,
+    HealthCheckKeyword,
+    OnBuildKeyword,
 
     //instructions
     FromInstructionSyntax,
@@ -33,9 +36,7 @@ public enum SyntaxKind
     AddInstructionSyntax,
     EnvironmentVariableInstructionSyntax,
     BuildArgumentInstructionSyntax,
-    VolumeKeyword,
-    HealthCheckKeyword,
-    OnBuildKeyword,
+    ExposeInstructionSyntax,
 
 
     StringToken,

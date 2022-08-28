@@ -71,6 +71,7 @@ public class Parser
             {
                 SyntaxKind.FromKeyword => ParseFromInstruction(),
                 SyntaxKind.RunKeyword => ParseRunInstruction(),
+                SyntaxKind.ExposeKeyword => ParseExposeInstruction(),
                 _ => default
             };
             if (instruction is not null)
@@ -109,5 +110,12 @@ public class Parser
             runParams.Add(token);
         }
         return new RunInstructionSyntax(Source, runToken, runParams);
+    }
+
+    private InstructionSyntax ParseExposeInstruction()
+    {
+        var exposeToken = MatchToken(SyntaxKind.ExposeKeyword);
+        var portToken = MatchToken(SyntaxKind.NumberToken);
+        return new ExposeInstructionSyntax(Source, exposeToken, portToken);
     }
 }

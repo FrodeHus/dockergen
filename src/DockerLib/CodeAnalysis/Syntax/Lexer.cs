@@ -111,12 +111,13 @@ public sealed class Lexer
 
                 if (_source.GetPositionInLine(_position) == 0 && char.IsLetter(Current))
                 {
-                    (kind, value) = ReadInstructionKeyword();
+                    value = ReadString();
+                    kind = SyntaxFacts.GetKeywordKind(value?.ToString() ?? string.Empty);
                 }
                 else if (char.IsLetterOrDigit(Current))
                 {
                     value = ReadString();
-                    kind = ParseKeyword(value?.ToString() ?? string.Empty);
+                    kind = SyntaxFacts.GetKeywordKind(value?.ToString() ?? string.Empty);
                 }
                 else
                 {
@@ -255,40 +256,6 @@ public sealed class Lexer
             }
         }
         return SyntaxKind.WhitespaceToken;
-    }
-
-    private (SyntaxKind, string) ReadInstructionKeyword()
-    {
-        var start = _position;
-        while (char.IsLetter(Current))
-            _position++;
-        var length = _position - start;
-        var text = _source.ToString(start, length);
-        var kind = text.ToLowerInvariant() switch
-        {
-            "from" => SyntaxKind.FromKeyword,
-            "run" => SyntaxKind.RunKeyword,
-            "copy" => SyntaxKind.CopyKeyword,
-            "env" => SyntaxKind.EnvironmentVariableKeyword,
-            "arg" => SyntaxKind.BuildArgumentKeyword,
-            "expose" => SyntaxKind.ExposeKeyword,
-            "workdir" => SyntaxKind.WorkingDirectoryKeyword,
-            "user" => SyntaxKind.UserKeyword,
-            "volume" => SyntaxKind.VolumeKeyword,
-            "healthcheck" => SyntaxKind.HealthCheckKeyword,
-            "onbuild" => SyntaxKind.OnBuildKeyword,
-            _ => SyntaxKind.BadToken
-        };
-        return (kind, text);
-    }
-
-    private SyntaxKind ParseKeyword(string text)
-    {
-        return text.ToLowerInvariant() switch
-        {
-            "as" => SyntaxKind.AsKeyword,
-            _ => SyntaxKind.StringToken
-        };
     }
 
     private string ReadString()

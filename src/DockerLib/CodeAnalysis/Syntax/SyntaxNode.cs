@@ -35,13 +35,14 @@ public abstract class SyntaxNode
         foreach (var node in GetChildren())
         {
             var token = node as SyntaxToken;
-            if (token?.IsMissing ?? false) continue;
             var marker = node == lastChild ? "└──" : "├──";
             sb.Append(indent);
             sb.Append(marker);
             sb.AppendFormat("[{0}]", node.Kind);
             if (token != null)
             {
+                if (token.IsMissing)
+                    sb.AppendFormat(" (missing)");
                 sb.AppendFormat("  {0}", token.Text);
             }
             sb.AppendLine();

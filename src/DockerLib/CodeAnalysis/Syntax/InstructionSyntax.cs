@@ -7,10 +7,8 @@ namespace DockerLib.CodeAnalysis.Syntax;
 [DebuggerDisplay("{Instruction}")]
 public abstract class InstructionSyntax : SyntaxNode
 {
-    private protected InstructionSyntax(SourceDockerfile source, SyntaxToken instruction) : base(source)
+    private protected InstructionSyntax(SourceDockerfile source) : base(source)
     {
-        Instruction = instruction;
     }
 
-    public SyntaxToken Instruction { get; }
 }
