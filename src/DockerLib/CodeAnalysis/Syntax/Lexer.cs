@@ -213,7 +213,7 @@ public sealed class Lexer
             _position++;
 
         var length = _position - start;
-        var text = _source.ToString(start, _position);
+        var text = _source.ToString(start, length);
         if (!int.TryParse(text, out var value))
         {
             var span = new TextSpan(start, length);

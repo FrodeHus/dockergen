@@ -13,6 +13,7 @@ public class SyntaxTests
     [InlineData("WORKDIR /test", SyntaxKind.WorkingDirectoryKeyword)]
     [InlineData("USER nonroot", SyntaxKind.UserKeyword)]
     [InlineData("cp COPY fail", SyntaxKind.BadToken)]
+    [InlineData("EXPOSE 8080", SyntaxKind.ExposeKeyword)]
     public void LexInstructionKeywords(string data, SyntaxKind expectedTokenKind)
     {
         var source = SourceDockerfile.From(data);
