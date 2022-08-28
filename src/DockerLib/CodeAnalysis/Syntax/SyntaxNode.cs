@@ -31,7 +31,7 @@ public abstract class SyntaxNode
         sb.AppendFormat("[{0}]", Kind.ToString());
         sb.AppendLine();
         var lastChild = GetChildren().LastOrDefault();
-        var indent = "  ";
+        var indent = "";
         foreach (var node in GetChildren())
         {
             var token = node as SyntaxToken;

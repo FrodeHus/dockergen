@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Text;
 using DockerLib.CodeAnalysis.Text;
 
@@ -25,9 +26,11 @@ public sealed class Lexer
 
     public SyntaxToken NextToken()
     {
-        ReadTrivia(true);
+        var leadingTrivia = ReadTrivia(true);
         var token = ReadToken();
-        ReadTrivia(false);
+        var trailingTrivia = ReadTrivia(false);
+        token.LeadingTrivia = leadingTrivia;
+        token.TrailingTrivia = trailingTrivia;
         return token;
     }
     private SyntaxToken ReadToken()
@@ -132,8 +135,9 @@ public sealed class Lexer
         return new SyntaxToken(_source, kind, start, _source.ToString(start, _position - start), value);
     }
 
-    private void ReadTrivia(bool isLeading)
+    private ImmutableArray<SyntaxTrivia> ReadTrivia(bool isLeading)
     {
+        var triviaBuilder = ImmutableArray.CreateBuilder<SyntaxTrivia>();
         var done = false;
         while (!done)
         {
@@ -180,8 +184,10 @@ public sealed class Lexer
             {
                 var text = _source.ToString(start, length);
                 var trivia = new SyntaxTrivia(_source, kind, start, text);
+                triviaBuilder.Add(trivia);
             }
         }
+        return triviaBuilder.ToImmutableArray();
     }
     private string ReadSingleLineComment()
     {

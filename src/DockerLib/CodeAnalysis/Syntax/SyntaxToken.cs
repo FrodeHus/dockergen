@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Diagnostics;
 using DockerLib.CodeAnalysis.Text;
 
@@ -19,6 +20,8 @@ public sealed class SyntaxToken : SyntaxNode
     public int Position { get; }
     public string? Text { get; }
     public object? Value { get; }
+    public ImmutableArray<SyntaxTrivia> LeadingTrivia { get; internal set; }
+    public ImmutableArray<SyntaxTrivia> TrailingTrivia { get; internal set; }
     public bool IsMissing { get; }
 
     public override TextSpan Span => new(Position, Text?.Length ?? 0);
