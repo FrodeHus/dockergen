@@ -1,4 +1,5 @@
-﻿using DockerLib.CodeAnalysis.Syntax;
+﻿using System.Text;
+using DockerLib.CodeAnalysis.Syntax;
 using DockerLib.CodeAnalysis.Text;
 using PrettyPrompt;
 using PrettyPrompt.Consoles;
@@ -10,28 +11,43 @@ var prompt = new Prompt(configuration: new PromptConfiguration(
 ));
 console.WriteLine("Welcome to the Dockerfile REPL (Read Eval Print Loop)!");
 console.WriteLine("Type Dockerfile expressions and statements at the prompt and press Enter to evaluate them.");
-console.WriteLine($"Type 'help to learn more, and type 'exit' to quit.");
+console.WriteLine("Type 'help to learn more, and type 'exit' to quit.");
 console.WriteLine(string.Empty);
+var sb = new StringBuilder();
 while (true)
 {
     var response = await prompt.ReadLineAsync();
     if (response.IsSuccess)
     {
         if (response.Text == "exit") break;
-        var parser = new Parser(SourceDockerfile.From(response.Text));
-        var instructions = parser.Parse();
-        var instruction = instructions.FirstOrDefault();
-        console.WriteLine("");
-        console.WriteLine(instruction?.ToString());
-        if (parser.Diagnostics.Any())
+        switch (response.Text)
         {
-            console.WriteLine("");
-            console.WriteLine("Diagnostics:");
-            foreach (var diag in parser.Diagnostics)
-            {
-                var level = diag.IsError ? "ERROR" : "WARN";
-                console.WriteLine($"\t{level}: {diag.Message} - {diag.Location}");
-            }
+            case "print":
+                console.WriteLine(sb.ToString());
+                break;
+            case "build":
+                var parser = new Parser(SourceDockerfile.From(sb.ToString()));
+                var instructions = parser.Parse();
+                console.WriteLine("");
+                foreach (var instruction in instructions)
+                {
+                    console.WriteLine(instruction?.ToString());
+                }
+                if (parser.Diagnostics.Any())
+                {
+                    console.WriteLine("");
+                    console.WriteLine("Diagnostics:");
+                    foreach (var diag in parser.Diagnostics)
+                    {
+                        var level = diag.IsError ? "ERROR" : "WARN";
+                        console.WriteLine($"\t{level}: {diag.Message} - {diag.Location}");
+                    }
+                }
+                break;
+            default:
+                sb.AppendLine(response.Text);
+                break;
         }
     }
 }
+
