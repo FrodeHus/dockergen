@@ -53,9 +53,14 @@ public enum SyntaxKind
     PeriodToken,
     QuoteToken,
     UnderscoreToken,
-    DashToken,
+    HyphenToken,
     ColonToken,
     SemicolonToken,
     CommentToken,
     ForwardSlash,
+    ArgumentNameToken,
+    AmpersandAmpersandToken,
+
+    ImageStatement,
+    LiteralExpression,
 }

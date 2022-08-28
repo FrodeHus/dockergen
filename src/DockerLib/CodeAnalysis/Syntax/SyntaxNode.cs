@@ -25,28 +25,29 @@ public abstract class SyntaxNode
     }
 
     public SourceDockerfile Source { get; }
+    private void PrettyPrint(StringBuilder writer, SyntaxNode node, string indent = "", bool isLast = true)
+    {
+        var tokenMarker = isLast ? "└──" : "├──";
+        writer.Append(indent);
+        writer.Append(tokenMarker);
+        writer.Append(node.Kind);
+        if (node is SyntaxToken token && !string.IsNullOrEmpty(token.Text))
+        {
+            writer.Append(' ')
+                .Append(token.Text);
+        }
+        indent += isLast ? "   " : "│  ";
+        var lastChild = GetChildren().LastOrDefault();
+        writer.AppendLine();
+        foreach (var child in node.GetChildren())
+        {
+            PrettyPrint(writer, child, indent, isLast: child == lastChild);
+        }
+    }
     public override string ToString()
     {
         var sb = new StringBuilder();
-        sb.AppendFormat("[{0}]", Kind.ToString());
-        sb.AppendLine();
-        var lastChild = GetChildren().LastOrDefault();
-        var indent = "";
-        foreach (var node in GetChildren())
-        {
-            var token = node as SyntaxToken;
-            var marker = node == lastChild ? "└──" : "├──";
-            sb.Append(indent);
-            sb.Append(marker);
-            sb.AppendFormat("[{0}]", node.Kind);
-            if (token != null)
-            {
-                if (token.IsMissing)
-                    sb.AppendFormat(" (missing)");
-                sb.AppendFormat("  {0}", token.Text);
-            }
-            sb.AppendLine();
-        }
+        PrettyPrint(sb, this);
         return sb.ToString();
     }
 }

@@ -87,10 +87,46 @@ public class Parser
     private InstructionSyntax ParseFromInstruction()
     {
         var fromToken = MatchToken(SyntaxKind.FromKeyword);
-        var imageToken = MatchToken(SyntaxKind.StringToken);
-        var asToken = MatchToken(SyntaxKind.AsKeyword, isOptional: true);
-        var stageNameToken = MatchToken(SyntaxKind.StringToken, isOptional: asToken.IsMissing);
-        return new FromInstructionSyntax(Source, fromToken, imageToken, asToken, stageNameToken);
+        var imageStatement = ParseImageStatement();
+        var asToken = MatchToken(SyntaxKind.AsKeyword, true);
+        var stageNameToken = MatchToken(SyntaxKind.StringToken, asToken.IsMissing);
+        return new FromInstructionSyntax(Source, fromToken, imageStatement, asToken, stageNameToken);
+    }
+
+    private ImageLiteralSyntax ParseImageStatement()
+    {
+        var expressions = new List<LiteralExpressionSyntax>();
+        var tokens = new List<SyntaxToken>();
+        SyntaxToken token;
+        do
+        {
+            if (Current.Kind == SyntaxKind.EndOfFileToken) break;
+            token = NextToken();
+            tokens.Add(token);
+        } while (!token.TrailingTrivia.Any(t => t.Kind == SyntaxKind.WhitespaceToken || t.Kind == SyntaxKind.LineBreakToken));
+
+        var literalTokens = new List<SyntaxToken>();
+        foreach (var t in tokens)
+        {
+            if (t.Kind != SyntaxKind.ForwardSlash && t.Kind != SyntaxKind.ColonToken)
+            {
+                literalTokens.Add(t);
+            }
+            else
+            {
+                expressions.Add(new LiteralExpressionSyntax(Source, literalTokens.ToArray()));
+                literalTokens.Clear();
+            }
+        }
+
+        var colonIndex = tokens.FindIndex(t => t.Kind == SyntaxKind.ColonToken);
+        LiteralExpressionSyntax tagExpression;
+        if (colonIndex == -1)
+            tagExpression = new LiteralExpressionSyntax(Source, new SyntaxToken(Source, SyntaxKind.StringToken, Current.Position, null, null));
+        else
+            tagExpression = new LiteralExpressionSyntax(Source, tokens.GetRange(colonIndex + 1, tokens.Count - colonIndex - 1).ToArray());
+
+        return new ImageLiteralSyntax(Source, expressions[0], expressions[1], tagExpression);
     }
 
     private InstructionSyntax ParseRunInstruction()

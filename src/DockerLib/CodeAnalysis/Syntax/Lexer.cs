@@ -74,9 +74,21 @@ public sealed class Lexer
                 }
                 _position++;
                 break;
-            case '&':
-                kind = SyntaxKind.AmpersandToken;
+            case '/':
+                kind = SyntaxKind.ForwardSlash;
                 _position++;
+                break;
+            case '&':
+                if (LookAhead == '&')
+                {
+                    _position += 2;
+                    kind = SyntaxKind.AmpersandAmpersandToken;
+                }
+                else
+                {
+                    kind = SyntaxKind.AmpersandToken;
+                    _position++;
+                }
                 break;
             case '0':
             case '1':
@@ -95,12 +107,21 @@ public sealed class Lexer
                 _position++;
                 break;
             case '_':
+
                 kind = SyntaxKind.UnderscoreToken;
                 _position++;
                 break;
             case '-':
-                kind = SyntaxKind.DashToken;
-                _position++;
+                if (LookAhead == '-')
+                {
+                    kind = SyntaxKind.ArgumentNameToken;
+                    value = ReadArgumentName();
+                }
+                else
+                {
+                    kind = SyntaxKind.HyphenToken;
+                    _position++;
+                }
                 break;
             case ':':
                 kind = SyntaxKind.ColonToken;
@@ -121,6 +142,8 @@ public sealed class Lexer
                 {
                     value = ReadString();
                     kind = SyntaxFacts.GetKeywordKind(value?.ToString() ?? string.Empty);
+                    if (kind == SyntaxKind.BadToken)
+                        kind = SyntaxKind.StringToken;
                 }
                 else
                 {
@@ -133,6 +156,15 @@ public sealed class Lexer
                 break;
         }
         return new SyntaxToken(_source, kind, start, _source.ToString(start, _position - start), value);
+    }
+
+    private object? ReadArgumentName()
+    {
+        _position += 2;
+        var start = _position;
+        while (char.IsLetter(Current))
+            _position++;
+        return _source.ToString(start, _position - start);
     }
 
     private ImmutableArray<SyntaxTrivia> ReadTrivia(bool isLeading)
@@ -157,8 +189,7 @@ public sealed class Lexer
                     }
                     else
                     {
-                        kind = SyntaxKind.ForwardSlash;
-                        _position++;
+                        done = true;
                     }
                     break;
                 case '\r':
@@ -267,7 +298,7 @@ public sealed class Lexer
     private string ReadString()
     {
         var start = _position;
-        while (char.IsLetterOrDigit(Current) || Current == '/' || Current == ':')
+        while (char.IsLetterOrDigit(Current))
             _position++;
 
         var length = _position - start;

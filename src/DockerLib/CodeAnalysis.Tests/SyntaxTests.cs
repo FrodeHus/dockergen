@@ -8,7 +8,7 @@ public class SyntaxTests
 {
     [Theory]
     [InlineData("FROM docker/image as test", SyntaxKind.FromKeyword)]
-    [InlineData("COPY . .", SyntaxKind.CopyKeyword)]
+    [InlineData("COPY --from=builder . .", SyntaxKind.CopyKeyword)]
     [InlineData("RUN cp . .", SyntaxKind.RunKeyword)]
     [InlineData("WORKDIR /test", SyntaxKind.WorkingDirectoryKeyword)]
     [InlineData("USER nonroot", SyntaxKind.UserKeyword)]
@@ -19,6 +19,7 @@ public class SyntaxTests
         var source = SourceDockerfile.From(data);
         var lexer = new Lexer(source);
         var token = lexer.NextToken();
+
         Assert.Equal(expectedTokenKind, token.Kind);
     }
 }
