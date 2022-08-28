@@ -9,7 +9,7 @@ public class ExposeInstructionSyntax : InstructionSyntax
         ExposeToken = exposeToken;
         PortToken = portToken;
     }
-    public override SyntaxKind Kind => SyntaxKind.ExposeInstructionSyntax;
+    public override SyntaxKind Kind => SyntaxKind.ExposeInstruction;
 
     public SyntaxToken ExposeToken { get; }
     public SyntaxToken PortToken { get; }

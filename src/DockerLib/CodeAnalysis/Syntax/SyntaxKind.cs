@@ -28,15 +28,18 @@ public enum SyntaxKind
     OnBuildKeyword,
 
     //instructions
-    FromInstructionSyntax,
-    RunInstructionSyntax,
-    EntryPointInstructionSyntax,
-    CommandInstructionSyntax,
-    CopyInstructionSyntax,
-    AddInstructionSyntax,
-    EnvironmentVariableInstructionSyntax,
-    BuildArgumentInstructionSyntax,
-    ExposeInstructionSyntax,
+    FromInstruction,
+    RunInstruction,
+    EntryPointInstruction,
+    CommandInstruction,
+    CopyInstruction,
+    HealthCheckInstruction,
+    AddInstruction,
+    EnvironmentVariableInstruction,
+    BuildArgumentInstruction,
+    ExposeInstruction,
+    UserInstruction,
+    WorkingDirectoryInstruction,
 
 
     StringToken,
@@ -54,5 +57,5 @@ public enum SyntaxKind
     ColonToken,
     SemicolonToken,
     CommentToken,
-    ForwardSlash
+    ForwardSlash,
 }

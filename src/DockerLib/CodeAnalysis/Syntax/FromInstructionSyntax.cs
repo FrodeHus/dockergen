@@ -11,7 +11,7 @@ public class FromInstructionSyntax : InstructionSyntax
         AsToken = asToken;
         StageNameToken = stageNameToken;
     }
-    public override SyntaxKind Kind => SyntaxKind.FromInstructionSyntax;
+    public override SyntaxKind Kind => SyntaxKind.FromInstruction;
 
     public SyntaxToken FromToken { get; }
     public SyntaxToken ImageToken { get; }

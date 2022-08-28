@@ -12,7 +12,7 @@ namespace DockerLib.CodeAnalysis.Syntax
             RunParams = runParams;
         }
 
-        public override SyntaxKind Kind => SyntaxKind.RunInstructionSyntax;
+        public override SyntaxKind Kind => SyntaxKind.RunInstruction;
 
         public SyntaxToken RunToken { get; }
         public List<SyntaxToken> RunParams { get; }
