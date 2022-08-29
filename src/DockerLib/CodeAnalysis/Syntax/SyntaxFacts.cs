@@ -16,6 +16,8 @@ public static class SyntaxFacts
             SyntaxKind.UnderscoreToken => true,
             SyntaxKind.HyphenToken => true,
             SyntaxKind.ForwardSlash => true,
+            SyntaxKind.PeriodToken => true,
+            SyntaxKind.BackSlashToken => true,
             _ => false
         };
     }

@@ -125,6 +125,7 @@ public class Parser
             SyntaxKind.FromKeyword => ParseFromInstruction(),
             SyntaxKind.RunKeyword => ParseRunInstruction(),
             SyntaxKind.ExposeKeyword => ParseExposeInstruction(),
+            SyntaxKind.CopyKeyword => ParseCopyInstruction(),
             SyntaxKind.WorkingDirectoryKeyword => ParseWorkDirInstruction(),
             _ => default
         };
@@ -210,6 +211,33 @@ public class Parser
         return new RunInstructionSyntax(Source, runToken, arguments.ToImmutable(), scriptLiteral);
     }
 
+    private InstructionSyntax ParseCopyInstruction()
+    {
+        var copyToken = MatchToken(SyntaxKind.CopyKeyword);
+        var arguments = ImmutableArray.CreateBuilder<ArgumentExpressionSyntax>();
+        while (Current.Kind == SyntaxKind.ArgumentSwitchToken)
+        {
+            var argumentExpression = ParseArgumentExpression();
+            arguments.Add(argumentExpression);
+        }
+        var tokens = ImmutableArray.CreateBuilder<SyntaxToken>();
+        while (Current.Kind.IsPathCompatible() && !Current.TrailingTrivia.Any(t => t.Kind == SyntaxKind.WhitespaceTriviaToken))
+            tokens.Add(NextToken());
+
+        if (Current.Kind.IsPathCompatible())
+            tokens.Add(NextToken());
+
+        var sourceLiteral = new LiteralExpressionSyntax(Source, tokens.ToArray());
+        tokens.Clear();
+        while (Current.Kind.IsPathCompatible() && !Current.TrailingTrivia.Any(t => t.Kind == SyntaxKind.WhitespaceTriviaToken))
+            tokens.Add(NextToken());
+
+        if (Current.Kind.IsPathCompatible())
+            tokens.Add(NextToken());
+
+        var destinationLiteral = new LiteralExpressionSyntax(Source, tokens.ToArray());
+        return new CopyInstructionSyntax(Source, copyToken, arguments.ToImmutable(), sourceLiteral, destinationLiteral);
+    }
     private InstructionSyntax ParseExposeInstruction()
     {
         var exposeToken = MatchToken(SyntaxKind.ExposeKeyword);
