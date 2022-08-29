@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="PrettyPrompt" Version="3.0.6" />
+    <PackageReference Include="Spectre.Console" Version="0.44.0" />
   </ItemGroup>
 
   <PropertyGroup>

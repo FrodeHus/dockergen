@@ -27,11 +27,23 @@ public abstract class SyntaxNode
     public SourceDockerfile Source { get; }
     private void PrettyPrint(StringBuilder writer, SyntaxNode node, string indent = "", bool isLast = true)
     {
-        var tokenMarker = isLast ? "└──" : "├──";
+        var token = node as SyntaxToken;
+        if(token != null){
+            foreach (var trivia in token.LeadingTrivia)
+            {
+                writer.Append(indent);
+                writer.Append("├──");
+                writer.AppendLine($"L: {trivia.Kind}");
+            }
+        }
+
+        var hasTrailingTrivia = token != null && token.TrailingTrivia.Any();
+        var tokenMarker = !hasTrailingTrivia && isLast ? "└──" : "├──";
+
         writer.Append(indent);
         writer.Append(tokenMarker);
         writer.Append(node.Kind);
-        if (node is SyntaxToken token && !string.IsNullOrEmpty(token.Text))
+        if (token != null && !string.IsNullOrEmpty(token.Text))
         {
             writer.Append(' ')
                 .Append(token.Text);
@@ -39,6 +51,16 @@ public abstract class SyntaxNode
         indent += isLast ? "   " : "│  ";
         var lastChild = GetChildren().LastOrDefault();
         writer.AppendLine();
+        if(token != null){
+            foreach (var trivia in token.TrailingTrivia)
+            {
+                var isLastTrailingTrivia = trivia == token.TrailingTrivia.Last();
+                var triviaMarker = isLast && isLastTrailingTrivia ? "└──" : "├──";
+                writer.Append(indent);
+                writer.Append(triviaMarker);
+                writer.AppendLine($"T: {trivia.Kind}");
+            }
+        }
         foreach (var child in node.GetChildren())
         {
             PrettyPrint(writer, child, indent, isLast: child == lastChild);
