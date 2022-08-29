@@ -25,7 +25,12 @@ public static class SyntaxFacts
         return token.TrailingTrivia.Any(t => t.Kind == SyntaxKind.LineBreakTriviaToken);
     }
 
-    public static SyntaxKind GetKeywordKind(string value)
+    public static bool IsMultiLined(this SyntaxToken token)
+    {
+        return token.TrailingTrivia.Any(t => t.Kind == SyntaxKind.MultiLineTriviaToken);
+    }
+
+    public static SyntaxKind GetInstructionKeywordKind(string value)
     {
         return value.ToLowerInvariant() switch
         {
@@ -40,6 +45,13 @@ public static class SyntaxFacts
             "volume" => SyntaxKind.VolumeKeyword,
             "healthcheck" => SyntaxKind.HealthCheckKeyword,
             "onbuild" => SyntaxKind.OnBuildKeyword,
+            _ => SyntaxKind.BadToken
+        };
+    }
+    public static SyntaxKind GetKeywordKind(string value)
+    {
+        return value.ToLowerInvariant() switch
+        {
             "as" => SyntaxKind.AsKeyword,
             _ => SyntaxKind.BadToken
         };

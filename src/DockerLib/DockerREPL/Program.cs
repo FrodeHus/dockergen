@@ -69,7 +69,7 @@ static void AddNode(TreeNode treeNode, SyntaxNode node)
         {
             foreach (var trivia in token.LeadingTrivia)
             {
-                treeNode.AddNode($"[grey]Lead: {trivia.Kind}[/] <{trivia.Span.Length}>");
+                treeNode.AddNode($"[grey]{trivia.Kind}[/] <{trivia.Span.Length}>");
             }
         }
 
@@ -79,7 +79,7 @@ static void AddNode(TreeNode treeNode, SyntaxNode node)
             childNode.AddNode($"[yellow]Value: {token.Text}[/]");
             foreach (var trivia in token.TrailingTrivia)
             {
-                childNode.AddNode($"[grey]Trail: {trivia.Kind}[/] <{trivia.Span.Length}>");
+                childNode.AddNode($"[grey]{trivia.Kind}[/] <{trivia.Span.Length}>");
             }
         }
 

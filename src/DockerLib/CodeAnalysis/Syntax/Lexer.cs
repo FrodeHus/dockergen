@@ -80,15 +80,7 @@ public sealed class Lexer
                 _position++;
                 break;
             case '\\':
-                if (LookAhead == ' ' || LookAhead == '\r' || LookAhead == '\n')
-                {
-                    kind = SyntaxKind.MultiLineToken;
-                    ReadMultilineToken();
-                }
-                else
-                {
-                    kind = SyntaxKind.BackSlashToken;
-                }
+                kind = SyntaxKind.BackSlashToken;
                 _position++;
                 break;
             case '/':
@@ -232,7 +224,9 @@ public sealed class Lexer
                 if (_source.GetPositionInLine(_position) == 0 && char.IsLetter(Current))
                 {
                     value = ReadString();
-                    kind = SyntaxFacts.GetKeywordKind(value?.ToString() ?? string.Empty);
+                    kind = SyntaxFacts.GetInstructionKeywordKind(value?.ToString() ?? string.Empty);
+                    if (kind == SyntaxKind.BadToken)
+                        kind = SyntaxKind.StringToken;
                 }
                 else if (char.IsLetterOrDigit(Current))
                 {
@@ -288,6 +282,13 @@ public sealed class Lexer
             {
                 case '\0':
                     done = true;
+                    break;
+                case '\\':
+                    if (LookAhead == ' ' || LookAhead == '\r' || LookAhead == '\n')
+                    {
+                        kind = SyntaxKind.MultiLineTriviaToken;
+                        _position++;
+                    }
                     break;
                 case '/':
                     if (LookAhead == '/')

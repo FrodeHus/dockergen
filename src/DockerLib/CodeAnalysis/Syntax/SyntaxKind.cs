@@ -48,7 +48,7 @@ public enum SyntaxKind
     NumberToken,
     EndOfLineToken,
     BackSlashToken,
-    MultiLineToken,
+    MultiLineTriviaToken,
     AmpersandToken,
     PeriodToken,
     QuoteToken,

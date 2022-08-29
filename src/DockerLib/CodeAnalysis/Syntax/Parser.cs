@@ -198,16 +198,8 @@ public class Parser
             var argumentExpression = ParseArgumentExpression();
             arguments.Add(argumentExpression);
         }
-        var isMultiline = false;
-        while ((Current.Kind != SyntaxKind.EndOfFileToken && !Current.HasLineBreak())
-                || (isMultiline && Current.TrailingTrivia.Any(t => t.Kind == SyntaxKind.LineBreakTriviaToken)))
+        while (Current.Kind != SyntaxKind.EndOfFileToken && (!Current.HasLineBreak() || Current.IsMultiLined()))
         {
-            if (Current.Kind == SyntaxKind.MultiLineToken)
-                isMultiline = true;
-
-            if (Current.HasLineBreak() && isMultiline)
-                isMultiline = false;
-
             var token = NextToken();
             runParams.Add(token);
         }
@@ -238,10 +230,10 @@ public class Parser
 
         var equalToken = MatchToken(SyntaxKind.EqualToken);
         tokens.Clear();
-        do
+        while (!Current.TrailingTrivia.Any(t => t.Kind == SyntaxKind.WhitespaceTriviaToken))
         {
             tokens.Add(NextToken());
-        } while (!Current.TrailingTrivia.Any(t => t.Kind == SyntaxKind.WhitespaceTriviaToken));
+        }
         tokens.Add(NextToken());
 
         var argumentValueLiteral = new LiteralExpressionSyntax(Source, tokens.ToArray());
