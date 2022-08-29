@@ -65,14 +65,14 @@ static void AddNode(TreeNode treeNode, SyntaxNode node){
         var token = child as SyntaxToken;
         if(token != null){
             foreach(var trivia in token.LeadingTrivia){
-                treeNode.AddNode($"[grey]Lead: {trivia.Kind}[/]");
+                treeNode.AddNode($"[grey]Lead: {trivia.Kind}[/] <{trivia.Span.Length}>");
             }
         }
         var childNode = treeNode.AddNode($"[cyan2]{child.Kind}[/]");
         if(token != null){
             childNode.AddNode($"[yellow]Value: {token.Text}[/]");
             foreach(var trivia in token.TrailingTrivia){
-                childNode.AddNode($"[grey]Trail: {trivia.Kind}[/]");
+                childNode.AddNode($"[grey]Trail: {trivia.Kind}[/] <{trivia.Span.Length}>");
             }
         }
 
