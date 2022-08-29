@@ -30,11 +30,12 @@ while (true)
                 var parser = new Parser(SourceDockerfile.From(sb.ToString()));
                 var instructions = parser.Parse();
                 console.WriteLine("");
+                var tree = new Tree("Dockerfile");
                 foreach (var instruction in instructions)
                 {
-                    // console.WriteLine(instruction?.ToString());
-                    AnsiConsole.Write(DisplayInstructionAST(instruction));
+                    RenderInstructionAST(tree, instruction);
                 }
+                AnsiConsole.Write(tree);
                 if (parser.Diagnostics.Any())
                 {
                     console.WriteLine("");
@@ -53,25 +54,31 @@ while (true)
     }
 }
 
-static Tree DisplayInstructionAST(InstructionSyntax instruction){
-    var root = new Tree("/");    
-    var parentNode = root.AddNode(instruction.Kind.ToString());
+static void RenderInstructionAST(Tree tree, InstructionSyntax instruction)
+{
+    var parentNode = tree.AddNode(instruction.Kind.ToString());
     AddNode(parentNode, instruction);
-    return root;
 }
 
-static void AddNode(TreeNode treeNode, SyntaxNode node){
-    foreach(var child in node.GetChildren()){
+static void AddNode(TreeNode treeNode, SyntaxNode node)
+{
+    foreach (var child in node.GetChildren())
+    {
         var token = child as SyntaxToken;
-        if(token != null){
-            foreach(var trivia in token.LeadingTrivia){
+        if (token != null)
+        {
+            foreach (var trivia in token.LeadingTrivia)
+            {
                 treeNode.AddNode($"[grey]Lead: {trivia.Kind}[/] <{trivia.Span.Length}>");
             }
         }
+
         var childNode = treeNode.AddNode($"[cyan2]{child.Kind}[/]");
-        if(token != null){
+        if (token != null)
+        {
             childNode.AddNode($"[yellow]Value: {token.Text}[/]");
-            foreach(var trivia in token.TrailingTrivia){
+            foreach (var trivia in token.TrailingTrivia)
+            {
                 childNode.AddNode($"[grey]Trail: {trivia.Kind}[/] <{trivia.Span.Length}>");
             }
         }

@@ -43,6 +43,22 @@ public sealed class Lexer
             case '\0':
                 kind = SyntaxKind.EndOfFileToken;
                 break;
+            case '+':
+                if (LookAhead == '+')
+                {
+                    kind = SyntaxKind.PlusPlusToken;
+                    _position += 2;
+                }
+                else
+                {
+                    kind = SyntaxKind.PlusToken;
+                    _position++;
+                }
+                break;
+            case '*':
+                kind = SyntaxKind.StarToken;
+                _position++;
+                break;
             case '(':
                 kind = SyntaxKind.OpenParenthesisToken;
                 _position++;
@@ -90,6 +106,30 @@ public sealed class Lexer
                     _position++;
                 }
                 break;
+            case '<':
+                if (LookAhead == '=')
+                {
+                    kind = SyntaxKind.LessOrEqualsToken;
+                    _position += 2;
+                }
+                else
+                {
+                    kind = SyntaxKind.LessToken;
+                    _position++;
+                }
+                break;
+            case '>':
+                if (LookAhead == '=')
+                {
+                    kind = SyntaxKind.GreaterOrEqualsToken;
+                    _position += 2;
+                }
+                else
+                {
+                    kind = SyntaxKind.GreaterToken;
+                    _position++;
+                }
+                break;
             case '0':
             case '1':
             case '2':
@@ -106,8 +146,63 @@ public sealed class Lexer
                 kind = SyntaxKind.QuoteToken;
                 _position++;
                 break;
+            case '`':
+                kind = SyntaxKind.BackTickToken;
+                _position++;
+                break;
+            case '\'':
+                kind = SyntaxKind.SinqleQuoteToken;
+                _position++;
+                break;
+            case '$':
+                kind = SyntaxKind.DollarSignToken;
+                _position++;
+                break;
+            case '%':
+                kind = SyntaxKind.PercentageToken;
+                _position++;
+                break;
+            case '@':
+                kind = SyntaxKind.AtSignToken;
+                _position++;
+                break;
+            case '#':
+                kind = SyntaxKind.HashToken;
+                _position++;
+                break;
+            case '|':
+                kind = SyntaxKind.PipeToken;
+                _position++;
+                break;
+            case '?':
+                kind = SyntaxKind.QuestionMarkToken;
+                _position++;
+                break;
+            case '[':
+                kind = SyntaxKind.OpenSquareBracketToken;
+                _position++;
+                break;
+            case ']':
+                kind = SyntaxKind.CloseSquareBracketToken;
+                _position++;
+                break;
+            case '{':
+                kind = SyntaxKind.OpenBraceToken;
+                _position++;
+                break;
+            case '}':
+                kind = SyntaxKind.CloseBraceToken;
+                _position++;
+                break;
+            case '~':
+                kind = SyntaxKind.TildeToken;
+                _position++;
+                break;
+            case '!':
+                kind = SyntaxKind.BangToken;
+                _position++;
+                break;
             case '_':
-
                 kind = SyntaxKind.UnderscoreToken;
                 _position++;
                 break;

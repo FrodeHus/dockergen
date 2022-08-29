@@ -7,18 +7,18 @@ namespace DockerLib.CodeAnalysis.Syntax
     {
 
 
-        public RunInstructionSyntax(SourceDockerfile source, SyntaxToken runToken, ImmutableArray<ArgumentExpressionSyntax> argumentExpressions, List<SyntaxToken> runParams) : base(source)
+        public RunInstructionSyntax(SourceDockerfile source, SyntaxToken runToken, ImmutableArray<ArgumentExpressionSyntax> argumentExpressions, LiteralExpressionSyntax scriptLiteral) : base(source)
         {
             RunToken = runToken;
             ArgumentExpressions = argumentExpressions;
-            RunParams = runParams;
+            ScriptLiteral = scriptLiteral;
         }
 
         public override SyntaxKind Kind => SyntaxKind.RunInstruction;
 
         public SyntaxToken RunToken { get; }
         public ImmutableArray<ArgumentExpressionSyntax> ArgumentExpressions { get; }
-        public List<SyntaxToken> RunParams { get; }
+        public LiteralExpressionSyntax ScriptLiteral { get; }
 
         public override IEnumerable<SyntaxNode> GetChildren()
         {
@@ -28,8 +28,7 @@ namespace DockerLib.CodeAnalysis.Syntax
                 yield return argument;
             }
 
-            foreach (var token in RunParams)
-                yield return token;
+            yield return ScriptLiteral;
         }
     }
 }

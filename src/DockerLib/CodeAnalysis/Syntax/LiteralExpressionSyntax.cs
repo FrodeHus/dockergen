@@ -11,7 +11,7 @@ public class LiteralExpressionSyntax : ExpressionSyntax
         Value = string.Empty;
         foreach (var token in literalTokens)
         {
-            Value += token.Text;
+            Value += token.LeadingTrivia.Aggregate("", (current, next) => current + next) + token.Text + token.TrailingTrivia.Aggregate("", (current, next) => current + next);
         }
     }
 

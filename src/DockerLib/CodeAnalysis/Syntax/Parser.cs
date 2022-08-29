@@ -164,7 +164,8 @@ public class Parser
             var token = NextToken();
             runParams.Add(token);
         }
-        return new RunInstructionSyntax(Source, runToken, arguments.ToImmutable(), runParams);
+        var scriptLiteral = new LiteralExpressionSyntax(Source, runParams.ToArray());
+        return new RunInstructionSyntax(Source, runToken, arguments.ToImmutable(), scriptLiteral);
     }
 
     private InstructionSyntax ParseExposeInstruction()
@@ -190,6 +191,7 @@ public class Parser
         {
             tokens.Add(NextToken());
         } while (!Current.TrailingTrivia.Any(t => t.Kind == SyntaxKind.WhitespaceToken));
+        tokens.Add(NextToken());
 
         var argumentValueLiteral = new LiteralExpressionSyntax(Source, tokens.ToArray());
         return new ArgumentExpressionSyntax(Source, argumentToken, argumentNameLiteral, equalToken, argumentValueLiteral);
