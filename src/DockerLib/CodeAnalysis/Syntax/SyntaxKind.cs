@@ -63,4 +63,5 @@ public enum SyntaxKind
 
     ImageStatement,
     LiteralExpression,
+    ArgumentExpression,
 }
