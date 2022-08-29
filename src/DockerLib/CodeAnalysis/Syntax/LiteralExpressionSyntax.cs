@@ -3,7 +3,7 @@ using DockerLib.CodeAnalysis.Text;
 
 namespace DockerLib.CodeAnalysis.Syntax;
 [DebuggerDisplay("{Kind} - {Value}")]
-public class LiteralExpressionSyntax : SyntaxNode
+public class LiteralExpressionSyntax : ExpressionSyntax
 {
     public LiteralExpressionSyntax(SourceDockerfile source, params SyntaxToken[] literalTokens) : base(source)
     {

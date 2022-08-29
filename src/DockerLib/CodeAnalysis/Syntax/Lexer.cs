@@ -114,8 +114,8 @@ public sealed class Lexer
             case '-':
                 if (LookAhead == '-')
                 {
-                    kind = SyntaxKind.ArgumentNameToken;
-                    value = ReadArgumentName();
+                    kind = SyntaxKind.ArgumentSwitchToken;
+                    _position += 2;
                 }
                 else
                 {

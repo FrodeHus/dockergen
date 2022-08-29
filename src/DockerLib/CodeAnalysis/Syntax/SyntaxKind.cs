@@ -58,9 +58,10 @@ public enum SyntaxKind
     SemicolonToken,
     CommentToken,
     ForwardSlash,
-    ArgumentNameToken,
+    ArgumentSwitchToken,
     AmpersandAmpersandToken,
 
     ImageStatement,
     LiteralExpression,
+    ArgumentExpression,
 }

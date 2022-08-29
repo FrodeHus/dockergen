@@ -146,6 +146,12 @@ public class Parser
     {
         var runToken = MatchToken(SyntaxKind.RunKeyword);
         var runParams = new List<SyntaxToken>();
+        var arguments = ImmutableArray.CreateBuilder<ArgumentExpressionSyntax>();
+        while (Current.Kind == SyntaxKind.ArgumentSwitchToken)
+        {
+            var argumentExpression = ParseArgumentExpression();
+            arguments.Add(argumentExpression);
+        }
         var isMultiline = false;
         while ((Current.Kind != SyntaxKind.LineBreakToken || isMultiline) && Current.Kind != SyntaxKind.EndOfFileToken)
         {
@@ -158,7 +164,7 @@ public class Parser
             var token = NextToken();
             runParams.Add(token);
         }
-        return new RunInstructionSyntax(Source, runToken, runParams);
+        return new RunInstructionSyntax(Source, runToken, arguments.ToImmutable(), runParams);
     }
 
     private InstructionSyntax ParseExposeInstruction()
@@ -166,5 +172,26 @@ public class Parser
         var exposeToken = MatchToken(SyntaxKind.ExposeKeyword);
         var portToken = MatchToken(SyntaxKind.NumberToken);
         return new ExposeInstructionSyntax(Source, exposeToken, portToken);
+    }
+
+    private ArgumentExpressionSyntax ParseArgumentExpression()
+    {
+        var argumentToken = MatchToken(SyntaxKind.ArgumentSwitchToken);
+        var tokens = ImmutableArray.CreateBuilder<SyntaxToken>();
+        while (Current.Kind != SyntaxKind.WhitespaceToken && Current.Kind != SyntaxKind.EqualToken)
+        {
+            tokens.Add(NextToken());
+        }
+
+        var argumentNameLiteral = new LiteralExpressionSyntax(Source, tokens.ToArray());
+        var equalToken = MatchToken(SyntaxKind.EqualToken);
+        tokens.Clear();
+        do
+        {
+            tokens.Add(NextToken());
+        } while (!Current.TrailingTrivia.Any(t => t.Kind == SyntaxKind.WhitespaceToken));
+
+        var argumentValueLiteral = new LiteralExpressionSyntax(Source, tokens.ToArray());
+        return new ArgumentExpressionSyntax(Source, argumentToken, argumentNameLiteral, equalToken, argumentValueLiteral);
     }
 }
