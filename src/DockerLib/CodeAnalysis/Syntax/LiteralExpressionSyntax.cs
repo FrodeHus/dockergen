@@ -25,4 +25,9 @@ public class LiteralExpressionSyntax : ExpressionSyntax
         foreach (var token in LiteralTokens)
             yield return token;
     }
+
+    public override string ToString()
+    {
+        return Value;
+    }
 }

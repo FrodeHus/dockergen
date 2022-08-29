@@ -28,7 +28,8 @@ public abstract class SyntaxNode
     private void PrettyPrint(StringBuilder writer, SyntaxNode node, string indent = "", bool isLast = true)
     {
         var token = node as SyntaxToken;
-        if(token != null){
+        if (token != null)
+        {
             foreach (var trivia in token.LeadingTrivia)
             {
                 writer.Append(indent);
@@ -51,7 +52,8 @@ public abstract class SyntaxNode
         indent += isLast ? "   " : "│  ";
         var lastChild = GetChildren().LastOrDefault();
         writer.AppendLine();
-        if(token != null){
+        if (token != null)
+        {
             foreach (var trivia in token.TrailingTrivia)
             {
                 var isLastTrailingTrivia = trivia == token.TrailingTrivia.Last();
@@ -66,10 +68,17 @@ public abstract class SyntaxNode
             PrettyPrint(writer, child, indent, isLast: child == lastChild);
         }
     }
-    public override string ToString()
+    public string ToString(bool prettyPrint = false)
     {
-        var sb = new StringBuilder();
-        PrettyPrint(sb, this);
-        return sb.ToString();
+        if (prettyPrint)
+        {
+            var sb = new StringBuilder();
+            PrettyPrint(sb, this);
+            return sb.ToString();
+        }
+        else
+        {
+            return ToString();
+        }
     }
 }
