@@ -253,15 +253,6 @@ public sealed class Lexer
         return new SyntaxToken(_source, kind, start, _source.ToString(start, _position - start), value);
     }
 
-    private object? ReadArgumentName()
-    {
-        _position += 2;
-        var start = _position;
-        while (char.IsLetter(Current))
-            _position++;
-        return _source.ToString(start, _position - start);
-    }
-
     private ImmutableArray<SyntaxTrivia> ReadTrivia(bool isLeading)
     {
         var triviaBuilder = ImmutableArray.CreateBuilder<SyntaxTrivia>();
@@ -280,7 +271,6 @@ public sealed class Lexer
                     if (LookAhead == '/')
                     {
                         kind = SyntaxKind.CommentToken;
-                        value = ReadSingleLineComment();
                     }
                     else
                     {
