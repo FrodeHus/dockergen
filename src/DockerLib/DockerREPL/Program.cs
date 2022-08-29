@@ -4,6 +4,7 @@ using DockerLib.CodeAnalysis.Text;
 using PrettyPrompt;
 using PrettyPrompt.Consoles;
 using PrettyPrompt.Highlighting;
+using Spectre.Console;
 
 var console = new SystemConsole();
 var prompt = new Prompt(configuration: new PromptConfiguration(
@@ -31,7 +32,8 @@ while (true)
                 console.WriteLine("");
                 foreach (var instruction in instructions)
                 {
-                    console.WriteLine(instruction?.ToString());
+                    // console.WriteLine(instruction?.ToString());
+                    AnsiConsole.Write(DisplayInstructionAST(instruction));
                 }
                 if (parser.Diagnostics.Any())
                 {
@@ -48,6 +50,33 @@ while (true)
                 sb.AppendLine(response.Text);
                 break;
         }
+    }
+}
+
+static Tree DisplayInstructionAST(InstructionSyntax instruction){
+    var root = new Tree("/");    
+    var parentNode = root.AddNode(instruction.Kind.ToString());
+    AddNode(parentNode, instruction);
+    return root;
+}
+
+static void AddNode(TreeNode treeNode, SyntaxNode node){
+    foreach(var child in node.GetChildren()){
+        var token = child as SyntaxToken;
+        if(token != null){
+            foreach(var trivia in token.LeadingTrivia){
+                treeNode.AddNode($"[grey]Lead: {trivia.Kind}[/]");
+            }
+        }
+        var childNode = treeNode.AddNode($"[cyan2]{child.Kind}[/]");
+        if(token != null){
+            childNode.AddNode($"[yellow]Value: {token.Text}[/]");
+            foreach(var trivia in token.TrailingTrivia){
+                childNode.AddNode($"[grey]Trail: {trivia.Kind}[/]");
+            }
+        }
+
+        AddNode(childNode, child);
     }
 }
 
