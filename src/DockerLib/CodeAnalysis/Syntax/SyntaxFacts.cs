@@ -20,6 +20,11 @@ public static class SyntaxFacts
         };
     }
 
+    public static bool HasLineBreak(this SyntaxToken token)
+    {
+        return token.TrailingTrivia.Any(t => t.Kind == SyntaxKind.LineBreakTriviaToken);
+    }
+
     public static SyntaxKind GetKeywordKind(string value)
     {
         return value.ToLowerInvariant() switch

@@ -83,6 +83,7 @@ public sealed class Lexer
                 if (LookAhead == ' ' || LookAhead == '\r' || LookAhead == '\n')
                 {
                     kind = SyntaxKind.MultiLineToken;
+                    ReadMultilineToken();
                 }
                 else
                 {
@@ -253,6 +254,28 @@ public sealed class Lexer
         return new SyntaxToken(_source, kind, start, _source.ToString(start, _position - start), value);
     }
 
+    private void ReadMultilineToken()
+    {
+        _position++;
+        var done = false;
+        while (!done)
+        {
+            switch (Current)
+            {
+                case ' ':
+                    _position++;
+                    break;
+                case '\r':
+                    if (LookAhead == '\n')
+                        _position += 2;
+                    else
+                        _position++;
+                    done = true;
+                    break;
+            }
+        }
+    }
+
     private ImmutableArray<SyntaxTrivia> ReadTrivia(bool isLeading)
     {
         var triviaBuilder = ImmutableArray.CreateBuilder<SyntaxTrivia>();
@@ -261,7 +284,6 @@ public sealed class Lexer
         {
             var start = _position;
             var kind = SyntaxKind.BadToken;
-            object? value = null;
             switch (Current)
             {
                 case '\0':
@@ -270,7 +292,7 @@ public sealed class Lexer
                 case '/':
                     if (LookAhead == '/')
                     {
-                        kind = SyntaxKind.CommentToken;
+                        kind = SyntaxKind.CommentTriviaToken;
                     }
                     else
                     {
@@ -355,7 +377,7 @@ public sealed class Lexer
         {
             _position++;
         }
-        return SyntaxKind.LineBreakToken;
+        return SyntaxKind.LineBreakTriviaToken;
     }
 
     private SyntaxKind ReadWhiteSpace()
@@ -377,7 +399,7 @@ public sealed class Lexer
                     break;
             }
         }
-        return SyntaxKind.WhitespaceToken;
+        return SyntaxKind.WhitespaceTriviaToken;
     }
 
     private string ReadString()

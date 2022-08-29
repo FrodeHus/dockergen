@@ -28,12 +28,12 @@ while (true)
                 break;
             case "build":
                 var parser = new Parser(SourceDockerfile.From(sb.ToString()));
-                var instructions = parser.Parse();
+                var buildStages = parser.Parse();
                 console.WriteLine("");
                 var tree = new Tree("Dockerfile");
-                foreach (var instruction in instructions)
+                foreach (var stage in buildStages)
                 {
-                    RenderInstructionAST(tree, instruction);
+                    RenderInstructionAST(tree, stage);
                 }
                 AnsiConsole.Write(tree);
                 if (parser.Diagnostics.Any())
@@ -54,10 +54,10 @@ while (true)
     }
 }
 
-static void RenderInstructionAST(Tree tree, InstructionSyntax instruction)
+static void RenderInstructionAST(Tree tree, SyntaxNode node)
 {
-    var parentNode = tree.AddNode(instruction.Kind.ToString());
-    AddNode(parentNode, instruction);
+    var parentNode = tree.AddNode(node.Kind.ToString());
+    AddNode(parentNode, node);
 }
 
 static void AddNode(TreeNode treeNode, SyntaxNode node)

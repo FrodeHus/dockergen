@@ -17,4 +17,6 @@ public class SyntaxTrivia
     public int Position { get; }
     public string Text { get; }
     public TextSpan Span => new(Position, Text?.Length ?? 0);
+
+    public override string ToString() => Text;
 }

@@ -56,33 +56,79 @@ public class Parser
         return _tokens[index];
     }
 
-    public ImmutableArray<InstructionSyntax> Parse()
+    public ImmutableArray<BuildStageStatement> Parse()
     {
-        return ParseInstructions();
+        return ParseBuildStages();
     }
-    private ImmutableArray<InstructionSyntax> ParseInstructions()
+    private ImmutableArray<BuildStageStatement> ParseBuildStages()
     {
-        var instructions = new List<InstructionSyntax>();
+        var stages = ImmutableArray.CreateBuilder<BuildStageStatement>();
         while (Current.Kind != SyntaxKind.EndOfFileToken)
         {
-            var startToken = Current;
-
-            var instruction = Current.Kind switch
+            var stage = ParseBuildStage();
+            if (stage == null)
             {
-                SyntaxKind.FromKeyword => ParseFromInstruction(),
-                SyntaxKind.RunKeyword => ParseRunInstruction(),
-                SyntaxKind.ExposeKeyword => ParseExposeInstruction(),
-                SyntaxKind.WorkingDirectoryKeyword => ParseWorkDirInstruction(),
-                _ => default
-            };
-            if (instruction is not null)
-            {
-                instructions.Add(instruction);
+                NextToken();
+                continue;
             }
-            if (Current == startToken)
+            stages.Add(stage);
+        }
+        return stages.ToImmutable();
+    }
+
+    private BuildStageStatement? ParseBuildStage()
+    {
+        if (Current.Kind != SyntaxKind.FromKeyword && Current.Kind != SyntaxKind.BuildArgumentKeyword)
+        {
+            Diagnostics.ReportUnexpectedInstruction(Current.Location, Current.Kind, SyntaxKind.FromInstruction, SyntaxKind.BuildArgumentInstruction);
+            return null;
+        }
+        var instructions = ImmutableArray.CreateBuilder<InstructionSyntax>();
+        var fromInstruction = (FromInstructionSyntax)ParseFromInstruction();
+        while (Current.Kind != SyntaxKind.FromKeyword && Current.Kind != SyntaxKind.EndOfFileToken)
+        {
+            var start = Current;
+            var instruction = ParseInstruction();
+            if (instruction == null)
+            {
+                Diagnostics.ReportNotSupported(Current.Location, Current.Kind);
+                break;
+            }
+            instructions.Add(instruction);
+            if (Current == start)
                 NextToken();
         }
-        return instructions.ToImmutableArray();
+
+        return new BuildStageStatement(Source, fromInstruction, instructions.ToImmutable());
+    }
+    public ImmutableArray<InstructionSyntax> ParseInstructions()
+    {
+        var instructions = ImmutableArray.CreateBuilder<InstructionSyntax>();
+        while (Current.Kind != SyntaxKind.EndOfFileToken)
+        {
+            var start = Current;
+            var instruction = ParseInstruction();
+            if (instruction == null)
+                continue;
+
+            instructions.Add(instruction);
+            if (Current == start)
+                NextToken();
+        }
+        return instructions.ToImmutable();
+    }
+    private InstructionSyntax? ParseInstruction()
+    {
+
+        var instruction = Current.Kind switch
+        {
+            SyntaxKind.FromKeyword => ParseFromInstruction(),
+            SyntaxKind.RunKeyword => ParseRunInstruction(),
+            SyntaxKind.ExposeKeyword => ParseExposeInstruction(),
+            SyntaxKind.WorkingDirectoryKeyword => ParseWorkDirInstruction(),
+            _ => default
+        };
+        return instruction;
     }
 
     private InstructionSyntax ParseFromInstruction()
@@ -104,7 +150,7 @@ public class Parser
             if (Current.Kind == SyntaxKind.EndOfFileToken) break;
             token = NextToken();
             tokens.Add(token);
-        } while (!token.TrailingTrivia.Any(t => t.Kind == SyntaxKind.WhitespaceToken || t.Kind == SyntaxKind.LineBreakToken));
+        } while (!token.TrailingTrivia.Any(t => t.Kind == SyntaxKind.WhitespaceTriviaToken || t.Kind == SyntaxKind.LineBreakTriviaToken));
 
         var literalTokens = new List<SyntaxToken>();
         foreach (var t in tokens)
@@ -153,17 +199,21 @@ public class Parser
             arguments.Add(argumentExpression);
         }
         var isMultiline = false;
-        while ((Current.Kind != SyntaxKind.LineBreakToken || isMultiline) && Current.Kind != SyntaxKind.EndOfFileToken)
+        while ((Current.Kind != SyntaxKind.EndOfFileToken && !Current.HasLineBreak())
+                || (isMultiline && Current.TrailingTrivia.Any(t => t.Kind == SyntaxKind.LineBreakTriviaToken)))
         {
             if (Current.Kind == SyntaxKind.MultiLineToken)
                 isMultiline = true;
 
-            if (Current.Kind == SyntaxKind.LineBreakToken && isMultiline)
+            if (Current.HasLineBreak() && isMultiline)
                 isMultiline = false;
 
             var token = NextToken();
             runParams.Add(token);
         }
+
+        runParams.Add(NextToken());
+
         var scriptLiteral = new LiteralExpressionSyntax(Source, runParams.ToArray());
         return new RunInstructionSyntax(Source, runToken, arguments.ToImmutable(), scriptLiteral);
     }
@@ -179,18 +229,19 @@ public class Parser
     {
         var argumentToken = MatchToken(SyntaxKind.ArgumentSwitchToken);
         var tokens = ImmutableArray.CreateBuilder<SyntaxToken>();
-        while (Current.Kind != SyntaxKind.WhitespaceToken && Current.Kind != SyntaxKind.EqualToken)
+        while (Current.Kind.IsPathCompatible())
         {
             tokens.Add(NextToken());
         }
 
         var argumentNameLiteral = new LiteralExpressionSyntax(Source, tokens.ToArray());
+
         var equalToken = MatchToken(SyntaxKind.EqualToken);
         tokens.Clear();
         do
         {
             tokens.Add(NextToken());
-        } while (!Current.TrailingTrivia.Any(t => t.Kind == SyntaxKind.WhitespaceToken));
+        } while (!Current.TrailingTrivia.Any(t => t.Kind == SyntaxKind.WhitespaceTriviaToken));
         tokens.Add(NextToken());
 
         var argumentValueLiteral = new LiteralExpressionSyntax(Source, tokens.ToArray());

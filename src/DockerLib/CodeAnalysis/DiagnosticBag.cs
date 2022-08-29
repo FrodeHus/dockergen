@@ -51,4 +51,17 @@ public sealed class DiagnosticBag : IEnumerable<Diagnostic>
         var message = $"Unexpected character: '{current}'";
         ReportError(location, message);
     }
+
+    internal void ReportUnexpectedInstruction(TextLocation location, SyntaxKind kind, params SyntaxKind[] allowedSyntaxKinds)
+    {
+        var allowed = allowedSyntaxKinds.Aggregate("", (current, next) => current + next + ", ").TrimEnd(',');
+        var message = $"Unexpected instruction: '{kind}'. Expected one of: {allowed}";
+        ReportError(location, message);
+    }
+
+    internal void ReportNotSupported(TextLocation location, SyntaxKind kind)
+    {
+        var message = $"Tokens of kind '{kind}' is currently not supported";
+        ReportError(location, message);
+    }
 }

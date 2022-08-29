@@ -1,7 +1,7 @@
 namespace DockerLib.CodeAnalysis.Syntax;
 public enum SyntaxKind
 {
-    WhitespaceToken,
+    WhitespaceTriviaToken,
     BadToken,
     EndOfFileToken,
 
@@ -43,7 +43,7 @@ public enum SyntaxKind
 
 
     StringToken,
-    LineBreakToken,
+    LineBreakTriviaToken,
     CommaToken,
     NumberToken,
     EndOfLineToken,
@@ -56,7 +56,7 @@ public enum SyntaxKind
     HyphenToken,
     ColonToken,
     SemicolonToken,
-    CommentToken,
+    CommentTriviaToken,
     ForwardSlash,
     ArgumentSwitchToken,
     AmpersandAmpersandToken,
@@ -80,11 +80,10 @@ public enum SyntaxKind
     BangToken,
     PlusToken,
     PlusPlusToken,
-    MinusToken,
-    MinusMinusToken,
     StarToken,
     LessOrEqualsToken,
     LessToken,
     GreaterOrEqualsToken,
     GreaterToken,
+    BuildStageStatement,
 }
