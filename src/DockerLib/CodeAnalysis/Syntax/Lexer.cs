@@ -80,7 +80,14 @@ public sealed class Lexer
                 _position++;
                 break;
             case '\\':
-                kind = SyntaxKind.BackSlashToken;
+                if (LookAhead == ' ')
+                {
+                    kind = SyntaxKind.EscapedWhitespace;
+                }
+                else
+                {
+                    kind = SyntaxKind.BackSlashToken;
+                }
                 _position++;
                 break;
             case '/':
@@ -284,7 +291,7 @@ public sealed class Lexer
                     done = true;
                     break;
                 case '\\':
-                    if (LookAhead == ' ' || LookAhead == '\r' || LookAhead == '\n')
+                    if (LookAhead == '\r' || LookAhead == '\n')
                     {
                         kind = SyntaxKind.MultiLineTriviaToken;
                         _position++;

@@ -86,4 +86,5 @@ public enum SyntaxKind
     GreaterOrEqualsToken,
     GreaterToken,
     BuildStageStatement,
+    EscapedWhitespace,
 }
