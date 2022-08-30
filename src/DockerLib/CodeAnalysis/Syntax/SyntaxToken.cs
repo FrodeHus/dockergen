@@ -20,8 +20,8 @@ public sealed class SyntaxToken : SyntaxNode
     public int Position { get; }
     public string? Text { get; }
     public object? Value { get; }
-    public ImmutableArray<SyntaxTrivia> LeadingTrivia { get; internal set; }
-    public ImmutableArray<SyntaxTrivia> TrailingTrivia { get; internal set; }
+    public ImmutableArray<SyntaxTrivia> LeadingTrivia { get; internal set; } = ImmutableArray<SyntaxTrivia>.Empty;
+    public ImmutableArray<SyntaxTrivia> TrailingTrivia { get; internal set; } = ImmutableArray<SyntaxTrivia>.Empty;
     public bool IsMissing { get; }
 
     public override TextSpan Span => new(Position, Text?.Length ?? 0);

@@ -1,56 +1,47 @@
 ﻿using System.Text;
 using DockerLib.CodeAnalysis.Syntax;
 using DockerLib.CodeAnalysis.Text;
-using PrettyPrompt;
-using PrettyPrompt.Consoles;
-using PrettyPrompt.Highlighting;
 using Spectre.Console;
 
-var console = new SystemConsole();
-var prompt = new Prompt(configuration: new PromptConfiguration(
-    prompt: new FormattedString(">>> ", new FormatSpan(0, 1, AnsiColor.Red), new FormatSpan(1, 1, AnsiColor.Yellow), new FormatSpan(2, 1, AnsiColor.Green))
-));
-console.WriteLine("Welcome to the Dockerfile REPL (Read Eval Print Loop)!");
-console.WriteLine("Type Dockerfile expressions and statements at the prompt and press Enter to evaluate them.");
-console.WriteLine("Type 'help to learn more, and type 'exit' to quit.");
-console.WriteLine(string.Empty);
+AnsiConsole.WriteLine("Welcome to the Dockerfile REPL (Read Eval Print Loop)!");
+AnsiConsole.WriteLine("Type Dockerfile expressions and statements at the prompt and press Enter to evaluate them.");
+AnsiConsole.WriteLine("Type 'help to learn more, and type 'exit' to quit.");
+AnsiConsole.WriteLine(string.Empty);
 var sb = new StringBuilder();
 while (true)
 {
-    var response = await prompt.ReadLineAsync();
-    if (response.IsSuccess)
+    var response = AnsiConsole.Prompt<string>(new TextPrompt<string>("> ").PromptStyle("cornflowerblue"));
+    if (response == "exit") break;
+    switch (response)
     {
-        if (response.Text == "exit") break;
-        switch (response.Text)
-        {
-            case "print":
-                console.WriteLine(sb.ToString());
-                break;
-            case "build":
-                var parser = new Parser(SourceDockerfile.From(sb.ToString()));
-                var buildStages = parser.Parse();
-                console.WriteLine("");
-                var tree = new Tree("Dockerfile");
-                foreach (var stage in buildStages)
+        case "print":
+            AnsiConsole.WriteLine(sb.ToString());
+            break;
+        case "build":
+            var parser = new Parser(SourceDockerfile.From(sb.ToString()));
+            var buildStages = parser.Parse();
+            AnsiConsole.WriteLine("");
+            var tree = new Tree("Dockerfile");
+            foreach (var stage in buildStages)
+            {
+                RenderInstructionAST(tree, stage);
+            }
+            AnsiConsole.Write(tree);
+            if (parser.Diagnostics.Any())
+            {
+                AnsiConsole.WriteLine("");
+                AnsiConsole.WriteLine("Diagnostics:");
+                foreach (var diag in parser.Diagnostics)
                 {
-                    RenderInstructionAST(tree, stage);
+                    var level = diag.IsError ? "ERROR" : "WARN";
+                    var levelColor = diag.IsError ? "red":"yellow";
+                    AnsiConsole.MarkupLine($"\t[{levelColor}]{level}[/]: {diag.Message} - {diag.Location}");
                 }
-                AnsiConsole.Write(tree);
-                if (parser.Diagnostics.Any())
-                {
-                    console.WriteLine("");
-                    console.WriteLine("Diagnostics:");
-                    foreach (var diag in parser.Diagnostics)
-                    {
-                        var level = diag.IsError ? "ERROR" : "WARN";
-                        console.WriteLine($"\t{level}: {diag.Message} - {diag.Location}");
-                    }
-                }
-                break;
-            default:
-                sb.AppendLine(response.Text);
-                break;
-        }
+            }
+            break;
+        default:
+            sb.AppendLine(response);
+            break;
     }
 }
 

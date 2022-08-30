@@ -7,6 +7,15 @@ public static class SyntaxFacts
         return kind.ToString().EndsWith("Keyword");
     }
 
+    public static bool IsSimpleNameCompatible(this SyntaxKind kind){
+        return kind switch{
+            SyntaxKind.StringToken => true,
+            SyntaxKind.NumberToken => true,
+            SyntaxKind.UnderscoreToken => true,
+            SyntaxKind.HyphenToken => true,
+            _ => false
+        };
+    }
     public static bool IsPathCompatible(this SyntaxKind kind)
     {
         return kind switch
@@ -18,6 +27,8 @@ public static class SyntaxFacts
             SyntaxKind.ForwardSlash => true,
             SyntaxKind.PeriodToken => true,
             SyntaxKind.EscapedWhitespace => true,
+            SyntaxKind.TildeToken => true,
+            SyntaxKind.StarToken => true,
             _ => false
         };
     }

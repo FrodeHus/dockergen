@@ -9,9 +9,9 @@ public class LiteralExpressionSyntax : ExpressionSyntax
     {
         LiteralTokens = literalTokens;
         Value = string.Empty;
-        foreach (var token in literalTokens)
+        foreach (var token in literalTokens.Where(t => !t.IsMissing))
         {
-            Value += token.LeadingTrivia.Aggregate("", (current, next) => current + next) + token.Text + token.TrailingTrivia.Aggregate("", (current, next) => current + next);
+            Value += token.LeadingTrivia.Aggregate("", (current, next) => current + next) + token.Text + token?.TrailingTrivia.Aggregate("", (current, next) => current + next);
         }
     }
 

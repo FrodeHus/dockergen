@@ -166,6 +166,8 @@ public class Parser
                 literalTokens.Clear();
             }
         }
+        if(expressions.Count > 0)
+            expressions.Add(new LiteralExpressionSyntax(Source, literalTokens.ToArray()));
 
         var colonIndex = tokens.FindIndex(t => t.Kind == SyntaxKind.ColonToken);
         LiteralExpressionSyntax tagExpression;
@@ -249,7 +251,7 @@ public class Parser
     {
         var argumentToken = MatchToken(SyntaxKind.ArgumentSwitchToken);
         var tokens = ImmutableArray.CreateBuilder<SyntaxToken>();
-        while (Current.Kind.IsPathCompatible())
+        while (Current.Kind.IsSimpleNameCompatible())
         {
             tokens.Add(NextToken());
         }
