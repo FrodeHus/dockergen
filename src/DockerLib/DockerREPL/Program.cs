@@ -2,9 +2,8 @@
 using DockerLib.CodeAnalysis.Syntax;
 using DockerLib.CodeAnalysis.Text;
 using Spectre.Console;
-
-AnsiConsole.WriteLine("Welcome to the Dockerfile REPL (Read Eval Print Loop)!");
-AnsiConsole.WriteLine("Type Dockerfile expressions and statements at the prompt and press Enter to evaluate them.");
+AnsiConsole.Write(new FigletText("Dockerfile AST Decompiler").Color(Color.Cyan1));
+AnsiConsole.WriteLine("Type Dockerfile instructions at the prompt and press Enter to evaluate them.");
 AnsiConsole.WriteLine("Type 'help to learn more, and type 'exit' to quit.");
 AnsiConsole.WriteLine(string.Empty);
 var sb = new StringBuilder();
@@ -29,14 +28,16 @@ while (true)
             AnsiConsole.Write(tree);
             if (parser.Diagnostics.Any())
             {
-                AnsiConsole.WriteLine("");
-                AnsiConsole.WriteLine("Diagnostics:");
+                var table = new Table();
+                table.AddColumns("Level", "Message", "Location");
                 foreach (var diag in parser.Diagnostics)
                 {
                     var level = diag.IsError ? "ERROR" : "WARN";
                     var levelColor = diag.IsError ? "red":"yellow";
-                    AnsiConsole.MarkupLine($"\t[{levelColor}]{level}[/]: {diag.Message} - {diag.Location}");
+                    var nearValue = diag.Location.Source.ToString(diag.Location.Span.Start - 4, diag.Location.Span.Length + 4);
+                    table.AddRow($"[{levelColor}]{level}[/]", $"{diag.Message} - near '..{nearValue}'", $"[grey]<{diag.Location.Span}>[/]");
                 }
+                AnsiConsole.Write(table);
             }
             break;
         default:
