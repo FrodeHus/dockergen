@@ -87,4 +87,5 @@ public enum SyntaxKind
     GreaterToken,
     BuildStageStatement,
     EscapedWhitespace,
+    EnvironmentVariableDeclarationStatement,
 }

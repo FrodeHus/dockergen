@@ -7,16 +7,18 @@ namespace CodeAnalysis.Tests;
 public class ParserTests
 {
     [Theory]
-    [InlineData("RUN --secret=mysecret apt update && test", 1)]
-    [InlineData("FROM my_user/repo:test\r\nRUN cp . .\\\r\nls -lf", 2)]
-    [InlineData("FROM my/repo-name:test AS build\r\nRUN cp . .", 2)]
-    [InlineData("FROM my/repo-name:test", 1)]
-    public void ParseInstructions(string dockerfile, int expectedInstructions)
+    [InlineData("RUN --secret=mysecret apt update && test", SyntaxKind.RunInstruction)]
+    [InlineData("RUN cp . .\\\r\nls -lf", SyntaxKind.RunInstruction)]
+    [InlineData("FROM my/repo-name:test AS build\r\nRUN cp . .", SyntaxKind.FromInstruction)]
+    [InlineData("WORKDIR /app", SyntaxKind.WorkingDirectoryInstruction)]
+    [InlineData("EXPOSE 8080", SyntaxKind.ExposeInstruction)]
+    [InlineData("COPY . .", SyntaxKind.CopyInstruction)]
+    public void ParseInstructions(string dockerfile, SyntaxKind expectedInstructionKind)
     {
         var source = SourceDockerfile.From(dockerfile);
         var parser = new Parser(source);
         var instructions = parser.ParseInstructions();
-        Assert.Equal(expectedInstructions, instructions.Length);
+        Assert.Equal(expectedInstructionKind, instructions[0].Kind);
     }
 
     [Theory]
