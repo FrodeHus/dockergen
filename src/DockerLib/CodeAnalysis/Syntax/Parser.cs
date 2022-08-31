@@ -127,6 +127,7 @@ public class Parser
             SyntaxKind.ExposeKeyword => ParseExposeInstruction(),
             SyntaxKind.CopyKeyword => ParseCopyInstruction(),
             SyntaxKind.WorkingDirectoryKeyword => ParseWorkDirInstruction(),
+            SyntaxKind.EnvironmentVariableKeyword => ParseEnvironmentInstruction(),
             _ => default
         };
         return instruction;
@@ -166,7 +167,7 @@ public class Parser
                 literalTokens.Clear();
             }
         }
-        if(expressions.Count > 0)
+        if (expressions.Count > 0)
             expressions.Add(new LiteralExpressionSyntax(Source, literalTokens.ToArray()));
 
         var colonIndex = tokens.FindIndex(t => t.Kind == SyntaxKind.ColonToken);
@@ -268,5 +269,11 @@ public class Parser
 
         var argumentValueLiteral = new LiteralExpressionSyntax(Source, tokens.ToArray());
         return new ArgumentExpressionSyntax(Source, argumentToken, argumentNameLiteral, equalToken, argumentValueLiteral);
+    }
+
+    private InstructionSyntax ParseEnvironmentInstruction()
+    {
+        var envToken = MatchToken(SyntaxKind.EnvironmentVariableKeyword);
+        return new EnvironmentVariableInstructionSyntax(Source, envToken, ImmutableArray<EnvironmentVariableDeclarationStatementSyntax>.Empty);
     }
 }
