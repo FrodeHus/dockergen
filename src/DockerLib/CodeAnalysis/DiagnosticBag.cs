@@ -64,4 +64,10 @@ public sealed class DiagnosticBag : IEnumerable<Diagnostic>
         var message = $"Tokens of kind '{kind}' is currently not supported";
         ReportError(location, message);
     }
+
+    internal void ReportMissingEndQuote(TextLocation location)
+    {
+        var message = "Missing end quote";
+        ReportError(location, message);
+    }
 }

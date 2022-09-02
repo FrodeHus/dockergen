@@ -32,4 +32,22 @@ public class ParserTests
         var stages = parser.Parse();
         Assert.Equal(expectedNumberOfStages, stages.Length);
     }
+
+    [Theory]
+    [InlineData("ENV my_env=123", new[] { "my_env" }, new[] { "123}" })]
+    [InlineData(@"ENV my_env=""this is a test""", new[] { "my_env" }, new[] { "this is a test}" })]
+    [InlineData(@"ENV my_env=123 other-env=abc\ 123", new[] { "my_env", "other-env" }, new[] { "123}", @"abc\ 123" })]
+    public void ParseEnvInstruction(string instruction, string[] expectedNames, string[] expectedValues)
+    {
+        var parser = new Parser(SourceDockerfile.From(instruction));
+        var envInstruction = parser.ParseEnvironmentInstruction();
+        Assert.NotNull(envInstruction);
+        Assert.Equal(expectedNames.Length, envInstruction.DeclarationStatements.Length);
+        for (var i = 0; i < envInstruction.DeclarationStatements.Length; i++)
+        {
+            var declaration = envInstruction.DeclarationStatements[i];
+            Assert.Equal(expectedNames[i], declaration.NameIdentifier.Value);
+            Assert.Equal(expectedValues[i], declaration.ValueLiteral.Value);
+        }
+    }
 }

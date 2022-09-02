@@ -7,8 +7,10 @@ public static class SyntaxFacts
         return kind.ToString().EndsWith("Keyword");
     }
 
-    public static bool IsSimpleNameCompatible(this SyntaxKind kind){
-        return kind switch{
+    public static bool IsSimpleNameCompatible(this SyntaxKind kind)
+    {
+        return kind switch
+        {
             SyntaxKind.StringToken => true,
             SyntaxKind.NumberToken => true,
             SyntaxKind.UnderscoreToken => true,
@@ -31,6 +33,18 @@ public static class SyntaxFacts
             SyntaxKind.StarToken => true,
             _ => false
         };
+    }
+
+    public static bool HasTrailingWordBoundary(this SyntaxToken token)
+    {
+        return token.TrailingTrivia.Any(trivia =>
+        {
+            return trivia.Kind switch
+            {
+                SyntaxKind.WhitespaceTriviaToken => true,
+                _ => false
+            };
+        });
     }
 
     public static bool HasLineBreak(this SyntaxToken token)

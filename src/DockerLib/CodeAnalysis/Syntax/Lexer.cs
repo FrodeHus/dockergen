@@ -143,8 +143,8 @@ public sealed class Lexer
                 (kind, value) = ReadNumber();
                 break;
             case '"':
-                kind = SyntaxKind.QuoteToken;
-                _position++;
+                kind = SyntaxKind.QuotedStringToken;
+                ReadQuotedString();
                 break;
             case '`':
                 kind = SyntaxKind.BackTickToken;
@@ -255,6 +255,29 @@ public sealed class Lexer
         return new SyntaxToken(_source, kind, start, _source.ToString(start, _position - start), value);
     }
 
+    private void ReadQuotedString()
+    {
+        var start = _position;
+        _position++;
+        var done = false;
+        while (!done)
+        {
+            switch (Current)
+            {
+                case '"':
+                    done = true;
+                    break;
+                case '\n':
+                case '\r':
+                case '\0':
+                    Diagnostics.ReportMissingEndQuote(new TextLocation(_source, new TextSpan(start, _position - start)));
+                    done = true;
+                    break;
+            }
+            _position++;
+        }
+    }
+
     private void ReadMultilineToken()
     {
         _position++;
@@ -295,6 +318,10 @@ public sealed class Lexer
                     {
                         kind = SyntaxKind.MultiLineTriviaToken;
                         _position++;
+                    }
+                    else
+                    {
+                        done = true;
                     }
                     break;
                 case '/':

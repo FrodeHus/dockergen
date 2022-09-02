@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using DockerLib.CodeAnalysis.Text;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CodeAnalysis.Tests")]
 namespace DockerLib.CodeAnalysis.Syntax;
 
 public class Parser
@@ -27,6 +28,7 @@ public class Parser
     public DiagnosticBag Diagnostics { get; } = new DiagnosticBag();
 
     private SyntaxToken Current => Peek(0);
+    private SyntaxToken LookAhead => Peek(1);
 
     public SourceDockerfile Source { get; }
 
@@ -133,7 +135,7 @@ public class Parser
         return instruction;
     }
 
-    private InstructionSyntax ParseFromInstruction()
+    internal InstructionSyntax ParseFromInstruction()
     {
         var fromToken = MatchToken(SyntaxKind.FromKeyword);
         var imageStatement = ParseImageStatement();
@@ -180,7 +182,7 @@ public class Parser
         return new ImageLiteralSyntax(Source, expressions[0], expressions[1], tagExpression);
     }
 
-    private InstructionSyntax ParseWorkDirInstruction()
+    internal InstructionSyntax ParseWorkDirInstruction()
     {
         var workDirToken = MatchToken(SyntaxKind.WorkingDirectoryKeyword);
         var tokens = ImmutableArray.CreateBuilder<SyntaxToken>();
@@ -192,7 +194,7 @@ public class Parser
         return new WorkingDirectoryInstructionSyntax(Source, workDirToken, workingDirLiteral);
     }
 
-    private InstructionSyntax ParseRunInstruction()
+    internal InstructionSyntax ParseRunInstruction()
     {
         var runToken = MatchToken(SyntaxKind.RunKeyword);
         var runParams = new List<SyntaxToken>();
@@ -214,7 +216,7 @@ public class Parser
         return new RunInstructionSyntax(Source, runToken, arguments.ToImmutable(), scriptLiteral);
     }
 
-    private InstructionSyntax ParseCopyInstruction()
+    internal InstructionSyntax ParseCopyInstruction()
     {
         var copyToken = MatchToken(SyntaxKind.CopyKeyword);
         var arguments = ImmutableArray.CreateBuilder<ArgumentExpressionSyntax>();
@@ -241,7 +243,7 @@ public class Parser
         var destinationLiteral = new LiteralExpressionSyntax(Source, tokens.ToArray());
         return new CopyInstructionSyntax(Source, copyToken, arguments.ToImmutable(), sourceLiteral, destinationLiteral);
     }
-    private InstructionSyntax ParseExposeInstruction()
+    internal InstructionSyntax ParseExposeInstruction()
     {
         var exposeToken = MatchToken(SyntaxKind.ExposeKeyword);
         var portToken = MatchToken(SyntaxKind.NumberToken);
@@ -271,9 +273,13 @@ public class Parser
         return new ArgumentExpressionSyntax(Source, argumentToken, argumentNameLiteral, equalToken, argumentValueLiteral);
     }
 
-    private InstructionSyntax ParseEnvironmentInstruction()
+    internal EnvironmentVariableInstructionSyntax ParseEnvironmentInstruction()
     {
         var envToken = MatchToken(SyntaxKind.EnvironmentVariableKeyword);
+        // while (!LookAhead.HasLineBreak())
+        // {
+
+        // }
         return new EnvironmentVariableInstructionSyntax(Source, envToken, ImmutableArray<EnvironmentVariableDeclarationStatementSyntax>.Empty);
     }
 }

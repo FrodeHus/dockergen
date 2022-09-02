@@ -88,4 +88,5 @@ public enum SyntaxKind
     BuildStageStatement,
     EscapedWhitespace,
     EnvironmentVariableDeclarationStatement,
+    QuotedStringToken,
 }
