@@ -1,9 +1,15 @@
 using DockerLib.CodeAnalysis.Text;
 
 namespace DockerLib.CodeAnalysis.Syntax;
+
 public class ImageLiteralSyntax : SyntaxNode
 {
-    public ImageLiteralSyntax(SourceDockerfile source, LiteralExpressionSyntax registryUserLiteral, LiteralExpressionSyntax repositoryNameLiteral, LiteralExpressionSyntax tagLiteral) : base(source)
+    public ImageLiteralSyntax(
+        SourceDockerfile source,
+        LiteralExpressionSyntax registryUserLiteral,
+        LiteralExpressionSyntax repositoryNameLiteral,
+        LiteralExpressionSyntax tagLiteral
+    ) : base(source)
     {
         RegistryUserLiteral = registryUserLiteral;
         RepositoryNameLiteral = repositoryNameLiteral;

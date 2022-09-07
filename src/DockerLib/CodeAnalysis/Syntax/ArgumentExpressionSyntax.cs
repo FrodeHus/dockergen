@@ -1,9 +1,16 @@
 using DockerLib.CodeAnalysis.Text;
 
 namespace DockerLib.CodeAnalysis.Syntax;
+
 public class ArgumentExpressionSyntax : ExpressionSyntax
 {
-    public ArgumentExpressionSyntax(SourceDockerfile source, SyntaxToken argumentToken, LiteralExpressionSyntax argumentNameLiteral, SyntaxToken equalToken, LiteralExpressionSyntax argumentValueLiteral) : base(source)
+    public ArgumentExpressionSyntax(
+        SourceDockerfile source,
+        SyntaxToken argumentToken,
+        LiteralExpressionSyntax argumentNameLiteral,
+        SyntaxToken equalToken,
+        LiteralExpressionSyntax argumentValueLiteral
+    ) : base(source)
     {
         ArgumentToken = argumentToken;
         ArgumentNameLiteral = argumentNameLiteral;

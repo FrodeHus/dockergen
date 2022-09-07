@@ -8,8 +8,8 @@ public sealed class DiagnosticBag : IEnumerable<Diagnostic>
 {
     private readonly List<Diagnostic> _diagnostics = new List<Diagnostic>();
 
-
     public IEnumerator<Diagnostic> GetEnumerator() => _diagnostics.GetEnumerator();
+
     public void AddRange(IEnumerable<Diagnostic> diagnostics) => _diagnostics.AddRange(diagnostics);
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -22,12 +22,19 @@ public sealed class DiagnosticBag : IEnumerable<Diagnostic>
         var diagnostic = Diagnostic.Error(location, message);
         _diagnostics.Add(diagnostic);
     }
+
     private void ReportWarning(TextLocation location, string message)
     {
         var diagnostic = Diagnostic.Warning(location, message);
         _diagnostics.Add(diagnostic);
     }
-    public void ReportUnexpectedToken(TextLocation location, SyntaxKind actualKind, SyntaxKind expectedKind, bool isOptional = false)
+
+    public void ReportUnexpectedToken(
+        TextLocation location,
+        SyntaxKind actualKind,
+        SyntaxKind expectedKind,
+        bool isOptional = false
+    )
     {
         var message = $"Unexpected token <{actualKind}>, expected <{expectedKind}>";
         if (isOptional)
@@ -52,9 +59,15 @@ public sealed class DiagnosticBag : IEnumerable<Diagnostic>
         ReportError(location, message);
     }
 
-    internal void ReportUnexpectedInstruction(TextLocation location, SyntaxKind kind, params SyntaxKind[] allowedSyntaxKinds)
+    internal void ReportUnexpectedInstruction(
+        TextLocation location,
+        SyntaxKind kind,
+        params SyntaxKind[] allowedSyntaxKinds
+    )
     {
-        var allowed = allowedSyntaxKinds.Aggregate("", (current, next) => current + next + ", ").TrimEnd(',');
+        var allowed = allowedSyntaxKinds
+            .Aggregate("", (current, next) => current + next + ", ")
+            .TrimEnd(',');
         var message = $"Unexpected instruction: '{kind}'. Expected one of: {allowed}";
         ReportError(location, message);
     }

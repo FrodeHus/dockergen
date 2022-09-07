@@ -36,8 +36,16 @@ public class ParserTests
     [Theory]
     [InlineData("ENV my_env=123", new[] { "my_env" }, new[] { "123}" })]
     [InlineData(@"ENV my_env=""this is a test""", new[] { "my_env" }, new[] { "this is a test}" })]
-    [InlineData(@"ENV my_env=123 other-env=abc\ 123", new[] { "my_env", "other-env" }, new[] { "123}", @"abc\ 123" })]
-    public void ParseEnvInstruction(string instruction, string[] expectedNames, string[] expectedValues)
+    [InlineData(
+        @"ENV my_env=123 other-env=abc\ 123",
+        new[] { "my_env", "other-env" },
+        new[] { "123}", @"abc\ 123" }
+    )]
+    public void ParseEnvInstruction(
+        string instruction,
+        string[] expectedNames,
+        string[] expectedValues
+    )
     {
         var parser = new Parser(SourceDockerfile.From(instruction));
         var envInstruction = parser.ParseEnvironmentInstruction();

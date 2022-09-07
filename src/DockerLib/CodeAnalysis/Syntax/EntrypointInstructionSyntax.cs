@@ -4,10 +4,12 @@ namespace DockerLib.CodeAnalysis.Syntax;
 
 public class EntrypointInstructionSyntax : InstructionSyntax
 {
-    public EntrypointInstructionSyntax(SourceDockerfile source, SyntaxToken entrypointToken) : base(source)
+    public EntrypointInstructionSyntax(SourceDockerfile source, SyntaxToken entrypointToken)
+        : base(source)
     {
         EntrypointToken = entrypointToken;
     }
+
     public override SyntaxKind Kind => SyntaxKind.EntryPointInstruction;
 
     public SyntaxToken EntrypointToken { get; }

@@ -1,4 +1,5 @@
 namespace DockerLib.CodeAnalysis.Syntax;
+
 public enum SyntaxKind
 {
     WhitespaceTriviaToken,
@@ -40,7 +41,6 @@ public enum SyntaxKind
     ExposeInstruction,
     UserInstruction,
     WorkingDirectoryInstruction,
-
 
     StringToken,
     LineBreakTriviaToken,

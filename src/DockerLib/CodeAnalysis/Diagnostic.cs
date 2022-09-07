@@ -21,6 +21,7 @@ public sealed class Diagnostic
     {
         return new Diagnostic(true, location, message);
     }
+
     public static Diagnostic Warning(TextLocation location, string message)
     {
         return new Diagnostic(false, location, message);

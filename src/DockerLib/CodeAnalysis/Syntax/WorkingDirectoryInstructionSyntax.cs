@@ -1,9 +1,14 @@
 using DockerLib.CodeAnalysis.Text;
 
 namespace DockerLib.CodeAnalysis.Syntax;
+
 public class WorkingDirectoryInstructionSyntax : InstructionSyntax
 {
-    public WorkingDirectoryInstructionSyntax(SourceDockerfile source, SyntaxToken workingDirectoryToken, LiteralExpressionSyntax workingDirectoryLiteral) : base(source)
+    public WorkingDirectoryInstructionSyntax(
+        SourceDockerfile source,
+        SyntaxToken workingDirectoryToken,
+        LiteralExpressionSyntax workingDirectoryLiteral
+    ) : base(source)
     {
         WorkingDirectoryToken = workingDirectoryToken;
         WorkingDirectoryLiteral = workingDirectoryLiteral;

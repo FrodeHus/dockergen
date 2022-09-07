@@ -18,6 +18,7 @@ public static class SyntaxFacts
             _ => false
         };
     }
+
     public static bool IsPathCompatible(this SyntaxKind kind)
     {
         return kind switch
@@ -75,6 +76,7 @@ public static class SyntaxFacts
             _ => SyntaxKind.BadToken
         };
     }
+
     public static SyntaxKind GetKeywordKind(string value)
     {
         return value.ToLowerInvariant() switch

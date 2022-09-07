@@ -5,7 +5,11 @@ namespace DockerLib.CodeAnalysis.Syntax;
 
 public class EnvironmentVariableInstructionSyntax : InstructionSyntax
 {
-    public EnvironmentVariableInstructionSyntax(SourceDockerfile source, SyntaxToken envToken, ImmutableArray<EnvironmentVariableDeclarationStatementSyntax> declarationStatements) : base(source)
+    public EnvironmentVariableInstructionSyntax(
+        SourceDockerfile source,
+        SyntaxToken envToken,
+        ImmutableArray<EnvironmentVariableDeclarationStatementSyntax> declarationStatements
+    ) : base(source)
     {
         EnvToken = envToken;
         DeclarationStatements = declarationStatements;

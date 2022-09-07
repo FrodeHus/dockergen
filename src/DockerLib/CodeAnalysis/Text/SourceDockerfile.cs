@@ -5,6 +5,7 @@ namespace DockerLib.CodeAnalysis.Text;
 public sealed class SourceDockerfile
 {
     private readonly string _text;
+
     private SourceDockerfile(string text, string filename)
     {
         _text = text;
@@ -13,6 +14,7 @@ public sealed class SourceDockerfile
     }
 
     public string Filename { get; }
+
     public static SourceDockerfile From(string text, string fileName = "")
     {
         return new SourceDockerfile(text, fileName);
@@ -21,8 +23,11 @@ public sealed class SourceDockerfile
     public ImmutableArray<TextLine> Lines { get; }
     public char this[int index] => _text[index];
     public int Length => _text.Length;
+
     public override string ToString() => _text;
+
     public string ToString(int start, int length) => _text.Substring(start, length);
+
     public int GetLineIndex(int position)
     {
         var lower = 0;
@@ -43,7 +48,6 @@ public sealed class SourceDockerfile
             {
                 lower = index + 1;
             }
-
         }
         return lower - 1;
     }
@@ -55,6 +59,7 @@ public sealed class SourceDockerfile
         var linePosition = position - line.Start;
         return linePosition;
     }
+
     private static ImmutableArray<TextLine> ParseLines(SourceDockerfile source, string text)
     {
         var result = ImmutableArray.CreateBuilder<TextLine>();
@@ -83,7 +88,13 @@ public sealed class SourceDockerfile
         return result.ToImmutable();
     }
 
-    private static void AddLine(ImmutableArray<TextLine>.Builder result, SourceDockerfile source, int position, int lineStart, int lineBreakWidth)
+    private static void AddLine(
+        ImmutableArray<TextLine>.Builder result,
+        SourceDockerfile source,
+        int position,
+        int lineStart,
+        int lineBreakWidth
+    )
     {
         var lineLength = position - lineStart;
         var lengthIncludingLineBreak = lineLength + lineBreakWidth;

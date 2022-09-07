@@ -2,16 +2,21 @@ using System.Diagnostics;
 using DockerLib.CodeAnalysis.Text;
 
 namespace DockerLib.CodeAnalysis.Syntax;
+
 [DebuggerDisplay("{Kind} - {Value}")]
 public class LiteralExpressionSyntax : ExpressionSyntax
 {
-    public LiteralExpressionSyntax(SourceDockerfile source, params SyntaxToken[] literalTokens) : base(source)
+    public LiteralExpressionSyntax(SourceDockerfile source, params SyntaxToken[] literalTokens)
+        : base(source)
     {
         LiteralTokens = literalTokens;
         Value = string.Empty;
         foreach (var token in literalTokens.Where(t => !t.IsMissing))
         {
-            Value += token.LeadingTrivia.Aggregate("", (current, next) => current + next) + token.Text + token?.TrailingTrivia.Aggregate("", (current, next) => current + next);
+            Value +=
+                token.LeadingTrivia.Aggregate("", (current, next) => current + next)
+                + token.Text
+                + token?.TrailingTrivia.Aggregate("", (current, next) => current + next);
         }
     }
 

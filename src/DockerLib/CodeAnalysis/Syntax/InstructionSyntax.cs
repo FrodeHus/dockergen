@@ -6,8 +6,5 @@ namespace DockerLib.CodeAnalysis.Syntax;
 
 public abstract class InstructionSyntax : SyntaxNode
 {
-    private protected InstructionSyntax(SourceDockerfile source) : base(source)
-    {
-    }
-
+    private protected InstructionSyntax(SourceDockerfile source) : base(source) { }
 }

@@ -1,12 +1,10 @@
 using DockerLib.CodeAnalysis.Text;
 
 namespace DockerLib.CodeAnalysis.Syntax;
+
 public class CommandInstructionSyntax : InstructionSyntax
 {
-    public CommandInstructionSyntax(SourceDockerfile source) : base(source)
-    {
-
-    }
+    public CommandInstructionSyntax(SourceDockerfile source) : base(source) { }
 
     public override SyntaxKind Kind => SyntaxKind.CommandInstruction;
 

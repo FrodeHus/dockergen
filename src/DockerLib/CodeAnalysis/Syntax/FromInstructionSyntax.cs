@@ -4,13 +4,20 @@ namespace DockerLib.CodeAnalysis.Syntax;
 
 public class FromInstructionSyntax : InstructionSyntax
 {
-    public FromInstructionSyntax(SourceDockerfile source, SyntaxToken fromToken, ImageLiteralSyntax imageStatement, SyntaxToken asToken, SyntaxToken stageNameToken) : base(source)
+    public FromInstructionSyntax(
+        SourceDockerfile source,
+        SyntaxToken fromToken,
+        ImageLiteralSyntax imageStatement,
+        SyntaxToken asToken,
+        SyntaxToken stageNameToken
+    ) : base(source)
     {
         FromToken = fromToken;
         ImageStatement = imageStatement;
         AsToken = asToken;
         StageNameToken = stageNameToken;
     }
+
     public override SyntaxKind Kind => SyntaxKind.FromInstruction;
 
     public SyntaxToken FromToken { get; }

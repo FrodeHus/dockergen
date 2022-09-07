@@ -2,9 +2,16 @@ using System.Collections.Immutable;
 using DockerLib.CodeAnalysis.Text;
 
 namespace DockerLib.CodeAnalysis.Syntax;
+
 public class CopyInstructionSyntax : InstructionSyntax
 {
-    public CopyInstructionSyntax(SourceDockerfile source, SyntaxToken copyToken, ImmutableArray<ArgumentExpressionSyntax> argumentExpressions, LiteralExpressionSyntax sourceLiteral, LiteralExpressionSyntax destinationLiteral) : base(source)
+    public CopyInstructionSyntax(
+        SourceDockerfile source,
+        SyntaxToken copyToken,
+        ImmutableArray<ArgumentExpressionSyntax> argumentExpressions,
+        LiteralExpressionSyntax sourceLiteral,
+        LiteralExpressionSyntax destinationLiteral
+    ) : base(source)
     {
         CopyToken = copyToken;
         ArgumentExpressions = argumentExpressions;

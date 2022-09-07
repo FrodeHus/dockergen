@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text;
 using DockerLib.CodeAnalysis.Text;
 
@@ -25,7 +25,13 @@ public abstract class SyntaxNode
     }
 
     public SourceDockerfile Source { get; }
-    private void PrettyPrint(StringBuilder writer, SyntaxNode node, string indent = "", bool isLast = true)
+
+    private void PrettyPrint(
+        StringBuilder writer,
+        SyntaxNode node,
+        string indent = "",
+        bool isLast = true
+    )
     {
         var token = node as SyntaxToken;
         if (token != null)
@@ -46,8 +52,7 @@ public abstract class SyntaxNode
         writer.Append(node.Kind);
         if (token != null && !string.IsNullOrEmpty(token.Text))
         {
-            writer.Append(' ')
-                .Append(token.Text);
+            writer.Append(' ').Append(token.Text);
         }
         indent += isLast ? "   " : "│  ";
         var lastChild = GetChildren().LastOrDefault();
@@ -68,6 +73,7 @@ public abstract class SyntaxNode
             PrettyPrint(writer, child, indent, isLast: child == lastChild);
         }
     }
+
     public string ToString(bool prettyPrint = false)
     {
         if (prettyPrint)

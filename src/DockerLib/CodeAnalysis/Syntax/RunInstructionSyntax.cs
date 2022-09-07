@@ -5,9 +5,12 @@ namespace DockerLib.CodeAnalysis.Syntax
 {
     internal class RunInstructionSyntax : InstructionSyntax
     {
-
-
-        public RunInstructionSyntax(SourceDockerfile source, SyntaxToken runToken, ImmutableArray<ArgumentExpressionSyntax> argumentExpressions, LiteralExpressionSyntax scriptLiteral) : base(source)
+        public RunInstructionSyntax(
+            SourceDockerfile source,
+            SyntaxToken runToken,
+            ImmutableArray<ArgumentExpressionSyntax> argumentExpressions,
+            LiteralExpressionSyntax scriptLiteral
+        ) : base(source)
         {
             RunToken = runToken;
             ArgumentExpressions = argumentExpressions;

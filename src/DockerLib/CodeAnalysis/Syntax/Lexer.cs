@@ -13,9 +13,11 @@ public sealed class Lexer
     {
         _source = source;
     }
+
     public DiagnosticBag Diagnostics { get; } = new();
     private char Current => Peek(0);
     private char LookAhead => Peek(1);
+
     private char Peek(int offset)
     {
         var index = _position + offset;
@@ -33,6 +35,7 @@ public sealed class Lexer
         token.TrailingTrivia = trailingTrivia;
         return token;
     }
+
     private SyntaxToken ReadToken()
     {
         var start = _position;
@@ -252,7 +255,13 @@ public sealed class Lexer
 
                 break;
         }
-        return new SyntaxToken(_source, kind, start, _source.ToString(start, _position - start), value);
+        return new SyntaxToken(
+            _source,
+            kind,
+            start,
+            _source.ToString(start, _position - start),
+            value
+        );
     }
 
     private void ReadQuotedString()
@@ -270,7 +279,9 @@ public sealed class Lexer
                 case '\n':
                 case '\r':
                 case '\0':
-                    Diagnostics.ReportMissingEndQuote(new TextLocation(_source, new TextSpan(start, _position - start)));
+                    Diagnostics.ReportMissingEndQuote(
+                        new TextLocation(_source, new TextSpan(start, _position - start))
+                    );
                     done = true;
                     break;
             }
@@ -362,6 +373,7 @@ public sealed class Lexer
         }
         return triviaBuilder.ToImmutableArray();
     }
+
     private string ReadSingleLineComment()
     {
         _position += 2;
@@ -402,6 +414,7 @@ public sealed class Lexer
         }
         return (SyntaxKind.NumberToken, value);
     }
+
     private SyntaxKind ReadLineBreak()
     {
         if (Current == '\r' && LookAhead == '\n')
@@ -430,7 +443,8 @@ public sealed class Lexer
                 default:
                     if (!char.IsWhiteSpace(Current))
                         done = true;
-                    else _position++;
+                    else
+                        _position++;
                     break;
             }
         }
